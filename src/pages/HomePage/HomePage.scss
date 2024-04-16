@@ -1,0 +1,6 @@
+@import "../../styles/abstracts/placeholders";
+
+.mainRoot {
+  @extend %main-container;
+  position: relative;
+}

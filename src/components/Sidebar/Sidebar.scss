@@ -1,0 +1,35 @@
+@import "../../styles/abstracts/variables";
+
+.sidebar {
+  width: 250px;
+  background-color: $secondary-bg;
+  color: $primary-font-color;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 999;
+  transition: width 300ms ease;
+  padding: 1em 0;
+
+  .left-arrow {
+    text-align: center;
+    img {
+      width: 30px;
+    }
+  }
+}
+
+.sidebar-collapsed {
+  width: 100px;
+}
+
+@media (max-width: 768px) {
+  .sidebar-collapsed {
+    width: 70px;
+  }
+}
