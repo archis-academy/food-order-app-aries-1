@@ -1,6 +1,12 @@
 import { useState } from "react";
 import "./Sidebar.scss";
 import leftArrow from "/left-arrow.svg";
+import home from "/Home.svg";
+import discount from "/Discount.svg";
+import dashboard from "/Dashboard.svg";
+import message from "/Message.svg";
+import settings from "/Setting.svg";
+import logOut from "/Log Out.svg";
 
 function Sidebar() {
   const [isSidebarToggled, setIsSidebarToggled] = useState(false);
@@ -24,10 +30,14 @@ function Sidebar() {
               }}
             />
           </li>
-          <li>Link 1</li>
-          <li>Link 2</li>
-          <li>Link 3</li>
-          <li>Link 4</li>
+          <li><img src="../../public/Logo.png" alt="logo" className="logo" /></li>
+          <li className="icons"><img src = {home}></img></li>
+          <li className="icons"><img src = {discount}></img></li>
+          <li className="icons"><img src = {dashboard}></img></li>
+          <li className="icons"><img src = {message}></img></li>
+          <li className="icons"><img src = {settings}></img></li>
+          <li className="icons"><img className="logOut" src = {logOut}></img></li>
+
         </ul>
       </nav>
       {/* these examples should be deleted */}

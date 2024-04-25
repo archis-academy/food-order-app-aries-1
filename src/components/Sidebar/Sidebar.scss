@@ -22,6 +22,26 @@
       width: 30px;
     }
   }
+  .logo{
+    width: 100px;
+    padding: 10px;
+  }
+  .icons{
+    align-items: center;
+    text-align: center;
+    img{
+      width: 100px;
+      padding: 30px;
+      margin-bottom: 50px;
+    }
+    img:hover{
+      background-color: $primary-bg;
+      border-radius: 12px 0 0  12px;
+    }
+    .logOut{
+      margin-top:60px ;
+    }
+  }
 }
 
 .sidebar-collapsed {
