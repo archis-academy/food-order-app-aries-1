@@ -1,0 +1,13 @@
+.categoryTabs {
+  display: flex;
+  gap: 40px;
+
+  li {
+    cursor: pointer;
+    padding-bottom: 12px;
+  }
+}
+.active {
+  color: #ea7c69;
+  border-bottom: 2px solid #ea7c69;
+}

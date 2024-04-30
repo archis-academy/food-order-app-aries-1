@@ -1,0 +1,36 @@
+.mainRoot {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: #d7d4d6 #fff;
+  resize: none;
+}
+.mainRoot::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.mainRoot::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #d7d4d6;
+}
+
+.mainRoot {
+  min-height: 100vh;
+  width: calc(100% - 100px);
+  padding: 1em;
+  margin: 0 0 0 auto;
+  overflow-y: auto;
+  font-family: "Outfit", sans-serif, sans-serif;
+  background: #393C49;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .mainRoot {
+    width: calc(100% - 70px);
+  }
+}
+.mainRoot {
+  position: relative;
+}/*# sourceMappingURL=HomePage.css.map */
