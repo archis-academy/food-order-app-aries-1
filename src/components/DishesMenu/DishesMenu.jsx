@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./DishesMenu.scss";
 
 const DishesMenu = ({ filter, setFilter, filteredDishes }) => {

@@ -3,8 +3,7 @@ import "./HomePage.scss";
 import { useAuth } from "@/components/AuthProvider";
 import DishesMenu from "@/components/DishesMenu/DishesMenu";
 import { foods } from "@/db/foods";
-import React, { useState } from "react";
-import CategoryTabs from "../../components/CategoryTabs/CategoryTabs";
+import { useState } from "react";
 
 function HomePage() {
   const { fireStoreUser } = useAuth(); // auth'u const {fireStoreUser} = useAuth() şeklinde alırsanız user bilgilerine ulaşabilirsiniz
@@ -20,7 +19,6 @@ function HomePage() {
     <div>
       <Sidebar />
       <div className="mainRoot">
-        <CategoryTabs dishes={dishes} setFilteredDishes={setFilteredDishes} />
         <DishesMenu filter={filter} setFilter={setFilter} foods={foods} filteredDishes={filteredDishes} />
       </div>
     </div>
