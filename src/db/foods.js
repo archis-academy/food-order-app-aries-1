@@ -21,6 +21,8 @@ export const categories = [
     },
 ]
 
+const [hotDishes, coldDishes, soup] = categories;
+
 
 export const foods = [
   {
@@ -30,7 +32,7 @@ export const foods = [
     price: "$ 2.29",
     bowl: "20",
     orderType: "Dine In",
-    category: categories[1],
+    category: hotDishes,
   },
   {
     id: 2,
@@ -39,7 +41,7 @@ export const foods = [
     price: "$ 2.69",
     bowl: "11",
     orderType: "Dine In",
-    category: categories[1],
+    category: hotDishes,
   },
   {
     id: 3,
@@ -48,7 +50,7 @@ export const foods = [
     price: "$ 2.99",
     bowl: "16",
     orderType: "Dine In",
-    category: categories[3],
+    category: soup,
   },
   {
     id: 4,
@@ -57,7 +59,7 @@ export const foods = [
     price: "$ 3.29",
     bowl: "22",
     orderType: "To go",
-    category: categories[2],
+    category: coldDishes,
   },
   {
     id: 5,
@@ -66,7 +68,7 @@ export const foods = [
     price: "$ 3.49",
     bowl: "13",
     orderType: "Delivery",
-    category: categories[1],
+    category: hotDishes,
   },
   {
     id: 6,
@@ -75,7 +77,7 @@ export const foods = [
     price: "$ 3.59",
     bowl: "17",
     orderType: "To go",
-    category: categories[1],
+    category: hotDishes,
   },
   {
     id: 7,
@@ -84,7 +86,7 @@ export const foods = [
     price: "$ 2.29",
     bowl: "20",
     orderType: "Dine In",
-    category: categories[1],
+    category: hotDishes,
   },
   {
     id: 8,
@@ -93,7 +95,7 @@ export const foods = [
     price: "$ 2.69",
     bowl: "11",
     orderType: "Dine In",
-    category: categories[1],
+    category: hotDishes,
   },
   {
     id: 9,
@@ -102,7 +104,7 @@ export const foods = [
     price: "$ 2.99",
     bowl: "16",
     orderType: "Dine In",
-    category: categories[3],
+    category: soup,
   },
   {
     id: 10,
@@ -111,7 +113,7 @@ export const foods = [
     price: "$ 3.29",
     bowl: "22",
     orderType: "To go",
-    category: categories[2],
+    category: coldDishes,
   },
   {
     id: 11,
@@ -120,7 +122,7 @@ export const foods = [
     price: "$ 3.49",
     bowl: "13",
     orderType: "Delivery",
-    category: categories[1],
+    category: hotDishes,
   },
   {
     id: 12,
@@ -129,6 +131,6 @@ export const foods = [
     price: "$ 3.59",
     bowl: "17",
     orderType: "To go",
-    category: categories[1],
+    category: hotDishes,
   },
 ];

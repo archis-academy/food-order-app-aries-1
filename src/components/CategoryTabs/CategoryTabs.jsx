@@ -2,9 +2,16 @@ import { categories } from "@/db/foods";
 
 function CategoryTabs({ setFilteredDishes, dishes }) {
   function filterDishesByCategory(categoryName) {
-    const filteredDishes = dishes.filter(
-      (dish) => dish.category.key === categoryName
-    );
+    let filteredDishes = [];
+    if (categoryName === "all") {
+      setFilteredDishes(dishes);
+      return;
+    } else {
+      const newDishes = dishes.filter(
+        (dish) => dish.category.key === categoryName
+      );
+      filteredDishes = newDishes;
+    }
     setFilteredDishes(filteredDishes);
   }
 
