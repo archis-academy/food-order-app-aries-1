@@ -1,6 +1,5 @@
 @import "../../styles/abstracts/variables";
 .dishes-menu-top {
-  max-width: 650px;
   display: flex;
   justify-content: space-between;
   margin: 20px 0 60px 0;
@@ -10,7 +9,7 @@
   color: $primary-font-color;
 }
 // Dropdown menu stilleri
-select {
+.order-type {
   padding: 8px;
   border-radius: 5px;
   background-color: $secondary-bg;
@@ -25,7 +24,6 @@ select {
   margin-bottom: 20px;
 }
 .dishes-menu {
-  max-width: 650px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 25px;
@@ -41,14 +39,14 @@ select {
     align-items: center;
     text-align: center;
     margin-bottom: 40px;
+    transition: all 0.2s ease;
 
     &:hover {
       transform: scale(1.05);
     }
 
     .food-image {
-      position: relative;
-      top: -40px;
+      transform: translateY(-45px);
     }
 
     .food-description,
