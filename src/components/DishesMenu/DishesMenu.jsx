@@ -1,19 +1,10 @@
 import React, { useState } from "react";
 import "./DishesMenu.scss";
 
-const DishesMenu = ({ filter, setFilter, foods }) => {
+const DishesMenu = ({ filter, setFilter, filteredDishes }) => {
   // Filtreleme fonksiyonu
   const filterFoods = (orderType) => {
     setFilter(orderType);
-  };
-
-  // Filtrelenmiş yemekleri getiren fonksiyon
-  const getFilteredFoods = () => {
-    if (filter === "All") {
-      return foods;
-    } else {
-      return foods.filter((food) => food.orderType === filter);
-    }
   };
 
   return (
@@ -34,7 +25,7 @@ const DishesMenu = ({ filter, setFilter, foods }) => {
       </div>
 
       <div className="dishes-menu">
-        {getFilteredFoods().map((foods) => (
+        {filteredDishes.map((foods) => (
           <div className="food-card" key={foods.id}>
             <img className="food-image" src={foods.image} />
             <p className="food-description"> {foods.description}</p>
