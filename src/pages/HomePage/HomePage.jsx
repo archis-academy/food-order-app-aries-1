@@ -8,18 +8,17 @@ import { useState } from "react";
 function HomePage() {
   const { fireStoreUser } = useAuth(); // auth'u const {fireStoreUser} = useAuth() şeklinde alırsanız user bilgilerine ulaşabilirsiniz
 
-
   const [dishes, setDishes] = useState(foods);
-  const [filteredDishes, setFilteredDishes] = useState(foods);
-
-
-  const [filter, setFilter] = useState("All");
+  const [filteredDishes, setFilteredDishes] = useState(dishes);
 
   return (
     <div>
       <Sidebar />
       <div className="mainRoot">
-        <DishesMenu filter={filter} setFilter={setFilter} foods={foods} filteredDishes={filteredDishes} />
+        <DishesMenu
+          filteredDishes={filteredDishes}
+          setFilteredDishes={setFilteredDishes}
+        />
       </div>
     </div>
   );

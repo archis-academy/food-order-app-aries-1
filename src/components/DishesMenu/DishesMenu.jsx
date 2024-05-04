@@ -24,14 +24,17 @@ const DishesMenu = ({ filter, setFilter, filteredDishes }) => {
       </div>
 
       <div className="dishes-menu">
-        {filteredDishes.map((foods) => (
-          <div className="food-card" key={foods.id}>
-            <img className="food-image" src={foods.image} />
-            <p className="food-description"> {foods.description}</p>
-            <p className="food-price">{foods.price}</p>
-            <p className="food-bowl">{foods.bowl} Bowls available</p>
-          </div>
-        ))}
+        {filteredDishes.map((foods) => {
+          const { id, image, description, price, bowl } = foods;
+          return (
+            <div className="food-card" key={id}>
+              <img className="food-image" src={image} />
+              <p className="food-description"> {description}</p>
+              <p className="food-price">{price}</p>
+              <p className="food-bowl">{bowl} Bowls available</p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
