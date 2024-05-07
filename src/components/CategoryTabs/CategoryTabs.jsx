@@ -1,31 +1,27 @@
-import { useState } from "react";
-import categories from "./categories";
-import "./CategoryTabs.scss";
+import { categories } from "@/db/foods";
 
-function CategoryTabs() {
-  const [activeCategory, setActiveCategory] = useState(null);
-  function handleActiveCategory(category) {
-    setActiveCategory(category);
+function CategoryTabs({ setFilteredDishes, dishes }) {
+  function filterDishesByCategory(categoryKey) {
+    let filteredDishes = [];
+    if (categoryKey === "all") {
+      filteredDishes = dishes;
+    } else {
+      const newDishes = dishes.filter(
+        (dish) => dish.category.key === categoryKey
+      );
+      filteredDishes = newDishes;
+    }
+    setFilteredDishes(filteredDishes);
   }
 
   return (
-    <>
-      <ul className="categoryTabs">
-        {categories.map((category, index) => {
-          return (
-            <li
-              className={activeCategory === category ? "active" : ""}
-              key={index}
-              onClick={() => {
-                handleActiveCategory(category);
-              }}
-            >
-              {category}
-            </li>
-          );
-        })}
-      </ul>
-    </>
+    <ul>
+      {categories.map((category) => (
+        <li onClick={() => filterDishesByCategory(category.key)}>
+          {category.name}
+        </li>
+      ))}
+    </ul>
   );
 }
 
