@@ -1,4 +1,6 @@
 import { categories } from "@/db/foods";
+import { useState } from "react";
+import "./CategoryTabs.scss";
 
 function CategoryTabs({ setFilteredDishes, dishes }) {
   function filterDishesByCategory(categoryKey) {
@@ -14,10 +16,21 @@ function CategoryTabs({ setFilteredDishes, dishes }) {
     setFilteredDishes(filteredDishes);
   }
 
+  const [activeCategory, setActiveCategory] = useState(null);
+  function handleActiveCategory(category) {
+    setActiveCategory(category);
+  }
+
   return (
-    <ul>
+    <ul className="category-tabs">
       {categories.map((category) => (
-        <li onClick={() => filterDishesByCategory(category.key)}>
+        <li
+          onClick={() => {
+            filterDishesByCategory(category.key);
+            handleActiveCategory(category);
+          }}
+          className={activeCategory === category ? "active" : ""}
+        >
           {category.name}
         </li>
       ))}
