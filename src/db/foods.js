@@ -1,28 +1,27 @@
 export const categories = [
-    {
-        id: 1,
-        name: "All",
-        key: "all",
-    },
-    {
-        id: 2,
-        name: "Hot Dishes",
-        key: "hot-dishes",
-    },
-    {
-        id: 3,
-        name: "Cold Dishes",
-        key: "cold-dishes",
-    },
-    {
-        id: 4,
-        name: "Soup",
-        key: "soup",
-    },
-]
+  {
+    id: 1,
+    name: "All",
+    key: "all",
+  },
+  {
+    id: 2,
+    name: "Hot Dishes",
+    key: "hot-dishes",
+  },
+  {
+    id: 3,
+    name: "Cold Dishes",
+    key: "cold-dishes",
+  },
+  {
+    id: 4,
+    name: "Soup",
+    key: "soup",
+  },
+];
 
-const [hotDishes, coldDishes, soup] = categories;
-
+const [_, hotDishes, coldDishes, soup] = categories;
 
 export const foods = [
   {
