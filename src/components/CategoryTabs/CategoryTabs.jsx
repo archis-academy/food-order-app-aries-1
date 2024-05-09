@@ -28,7 +28,6 @@ function CategoryTabs({
       setFilterParameters(newFilterParameters);
     }
     setFilteredDishes(filteredDishes);
-    console.log(filteredDishes);
   }
 
   const [activeCategory, setActiveCategory] = useState(categories[0]);
@@ -45,6 +44,7 @@ function CategoryTabs({
             handleActiveCategory(category);
           }}
           className={activeCategory === category && "active"}
+          key={category.id}
         >
           {category.name}
         </li>
