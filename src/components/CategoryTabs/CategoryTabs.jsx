@@ -2,21 +2,36 @@ import { categories } from "@/db/foods";
 import { useState } from "react";
 import "./CategoryTabs.scss";
 
-function CategoryTabs({ setFilteredDishes, dishes }) {
+function CategoryTabs({
+  setFilteredDishes,
+  dishes,
+  filterParameters,
+  setFilterParameters,
+}) {
   function filterDishesByCategory(categoryKey) {
     let filteredDishes = [];
     if (categoryKey === "all") {
       filteredDishes = dishes;
     } else {
-      const newDishes = dishes.filter(
-        (dish) => dish.category.key === categoryKey
-      );
-      filteredDishes = newDishes;
+      const newFilterParameters = {
+        ...filterParameters,
+        category: categoryKey,
+      };
+      filteredDishes = dishes.filter((dish) => {
+        return (
+          (newFilterParameters.orderType === "All" ||
+            dish.orderType === newFilterParameters.orderType) &&
+          dish.category.key === newFilterParameters.category &&
+          dish.description.includes(newFilterParameters.searchQuery)
+        );
+      });
+      setFilterParameters(newFilterParameters);
     }
     setFilteredDishes(filteredDishes);
+    console.log(filteredDishes);
   }
 
-  const [activeCategory, setActiveCategory] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(categories[0]);
   function handleActiveCategory(category) {
     setActiveCategory(category);
   }
@@ -29,7 +44,7 @@ function CategoryTabs({ setFilteredDishes, dishes }) {
             filterDishesByCategory(category.key);
             handleActiveCategory(category);
           }}
-          className={activeCategory === category ? "active" : ""}
+          className={activeCategory === category && "active"}
         >
           {category.name}
         </li>

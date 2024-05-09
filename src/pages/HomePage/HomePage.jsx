@@ -11,14 +11,22 @@ function HomePage() {
 
   const [dishes, setDishes] = useState(foods);
   const [filteredDishes, setFilteredDishes] = useState(dishes);
-  useEffect(() => {
-    console.log(filteredDishes);
-  }, [dishes, filteredDishes]);
+  const [filterParameters, setFilterParameters] = useState({
+    orderType: "All",
+    category: "all",
+    searchQuery: "",
+  });
+
   return (
     <div>
       <Sidebar />
       <div className="mainRoot">
-        <CategoryTabs dishes={dishes} setFilteredDishes={setFilteredDishes} />
+        <CategoryTabs
+          dishes={dishes}
+          setFilteredDishes={setFilteredDishes}
+          filterParameters={filterParameters}
+          setFilterParameters={setFilterParameters}
+        />
         <DishesMenu
           filteredDishes={filteredDishes}
           setFilteredDishes={setFilteredDishes}
