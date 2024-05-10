@@ -1,0 +1,40 @@
+@import "../../styles/abstracts/index";
+
+.product-card {
+  border: 1px solid $line-color;
+  border-radius: 8px;
+  text-align: center;
+}
+.food-image {
+  padding: 20px;
+}
+.details {
+  max-width: 150px;
+  margin: 0 auto;
+  font-size: 14px;
+  p {
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  span {
+    color: $secondary-font-color;
+    font-weight: 400;
+  }
+}
+.edit-box {
+  background-color: rgba($accent-color, 0.25);
+  margin-top: 10px;
+  padding: 15px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  font-size: 14px;
+  color: $accent-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+
+  &:hover {
+    background-color: rgba($accent-color, 0.35);
+  }
+}
