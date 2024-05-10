@@ -1,5 +1,5 @@
 import { categories } from "@/db/foods";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./CategoryTabs.scss";
 
 function CategoryTabs({
@@ -9,26 +9,31 @@ function CategoryTabs({
   setFilterParameters,
 }) {
   function filterDishesByCategory(categoryKey) {
+    const newFilterParameters = {
+      ...filterParameters,
+      category: categoryKey,
+    };
+    setFilterParameters(newFilterParameters);
+  }
+
+  useEffect(() => {
     let filteredDishes = [];
-    if (categoryKey === "all") {
+    if (filterParameters.category === "all") {
       filteredDishes = dishes;
     } else {
-      const newFilterParameters = {
-        ...filterParameters,
-        category: categoryKey,
-      };
       filteredDishes = dishes.filter((dish) => {
-        return (
-          (newFilterParameters.orderType === "All" ||
-            dish.orderType === newFilterParameters.orderType) &&
-          dish.category.key === newFilterParameters.category &&
-          dish.description.includes(newFilterParameters.searchQuery)
-        );
+        const isOrderTypeMatch =
+          filterParameters.orderType === "All" ||
+          dish.orderType === filterParameters.orderType;
+        const isCategoryMatch = dish.category.key === filterParameters.category;
+        const isSearchQueryMatch = dish.description
+          .toLowerCase()
+          .includes(filterParameters.searchQuery.toLowerCase());
+        return isOrderTypeMatch && isCategoryMatch && isSearchQueryMatch;
       });
-      setFilterParameters(newFilterParameters);
     }
     setFilteredDishes(filteredDishes);
-  }
+  }, [filterParameters]);
 
   const [activeCategory, setActiveCategory] = useState(categories[0]);
   function handleActiveCategory(category) {
