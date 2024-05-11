@@ -1,0 +1,26 @@
+@import "../../styles/abstracts/index";
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+
+  h1 {
+    font-weight: 600;
+    font-size: 20px;
+  }
+}
+.manage-categories {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid #393c49;
+  border-radius: 8px;
+
+  p {
+    font-size: 14px;
+    font-weight: 600;
+  }
+}

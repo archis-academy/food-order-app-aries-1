@@ -1,0 +1,9 @@
+@import "../../styles/abstracts/variables";
+
+.settings-page {
+  background-color: $primary-bg;
+  color: $primary-font-color;
+  font-family: $primary-font;
+  padding: 25px;
+  width: 100vw;
+}
