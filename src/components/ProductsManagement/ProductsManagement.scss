@@ -2,9 +2,15 @@
 
 .management-container {
   width: 60%;
+  min-height: 100vh;
   background-color: $secondary-bg;
   border-radius: 8px;
   padding: 25px;
+}
+.header-sticky {
+  position: sticky;
+  top: 0;
+  background-color: $secondary-bg;
 }
 .product-cards-container {
   display: grid;
