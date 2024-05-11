@@ -21,7 +21,7 @@ export const categories = [
   },
 ];
 
-const [hotDishes, coldDishes, soup] = categories;
+const [_, hotDishes, coldDishes, soup] = categories;
 
 export const foods = [
   {
