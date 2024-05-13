@@ -1,0 +1,19 @@
+@import "../../styles/abstracts/index";
+
+.category-tabs {
+  display: flex;
+  gap: 32px;
+  border-bottom: 1px solid #525669;
+  font-family: $secondary-font;
+
+  li {
+    cursor: pointer;
+    padding-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+.active {
+  color: #ea7c69;
+  border-bottom: 3px solid #ea7c69;
+}

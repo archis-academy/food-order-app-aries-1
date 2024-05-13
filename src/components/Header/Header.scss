@@ -1,41 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "../../styles/abstracts/variables";
 
-.header{
-    font-family: "Barlow", sans-serif;
-    margin-left: 100px;
-    display: flex;
-    gap: 400px;
-    align-items: center;
-    background-color: #393C49;
+.header {
+  font-family: $secondary-font;
+  margin-left: 100px;
+  display: flex;
+  gap: 510px;
+  align-items: center;
+  background-color: $primary-bg;
 }
 
-.user-date-field{
-    font-family: "Barlow", sans-serif;
-    color: #fff;
+.user-date-field {
+  font-family: $secondary-font;
+  color: $primary-font-color;
+  margin: 20px 0 20px 15px;
 }
 
-.user-name-field{
-    font-weight: 500;
-    font-size: 28px;
-    line-height: 45px;
+.user-name-field {
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 45px;
 }
 
-.date-field{
-    font-weight: 200;
-    font-size: 16px;
-    
+.date-field {
+  font-weight: 200;
+  font-size: 16px;
 }
 
-.search-input{
-    border: none;
+.search-input {
+  border: none;
 }
 
-.header-input{
-    width: 235px;
-    height: 48px;
-    background: #2D303E url(../../../public/search-icon.png) no-repeat 13px center;
-    border: 1px;
-    padding: 14px 14px 14px 40px;
-    border-radius: 8px;
+.header-input {
+  width: 235px;
+  height: 48px;
+  background: #2d303e url(../../../public/search-icon.png) no-repeat 13px center;
+  border: 1px;
+  padding: 14px 14px 14px 40px;
+  border-radius: 8px;
 }
 
+input:focus {
+  color: $primary-font-color;
+}
