@@ -1,0 +1,34 @@
+@import "../../styles/abstracts/index";
+
+.sidebar-container {
+  background-color: $secondary-bg;
+  width: 25%;
+  height: 100vh;
+  border-radius: 8px;
+  position: sticky;
+  top: 0;
+}
+
+.list-group:hover {
+  background-color: rgba($accent-color, 0.25);
+  transition: color 0.2s ease;
+  transition: background 0.5s ease;
+  color: $accent-color;
+
+  svg path {
+    fill: $accent-color;
+  }
+}
+
+.first-list-item {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.active-list-item {
+  background-color: rgba($accent-color, 0.25);
+  color: $accent-color;
+  svg path {
+    fill: $accent-color;
+  }
+}
