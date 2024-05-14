@@ -1,10 +1,64 @@
+import { useState } from "react";
 import "./DishesMenu.scss";
+import { useEffect } from "react";
+import { set } from "firebase/database";
 
-const DishesMenu = ({ filter, setFilter, filteredDishes }) => {
-  // Filtreleme fonksiyonu
-  const filterFoods = (orderType) => {
-    setFilter(orderType);
-  };
+const DishesMenu = ({
+  dishes,
+  setFilteredDishes,
+  filterParameters,
+  setFilterParameters,
+  filteredDishes,
+}) => {
+  const [filter, setFilter] = useState("All");
+
+  function filterDishesByOrderType(orderType) {
+    const newFilterParameters = {
+      ...filterParameters,
+      orderType: orderType,
+    };
+    setFilterParameters(newFilterParameters);
+  }
+
+  // const filterFoods = (orderType) => {
+  //   let newDishes = [];
+  //   if (orderType === "All") {
+  //     newDishes = dishes;
+  //   } else {
+  //     newDishes = dishes.filter((dish) => {
+  //       const isOrderTypeMatch = dish.orderType === orderType;
+  //       const isCategoryMatch =
+  //         dish.category === filterParameters.category ||
+  //         filterParameters.category === "all";
+  //       const isSearchQueryMatch = dish.description.includes(
+  //         filterParameters.searchQuery
+  //       );
+
+  //       return isOrderTypeMatch && isCategoryMatch && isSearchQueryMatch;
+  //     });
+  //   }
+  //   setFilteredDishes(newDishes);
+  // };
+
+  // useEffect(() => {
+  //   const filteredDishes = dishes.filter((dish) => {
+  //     const isOrderTypeMatch =
+  //       filterParameters.orderType === "All" ||
+  //       dish.orderType === filterParameters.orderType;
+
+  //     const isCategoryMatch =
+  //       filterParameters.category === "all" ||
+  //       dish.category.key === filterParameters.category;
+
+  //     const isSearchQueryMatch = dish.description
+  //       .toLowerCase()
+  //       .includes(filterParameters.searchQuery.toLowerCase());
+
+  //     return isOrderTypeMatch && isCategoryMatch && isSearchQueryMatch;
+  //   });
+
+  //   setFilteredDishes(filteredDishes);
+  // }, [dishes, filterParameters]);
 
   return (
     <div>
@@ -13,8 +67,13 @@ const DishesMenu = ({ filter, setFilter, filteredDishes }) => {
 
         <select
           className="order-type"
-          value={filter}
-          onChange={(e) => filterFoods(e.target.value)}
+          value={filterParameters.orderType}
+          onChange={(e) => {
+            const selectedFilter = e.target.value;
+            filterDishesByOrderType(selectedFilter);
+            setFilter(selectedFilter);
+            console.log(selectedFilter);
+          }}
         >
           <option value="All">All</option>
           <option value="Dine In">Dine In</option>

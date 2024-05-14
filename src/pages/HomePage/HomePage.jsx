@@ -11,15 +11,37 @@ function HomePage() {
 
   const [dishes, setDishes] = useState(foods);
   const [filteredDishes, setFilteredDishes] = useState(dishes);
+
+  const [filterParameters, setFilterParameters] = useState({
+    orderType: "All",
+    category: "All",
+    searchQuery: "",
+  });
+
   useEffect(() => {
-    console.log(filteredDishes);
-  }, [dishes, filteredDishes]);
+    const filtered = dishes.filter((dish) => {
+      const isOrderTypeMatch =
+        filterParameters.orderType === "All" ||
+        dish.orderType === filterParameters.orderType;
+      const isCategoryMatch =
+        filterParameters.category === "All" ||
+        dish.category === filterParameters.category;
+      const isSearchQueryMatch = dish.description
+        .toLowerCase()
+        .includes(filterParameters.searchQuery.toLowerCase());
+      return isOrderTypeMatch && isCategoryMatch && isSearchQueryMatch;
+    });
+    setFilteredDishes(filtered);
+  }, [dishes, filterParameters]);
   return (
     <div>
       <Sidebar />
       <div className="mainRoot">
         <CategoryTabs dishes={dishes} setFilteredDishes={setFilteredDishes} />
         <DishesMenu
+          dishes={dishes}
+          filterParameters={filterParameters}
+          setFilterParameters={setFilterParameters}
           filteredDishes={filteredDishes}
           setFilteredDishes={setFilteredDishes}
         />
