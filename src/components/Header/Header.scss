@@ -2,9 +2,8 @@
 
 .header {
   font-family: $secondary-font;
-  margin-left: 100px;
   display: flex;
-  gap: 510px;
+  justify-content: space-between;
   align-items: center;
   background-color: $primary-bg;
 }
@@ -12,7 +11,7 @@
 .user-date-field {
   font-family: $secondary-font;
   color: $primary-font-color;
-  margin: 20px 0 20px 15px;
+  margin-bottom: 20px;
 }
 
 .user-name-field {
@@ -22,7 +21,7 @@
 }
 
 .date-field {
-  font-weight: 200;
+  font-weight: 300;
   font-size: 16px;
 }
 

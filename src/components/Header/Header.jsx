@@ -1,46 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./Header.scss";
-
-function getDate() {
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const today = new Date();
-  const day = days[today.getDay()];
-  const date = today.getDate();
-  const month = months[today.getMonth()];
-  const year = today.getFullYear();
-
-  return `${day}, ${date} ${month} ${year}`;
-}
+import moment from "moment";
 
 function Header({
-  fireStoreUser,
+  userName,
   dishes,
   filterParameters,
   setFilterParameters,
   setFilteredDishes,
 }) {
+  const currentDate = moment().format("dddd, Do MMM YYYY");
+
   function handleSearchQuery(e) {
     const newFilterParameters = {
       ...filterParameters,
@@ -67,19 +37,11 @@ function Header({
     setFilteredDishes(filteredDishes);
   }, [dishes, filterParameters]);
 
-  const [currentDate, setCurrentDate] = useState(getDate());
-
   return (
     <div className="header">
       <div className="user-date-field">
-        {fireStoreUser ? (
-          <>
-            <h1 className="user-name-field">{fireStoreUser.displayName}</h1>
-            <p className="date-field">{currentDate}</p>
-          </>
-        ) : (
-          <p>Loading user...</p>
-        )}
+        <h1 className="user-name-field">{userName}</h1>
+        <p className="date-field">{currentDate}</p>
       </div>
       <form className="search-input">
         <input

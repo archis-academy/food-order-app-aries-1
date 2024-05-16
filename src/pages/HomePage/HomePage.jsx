@@ -3,7 +3,7 @@ import "./HomePage.scss";
 import { useAuth } from "@/components/AuthProvider";
 import DishesMenu from "@/components/DishesMenu/DishesMenu";
 import { foods } from "@/db/foods";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CategoryTabs from "../../components/CategoryTabs/CategoryTabs";
 import Header from "@/components/Header/Header";
 
@@ -17,20 +17,19 @@ function HomePage() {
     searchQuery: "",
   });
 
-  useEffect(() => {
-    console.log(filteredDishes);
-  }, [dishes, filteredDishes]);
+  if (!fireStoreUser) return <p>Loading...</p>;
+
   return (
     <div>
-      <Header
-        fireStoreUser={fireStoreUser}
-        dishes={dishes}
-        filterParameters={filterParameters}
-        setFilterParameters={setFilterParameters}
-        setFilteredDishes={setFilteredDishes}
-      />
       <Sidebar />
       <div className="mainRoot">
+        <Header
+          userName={fireStoreUser.displayName}
+          dishes={dishes}
+          filterParameters={filterParameters}
+          setFilterParameters={setFilterParameters}
+          setFilteredDishes={setFilteredDishes}
+        />
         <CategoryTabs dishes={dishes} setFilteredDishes={setFilteredDishes} />
         <DishesMenu
           filteredDishes={filteredDishes}
