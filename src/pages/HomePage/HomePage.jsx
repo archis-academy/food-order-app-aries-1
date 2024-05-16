@@ -5,6 +5,7 @@ import DishesMenu from "@/components/DishesMenu/DishesMenu";
 import { foods } from "@/db/foods";
 import { useEffect, useState } from "react";
 import CategoryTabs from "../../components/CategoryTabs/CategoryTabs";
+import Loading from "../../components/Loading/Loading";
 
 function HomePage() {
   const { fireStoreUser } = useAuth(); // auth'u const {fireStoreUser} = useAuth() şeklinde alırsanız user bilgilerine ulaşabilirsiniz
@@ -17,20 +18,28 @@ function HomePage() {
     searchQuery: "",
   });
 
+  const renderLoading = <Loading />;
+
+  const renderContent = (
+    <>
+      <CategoryTabs
+        dishes={dishes}
+        setFilteredDishes={setFilteredDishes}
+        filterParameters={filterParameters}
+        setFilterParameters={setFilterParameters}
+      />
+      <DishesMenu
+        filteredDishes={filteredDishes}
+        setFilteredDishes={setFilteredDishes}
+      />
+    </>
+  );
+
   return (
     <div>
       <Sidebar />
       <div className="mainRoot">
-        <CategoryTabs
-          dishes={dishes}
-          setFilteredDishes={setFilteredDishes}
-          filterParameters={filterParameters}
-          setFilterParameters={setFilterParameters}
-        />
-        <DishesMenu
-          filteredDishes={filteredDishes}
-          setFilteredDishes={setFilteredDishes}
-        />
+        {fireStoreUser ? renderContent : renderLoading}
       </div>
     </div>
   );
