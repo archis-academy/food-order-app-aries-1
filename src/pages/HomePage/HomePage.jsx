@@ -5,7 +5,6 @@ import DishesMenu from "@/components/DishesMenu/DishesMenu";
 import { foods } from "@/db/foods";
 import { useEffect, useState } from "react";
 import CategoryTabs from "../../components/CategoryTabs/CategoryTabs";
-import Header from "../../components/fghjk/Header";
 
 function HomePage() {
   const { fireStoreUser } = useAuth(); // auth'u const {fireStoreUser} = useAuth() şeklinde alırsanız user bilgilerine ulaşabilirsiniz
