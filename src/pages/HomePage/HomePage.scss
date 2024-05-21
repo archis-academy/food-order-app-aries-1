@@ -4,3 +4,44 @@
   @extend %main-container;
   position: relative;
 }
+.homepage {
+  display: flex;
+}
+
+.mainRoot {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.orders-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  transform: translateX(100%);
+}
+
+.orders-panel.open {
+  transform: translateX(0);
+}
+
+.dishes-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  transition: margin-right 0.3s ease;
+  margin-right: 0;
+}
+
+.dishes-menu.margin-right {
+  margin-right: 300px;
+}
