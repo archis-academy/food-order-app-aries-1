@@ -1,0 +1,67 @@
+@import "../../styles/abstracts/variables";
+
+.header {
+  font-family: $secondary-font;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $primary-bg;
+}
+
+.user-date-field {
+  font-family: $secondary-font;
+  color: $primary-font-color;
+  margin-bottom: 20px;
+}
+
+.user-name-field {
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 45px;
+}
+
+.date-field {
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.search-input {
+  border: none;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 235px;
+  height: 48px;
+  background-color: #2d303e;
+  border: 1px;
+  border-radius: 8px;
+}
+
+.search-icon {
+  margin-left: 10px;
+}
+
+.header-input {
+  background-color: transparent;
+  border: none;
+  width: 235px;
+  height: 48px;
+  outline: none;
+}
+
+input:focus {
+  color: $primary-font-color;
+}
+
+@media (max-width: 752px) {
+  .header {
+    display: block;
+  }
+  .search-input {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
