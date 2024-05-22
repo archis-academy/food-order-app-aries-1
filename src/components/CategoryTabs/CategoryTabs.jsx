@@ -1,22 +1,41 @@
 import { categories } from "@/db/foods";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./CategoryTabs.scss";
 
-function CategoryTabs({ setFilteredDishes, dishes }) {
+function CategoryTabs({
+  setFilteredDishes,
+  dishes,
+  filterParameters,
+  setFilterParameters,
+}) {
   function filterDishesByCategory(categoryKey) {
-    let filteredDishes = [];
-    if (categoryKey === "all") {
-      filteredDishes = dishes;
-    } else {
-      const newDishes = dishes.filter(
-        (dish) => dish.category.key === categoryKey
-      );
-      filteredDishes = newDishes;
-    }
-    setFilteredDishes(filteredDishes);
+    const newFilterParameters = {
+      ...filterParameters,
+      category: categoryKey,
+    };
+    setFilterParameters(newFilterParameters);
   }
 
-  const [activeCategory, setActiveCategory] = useState(null);
+  useEffect(() => {
+    let filteredDishes = [];
+    if (filterParameters.category === "all") {
+      filteredDishes = dishes;
+    } else {
+      filteredDishes = dishes.filter((dish) => {
+        const isOrderTypeMatch =
+          filterParameters.orderType === "All" ||
+          dish.orderType === filterParameters.orderType;
+        const isCategoryMatch = dish.category.key === filterParameters.category;
+        const isSearchQueryMatch = dish.description
+          .toLowerCase()
+          .includes(filterParameters.searchQuery.toLowerCase());
+        return isOrderTypeMatch && isCategoryMatch && isSearchQueryMatch;
+      });
+    }
+    setFilteredDishes(filteredDishes);
+  }, [filterParameters]);
+
+  const [activeCategory, setActiveCategory] = useState(categories[0]);
   function handleActiveCategory(category) {
     setActiveCategory(category);
   }
@@ -29,7 +48,8 @@ function CategoryTabs({ setFilteredDishes, dishes }) {
             filterDishesByCategory(category.key);
             handleActiveCategory(category);
           }}
-          className={activeCategory === category ? "active" : ""}
+          className={activeCategory === category && "active"}
+          key={category.id}
         >
           {category.name}
         </li>

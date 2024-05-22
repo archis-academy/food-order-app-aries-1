@@ -3,8 +3,8 @@
 .category-tabs {
   display: flex;
   gap: 32px;
-  border-bottom: 1px solid #525669;
-  font-family: $secondary-font;
+  border-bottom: 1px solid $line-color;
+  font-family: $primary-font;
 
   li {
     cursor: pointer;
@@ -14,6 +14,6 @@
   }
 }
 .active {
-  color: #ea7c69;
-  border-bottom: 3px solid #ea7c69;
+  color: $accent-color;
+  border-bottom: 3px solid $accent-color;
 }
