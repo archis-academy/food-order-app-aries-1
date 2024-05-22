@@ -29,15 +29,39 @@
   border: none;
 }
 
-.header-input {
+.search-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 235px;
   height: 48px;
-  background: #2d303e url(../../../public/search-icon.png) no-repeat 13px center;
+  background-color: #2d303e;
   border: 1px;
-  padding: 14px 14px 14px 40px;
   border-radius: 8px;
+}
+
+.search-icon {
+  margin-left: 10px;
+}
+
+.header-input {
+  background-color: transparent;
+  border: none;
+  width: 235px;
+  height: 48px;
+  outline: none;
 }
 
 input:focus {
   color: $primary-font-color;
+}
+
+@media (max-width: 752px) {
+  .header {
+    display: block;
+  }
+  .search-input {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }

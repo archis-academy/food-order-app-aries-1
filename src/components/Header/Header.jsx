@@ -43,14 +43,18 @@ function Header({
         <h1 className="user-name-field">{userName}</h1>
         <p className="date-field">{currentDate}</p>
       </div>
-      <form className="search-input">
+      <div className="search-input">
+        <img
+          className="search-icon"
+          src="../../../public/search-icon.svg"
+        ></img>
         <input
           onKeyUp={handleSearchQuery}
           className="header-input"
           type="text"
           placeholder="Search for food, coffee, etc.."
         />
-      </form>
+      </div>
     </div>
   );
 }
