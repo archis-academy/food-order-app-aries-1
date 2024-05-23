@@ -1,6 +1,6 @@
 import "./DishesMenu.scss";
 import { useEffect } from "react";
-import FoodCard from "../../components/FoodCard/FoodCard";
+import FoodCard from "./FoodCard/FoodCard";
 
 const DishesMenu = ({
   dishes,
@@ -60,15 +60,7 @@ const DishesMenu = ({
 
       <div className="dishes-menu">
         {filteredDishes.map((food) => {
-          return (
-            <FoodCard
-              id={food.id}
-              image={food.image}
-              description={food.description}
-              price={food.price}
-              bowl={food.bowl}
-            />
-          );
+          return <FoodCard key={food.id} food={food} />;
         })}
       </div>
     </div>
