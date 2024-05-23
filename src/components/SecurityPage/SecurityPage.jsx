@@ -2,7 +2,7 @@ import "./SecurityPage.scss";
 function SecurityPage() {
   return (
     <div className="security-container">
-      <h1>Security</h1>
+      <h2>Security</h2>
     </div>
   );
 }

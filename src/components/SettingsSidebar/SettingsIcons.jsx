@@ -12,7 +12,7 @@ const aboutUs = (
     />
   </svg>
 );
-const appereance = (
+const appeareance = (
   <svg
     width="16"
     height="16"

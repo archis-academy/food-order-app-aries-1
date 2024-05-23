@@ -58,6 +58,7 @@
 
 @media (max-width: 768px) {
   .sidebar-container {
-    min-width: 200px;
+    height: auto;
+    position: static;
   }
 }

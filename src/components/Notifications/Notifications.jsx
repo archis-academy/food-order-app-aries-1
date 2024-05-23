@@ -2,7 +2,7 @@ import "./Notifications.scss";
 function Notifications() {
   return (
     <div className="notifications-container">
-      <h1>Notifications</h1>
+      <h2>Notifications</h2>
     </div>
   );
 }

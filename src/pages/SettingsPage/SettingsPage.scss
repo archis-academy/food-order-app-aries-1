@@ -25,4 +25,7 @@
   .settings-page {
     width: calc(100% - 70px);
   }
+  .main-container {
+    flex-direction: column;
+  }
 }

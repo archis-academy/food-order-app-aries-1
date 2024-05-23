@@ -3,7 +3,7 @@ import ProductsManagement from "../../components/ProductsManagement/ProductsMana
 import SettingsSidebar from "../../components/SettingsSidebar/SettingsSidebar";
 import "./SettingsPage.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import Appereance from "../../components/Appereance/Appereance";
+import Appearance from "../../components/Appearance/Appearance";
 import YourRestaurant from "../../components/YourRestaurant/YourRestaurant";
 import Notifications from "../../components/Notifications/Notifications";
 import SecurityPage from "../../components/SecurityPage/SecurityPage";
@@ -13,7 +13,7 @@ function SettingsPage() {
   const { tabName } = useParams();
 
   const settingComponents = {
-    appereance: <Appereance />,
+    appearance: <Appearance />,
     "your-restaurant": <YourRestaurant />,
     "products-management": <ProductsManagement />,
     notifications: <Notifications />,

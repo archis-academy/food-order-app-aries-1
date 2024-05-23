@@ -6,7 +6,7 @@ function SettingsHeader() {
     <>
       <div className="header-container">
         <div className="title-container">
-          <h1>Products Management</h1>
+          <h2>Products Management</h2>
           <div className="manage-categories">
             <img src={ManageIcon} alt="Manage-Icon" />
             <p>Manage Categories</p>

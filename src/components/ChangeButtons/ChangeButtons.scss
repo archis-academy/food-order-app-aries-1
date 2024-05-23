@@ -14,3 +14,13 @@
   @include secondary-btn;
   margin-right: 10px;
 }
+@media (max-width: 600px) {
+  .buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    button {
+      width: 100%;
+    }
+  }
+}

@@ -1,60 +1,8 @@
 import "./SettingsSidebar.scss";
 import { NavLink } from "react-router-dom";
-import {
-  aboutUs,
-  appereance,
-  discount,
-  restaurant,
-  notification,
-  security,
-} from "./SettingsIcons";
+import tabs from "./Tabs";
 
 function SettingsSidebar() {
-  const tabs = [
-    {
-      id: 1,
-      icon: appereance,
-      title: "Appereance",
-      detail: "Dark and light mode, font size",
-      path: "/settings/appereance",
-    },
-    {
-      id: 2,
-      icon: restaurant,
-      title: "Your Restaurant",
-      detail: "Dark and light mode, font size",
-      path: "/settings/your-restaurant",
-    },
-    {
-      id: 3,
-      icon: discount,
-      title: "Products Management",
-      detail: "Manage your product, pricing, etc",
-      path: "/settings/product-management",
-    },
-    {
-      id: 4,
-      icon: notification,
-      title: "Notifications",
-      detail: "Customize your notifications",
-      path: "/settings/notifications",
-    },
-    {
-      id: 5,
-      icon: security,
-      title: "Security",
-      detail: "Configure your password, PIN, etc",
-      path: "/settings/security",
-    },
-    {
-      id: 6,
-      icon: aboutUs,
-      title: "About Us",
-      detail: "Find out more about posly",
-      path: "/settings/about-us",
-    },
-  ];
-
   return (
     <div className="sidebar-container">
       {tabs.map((tab) => (
