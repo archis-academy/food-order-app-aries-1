@@ -12,7 +12,7 @@ const aboutUs = (
     />
   </svg>
 );
-const appeareance = (
+const appearance = (
   <svg
     width="16"
     height="16"
@@ -83,4 +83,4 @@ const security = (
   </svg>
 );
 
-export { aboutUs, appereance, discount, notification, restaurant, security };
+export { aboutUs, appearance, discount, notification, restaurant, security };
