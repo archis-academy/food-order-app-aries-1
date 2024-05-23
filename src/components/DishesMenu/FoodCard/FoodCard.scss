@@ -1,0 +1,36 @@
+@import "../../../styles/abstracts/variables";
+
+.food-card {
+  background-color: $secondary-bg;
+  border-radius: 15px;
+  width: 100%;
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 40px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  .food-image {
+    transform: translateY(-45px);
+  }
+
+  .food-description,
+  .food-price,
+  .food-bowl {
+    margin-bottom: 10px;
+    width: 144px;
+    font-size: 14px;
+    color: $primary-font-color;
+  }
+  .food-bowl {
+    color: #abbbc2;
+  }
+}
