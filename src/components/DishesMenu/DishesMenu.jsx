@@ -8,6 +8,7 @@ const DishesMenu = ({
   filterParameters,
   setFilterParameters,
   filteredDishes,
+  onFoodCardClick,
 }) => {
   function filterDishesByOrderType(orderType) {
     const newFilterParameters = {
@@ -53,14 +54,20 @@ const DishesMenu = ({
         >
           <option value="All">All</option>
           <option value="Dine In">Dine In</option>
-          <option value="To go">To go</option>
+          <option value="To Go">To Go</option>
           <option value="Delivery">Delivery</option>
         </select>
       </div>
 
       <div className="dishes-menu">
         {filteredDishes.map((food) => {
-          return <FoodCard key={food.id} food={food} />;
+          return (
+            <FoodCard
+              key={food.id}
+              food={food}
+              onClick={() => onFoodCardClick(food)}
+            />
+          );
         })}
       </div>
     </div>

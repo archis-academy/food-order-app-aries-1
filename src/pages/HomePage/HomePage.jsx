@@ -6,6 +6,7 @@ import Header from "@/components/Header/Header";
 import { foods } from "@/db/foods";
 import { useState } from "react";
 import CategoryTabs from "@/components/CategoryTabs/CategoryTabs";
+import OrderPayment from "@/components/OrderPayment/OrderPayment";
 
 function HomePage() {
   const { fireStoreUser } = useAuth(); // auth'u const {fireStoreUser} = useAuth() şeklinde alırsanız user bilgilerine ulaşabilirsiniz
@@ -18,13 +19,31 @@ function HomePage() {
     category: "all",
     searchQuery: "",
   });
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
+  const [orders, setOrders] = useState([]);
 
   if (!fireStoreUser) return <p>Loading...</p>;
+
+  const handleFoodCardClick = (food) => {
+    const existingOrderIndex = orders.findIndex(
+      (order) => order.id === food.id
+    );
+    console.log(existingOrderIndex);
+
+    if (existingOrderIndex === -1) {
+      setOrders([...orders, { ...food, quantity: 1 }]);
+      setIsOrderOpen(true);
+    } else {
+      const updatedOrders = [...orders];
+      updatedOrders[existingOrderIndex].quantity += 1;
+      setOrders(updatedOrders);
+    }
+  };
 
   return (
     <div>
       <Sidebar />
-      <div className="mainRoot">
+      <div className={`main-root ${isOrderOpen ? "shrink" : ""}`}>
         <div>
           <Header
             userName={fireStoreUser.displayName}
@@ -40,9 +59,15 @@ function HomePage() {
             setFilterParameters={setFilterParameters}
             filteredDishes={filteredDishes}
             setFilteredDishes={setFilteredDishes}
+            onFoodCardClick={handleFoodCardClick}
           />
         </div>
       </div>
+      <OrderPayment
+        orders={orders}
+        isOpen={isOrderOpen}
+        onClose={() => setIsOrderOpen(false)}
+      />
     </div>
   );
 }
