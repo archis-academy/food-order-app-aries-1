@@ -5,10 +5,10 @@
   border-radius: 8px;
   text-align: center;
 }
-.food-image {
+.product-card-image {
   padding: 20px;
 }
-.details {
+.product-card-details {
   max-width: 150px;
   margin: 0 auto;
   font-size: 14px;
@@ -21,7 +21,7 @@
     font-weight: 400;
   }
 }
-.edit-box {
+.product-card-edit-box {
   background-color: rgba($accent-color, 0.25);
   margin-top: 10px;
   padding: 15px;
