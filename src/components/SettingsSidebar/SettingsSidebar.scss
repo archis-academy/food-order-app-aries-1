@@ -1,0 +1,64 @@
+@import "../../styles/abstracts/index";
+
+.sidebar-container {
+  background-color: $secondary-bg;
+  min-width: 270px;
+  height: 100vh;
+  border-radius: 8px;
+  position: sticky;
+  top: 0;
+}
+.list-group {
+  padding: 24px;
+  display: flex;
+  gap: 8px;
+}
+
+.list-group:hover {
+  background-color: rgba($accent-color, 0.25);
+  transition: color 0.2s ease;
+  transition: background 0.5s ease;
+  color: $accent-color;
+
+  svg path {
+    fill: $accent-color;
+  }
+}
+
+.active {
+  .list-group {
+    background-color: rgba($accent-color, 0.25);
+    color: $accent-color;
+    border-right: 3px solid $accent-color;
+    svg path {
+      fill: $accent-color;
+    }
+  }
+}
+.list-title-box {
+  h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  p {
+    font-size: 12px;
+    font-weight: 400;
+    color: $secondary-font-color;
+  }
+}
+.sidebar-container {
+  > :first-child {
+    .list-group {
+      border-top-right-radius: 8px;
+      border-top-left-radius: 8px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-container {
+    height: auto;
+    position: static;
+  }
+}

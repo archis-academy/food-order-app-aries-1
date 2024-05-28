@@ -1,0 +1,31 @@
+@import "../../styles/abstracts/variables";
+
+.settings-page {
+  min-height: 100vh;
+  width: calc(100% - 100px);
+  padding: 1em;
+  margin: 0 0 0 auto;
+  font-family: $primary-font, sans-serif;
+  background-color: $primary-bg;
+  color: $primary-font-color;
+
+  h1 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    font-size: 28px;
+  }
+}
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+@media (max-width: 768px) {
+  .settings-page {
+    width: calc(100% - 70px);
+  }
+  .main-container {
+    flex-direction: column;
+  }
+}

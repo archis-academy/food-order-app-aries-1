@@ -15,7 +15,7 @@ const routes = [
     ),
   },
   {
-    path: "/settings",
+    path: "/settings/:tabName",
     element: (
       <ProtectedRoute>
         <SettingsPage />

@@ -1,0 +1,4 @@
+@import "../../styles/abstracts/index";
+.appearance-container {
+  @extend %settings-container;
+}

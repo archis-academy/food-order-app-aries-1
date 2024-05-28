@@ -1,0 +1,26 @@
+@import "../../styles/abstracts/index";
+
+.buttons-container {
+  padding: 20px 0;
+  background-color: $secondary-bg;
+  position: sticky;
+  bottom: 0;
+  border-top: 1px solid $line-color;
+}
+.save-changes {
+  @include primary-btn;
+}
+.discard-changes {
+  @include secondary-btn;
+  margin-right: 10px;
+}
+@media (max-width: 600px) {
+  .buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    button {
+      width: 100%;
+    }
+  }
+}

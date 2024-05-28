@@ -1,0 +1,4 @@
+@import "../../styles/abstracts/index";
+.security-container {
+  @extend %settings-container;
+}
