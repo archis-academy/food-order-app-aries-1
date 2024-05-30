@@ -6,7 +6,7 @@ import CategoryTabs from "../CategoryTabs/CategoryTabs";
 import { useState } from "react";
 import ChangeButtons from "../ChangeButtons/ChangeButtons";
 
-function ProductsManagement() {
+function ProductsManagement({ setAddDish }) {
   const [dishes, setDishes] = useState(foods);
   const [filteredDishes, setFilteredDishes] = useState(dishes);
   const [filterParameters, setFilterParameters] = useState({
@@ -28,7 +28,12 @@ function ProductsManagement() {
           />
         </div>
         <div className="product-cards-container">
-          <div className="add-dish-card">
+          <div
+            className="add-dish-card"
+            onClick={() => {
+              setAddDish(true);
+            }}
+          >
             <span>+</span>
             <p>Add new dish</p>
           </div>
