@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Sidebar.scss";
 import leftArrow from "/left-arrow.svg";
+import { Outlet, Link } from "react-router-dom";
 
 function Sidebar() {
   const [isSidebarToggled, setIsSidebarToggled] = useState(false);
@@ -24,12 +25,24 @@ function Sidebar() {
               }}
             />
           </li>
-          <li>Link 1</li>
-          <li>Link 2</li>
-          <li>Link 3</li>
-          <li>Link 4</li>
+          <li className="nav-item">
+            <Link to="/">
+              <img src="../../../public/home-icon.svg"></img>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/dashboard">
+              <img src="../../../public/dashboard-icon.svg"></img>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/settings/:tabName">
+              <img src="../../../public/settings-icon.svg"></img>
+            </Link>
+          </li>
         </ul>
       </nav>
+      <Outlet />
       {/* these examples should be deleted */}
     </aside>
   );

@@ -24,6 +24,19 @@
   }
 }
 
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 30px 0 20px 0;
+}
+
+.nav-item:hover {
+  // transform: scale(1.1);
+  background-color: #ea7c69;
+}
+
 .sidebar-collapsed {
   width: 100px;
 }
