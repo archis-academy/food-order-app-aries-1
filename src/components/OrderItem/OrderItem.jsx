@@ -1,7 +1,7 @@
 import "./OrderItem.scss";
 
-const OrderItem = ({ order }) => {
-  const { image, description, quantity, price, orderNote, deleteItem } = order;
+const OrderItem = ({ order, deleteItem }) => {
+  const { image, description, quantity, price, orderNote } = order;
 
   const totalPrice = quantity * price;
 
@@ -24,7 +24,10 @@ const OrderItem = ({ order }) => {
           className="order-item-note"
           placeholder="Order Note ..."
         />
-        <button className="order-item-delete-btn" onClick={deleteItem}>
+        <button
+          className="order-item-delete-btn"
+          onClick={() => deleteItem(order.id)}
+        >
           <img src="\Trash.svg" alt="Trash Icon" />
         </button>
       </div>

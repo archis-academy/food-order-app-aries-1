@@ -96,7 +96,8 @@
     gap: 16px;
     font-family: $secondary-font;
 
-    .order-discount {
+    .order-discount,
+    .order-subtotal {
       display: flex;
       justify-content: space-between;
     }

@@ -42,11 +42,10 @@
     }
 
     .order-item-quantity {
-      flex: 1;
+      flex: 0.6;
       display: flex;
       text-align: center;
-      margin: 0 38px;
-      //   width: 48px;
+
       height: 48px;
       background-color: $tertiary-bg;
       border: 1px solid $primary-bg;
@@ -61,6 +60,7 @@
       text-align: center;
       display: flex;
       align-items: center;
+      justify-content: end;
       color: $primary-font-color;
       font-weight: 500;
       font-size: 14px;
@@ -72,14 +72,14 @@
     margin-top: 10px;
 
     .order-item-note {
-      width: 287px;
+      width: 280px;
       height: 48px;
       border-radius: 8px;
       background-color: $tertiary-bg;
       border: 1px solid $primary-bg;
       padding: 10px;
       color: #889898;
-      cursor: pointer;
+      cursor: text;
     }
     .order-item-delete-btn {
       background-color: transparent;

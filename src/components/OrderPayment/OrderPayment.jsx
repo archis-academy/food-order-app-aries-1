@@ -2,8 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./OrderPayment.scss";
 import OrderItem from "@/components/OrderItem/OrderItem";
+import { useMemo } from "react";
 
-const OrderPayment = ({ orders, isOpen, onClose }) => {
+const OrderPayment = ({ orders, isOpen, onClose, onDeleteItem }) => {
   const [activeOrderType, setActiveOrderType] = useState("");
 
   const filteredOrders = orders.filter(
@@ -19,7 +20,15 @@ const OrderPayment = ({ orders, isOpen, onClose }) => {
     setActiveOrderType(orderType);
   }
   const discount = 0;
-  // const subtotal =
+  const subtotal = useMemo(() => {
+    let totalPrice = 0;
+    orders.forEach((order) => {
+      totalPrice += order.price * order.quantity - discount;
+    });
+    return totalPrice;
+  }, [orders]);
+
+  console.log(subtotal);
 
   return (
     <div className={`orders-panel ${isOpen ? "open" : ""}`}>
@@ -62,7 +71,9 @@ const OrderPayment = ({ orders, isOpen, onClose }) => {
       <div className="orders-content">
         <ul>
           {filteredOrders.map((order, index) => {
-            return <OrderItem key={index} order={order} />;
+            return (
+              <OrderItem key={index} order={order} deleteItem={onDeleteItem} />
+            );
           })}
         </ul>
       </div>
@@ -74,7 +85,7 @@ const OrderPayment = ({ orders, isOpen, onClose }) => {
           </div>
           <div className="order-subtotal">
             <p className="subtotal-title">Sub total</p>
-            <p className="subtotal-amount"></p>
+            <p className="subtotal-amount">$ {subtotal.toFixed(2)}</p>
           </div>
         </div>
         <button className="continue-to-payment-btn">Continue to Payment</button>
