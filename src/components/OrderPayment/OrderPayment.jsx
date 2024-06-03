@@ -4,7 +4,13 @@ import "./OrderPayment.scss";
 import OrderItem from "@/components/OrderItem/OrderItem";
 import { useMemo } from "react";
 
-const OrderPayment = ({ orders, isOpen, onClose, onDeleteItem }) => {
+const OrderPayment = ({
+  orders,
+  isOpen,
+  onClose,
+  onDeleteItem,
+  onUpdateQuantity,
+}) => {
   const [activeOrderType, setActiveOrderType] = useState("");
 
   const filteredOrders = orders.filter(
@@ -33,7 +39,7 @@ const OrderPayment = ({ orders, isOpen, onClose, onDeleteItem }) => {
   return (
     <div className={`orders-panel ${isOpen ? "open" : ""}`}>
       <button className="close-button" onClick={onClose}>
-        Close
+        X
       </button>
       <h3 className="orders-no">Orders</h3>
       <div className="order-type-btns">
@@ -72,7 +78,12 @@ const OrderPayment = ({ orders, isOpen, onClose, onDeleteItem }) => {
         <ul>
           {filteredOrders.map((order, index) => {
             return (
-              <OrderItem key={index} order={order} deleteItem={onDeleteItem} />
+              <OrderItem
+                key={index}
+                order={order}
+                deleteItem={onDeleteItem}
+                updateQuantity={onUpdateQuantity}
+              />
             );
           })}
         </ul>

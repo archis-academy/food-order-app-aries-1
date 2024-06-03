@@ -3,6 +3,7 @@
 .order-item-container {
   margin-top: 25px;
   font-family: $secondary-font;
+  padding-right: 15px;
 
   .order-item-top {
     display: flex;
@@ -41,18 +42,35 @@
       }
     }
 
-    .order-item-quantity {
-      flex: 0.6;
+    .quantity-box {
+      // flex: 0.6;
       display: flex;
       text-align: center;
-
+      width: 48px;
       height: 48px;
       background-color: $tertiary-bg;
       border: 1px solid $primary-bg;
       border-radius: 8px;
       align-items: center;
-      justify-content: center;
       color: $primary-font-color;
+      padding-left: 8px;
+      justify-content: space-between;
+
+      .quantity-btns {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+
+        .increase-btn:hover,
+        .decrease-btn:hover {
+          background-color: lighten(#2d303e, 15%);
+
+          border-radius: 4px;
+        }
+      }
     }
 
     .order-item-total-price {
@@ -72,8 +90,8 @@
     margin-top: 10px;
 
     .order-item-note {
-      width: 280px;
-      height: 48px;
+      width: 295px;
+      // height: 48px;
       border-radius: 8px;
       background-color: $tertiary-bg;
       border: 1px solid $primary-bg;
@@ -88,6 +106,13 @@
       border: 1px solid $accent-color;
       border-radius: 8px;
       cursor: pointer;
+
+      &:hover {
+        background-color: $accent-color;
+        img {
+          filter: brightness(0) invert(1);
+        }
+      }
     }
   }
 }

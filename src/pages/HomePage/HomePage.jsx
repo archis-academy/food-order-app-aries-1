@@ -22,39 +22,34 @@ function HomePage() {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    setOrders(savedOrders);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("orders", JSON.stringify(orders));
-  }, [orders]);
-
   if (!fireStoreUser) return <p>Loading...</p>;
 
   const handleFoodCardClick = (food) => {
-    const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
     const existingOrderIndex = orders.findIndex(
       (order) => order.id === food.id
     );
     console.log(existingOrderIndex);
 
     if (existingOrderIndex === -1) {
-      const newOrders = [...existingOrders, { ...food, quantity: 1 }];
-      localStorage.setItem("orders", JSON.stringify(newOrders));
-      setOrders(newOrders);
+      setOrders([...orders, { ...food, quantity: 1 }]);
     } else {
-      const updatedOrders = [...existingOrders];
+      const updatedOrders = [...orders];
       updatedOrders[existingOrderIndex].quantity += 1;
-      localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
       setOrders(updatedOrders);
     }
     setIsOrderOpen(true);
   };
   const handleDeleteItem = (id) => {
     const updatedOrders = orders.filter((order) => order.id !== id);
-    localStorage.setItem("orders", JSON.stringify(updatedOrders));
+
+    setOrders(updatedOrders);
+  };
+
+  const handleUpdateQuantity = (id, quantity) => {
+    const updatedOrders = orders.map((order) =>
+      order.id === id ? { ...order, quantity } : order
+    );
     setOrders(updatedOrders);
   };
 
@@ -86,6 +81,7 @@ function HomePage() {
         isOpen={isOrderOpen}
         onClose={() => setIsOrderOpen(false)}
         onDeleteItem={handleDeleteItem}
+        onUpdateQuantity={handleUpdateQuantity}
       />
     </div>
   );
