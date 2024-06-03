@@ -7,6 +7,7 @@
   border-radius: 8px;
   font-size: 14px;
   color: $primary-font-color;
+  cursor: pointer;
 
   &:hover {
     box-shadow: $button-shadow;
@@ -20,6 +21,7 @@
   border-radius: 8px;
   font-size: 14px;
   color: $accent-color;
+  cursor: pointer;
 
   &:hover {
     box-shadow: $button-shadow;

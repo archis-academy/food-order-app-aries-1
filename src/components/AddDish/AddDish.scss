@@ -20,13 +20,15 @@
     outline: none;
     border-radius: 8px;
     border: none;
-    width: 400px;
+    width: 70%;
     height: 40px;
+    padding: 12px 20px;
     &::-webkit-file-upload-button {
       display: none;
     }
   }
 }
+
 .add-dish-buttons {
   padding-top: 30px;
   display: flex;
@@ -40,4 +42,10 @@
 }
 .add-dish-btn {
   @include primary-btn;
+}
+
+@media (max-width: 768px) {
+  .add-dish-container {
+    width: 100%;
+  }
 }
