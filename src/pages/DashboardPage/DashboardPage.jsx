@@ -1,7 +1,15 @@
-import React from "react";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import "./DashboardPage.scss";
 
 const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+  return (
+    <>
+      <Sidebar />
+      <main className="dashboard-page">
+        <div>DashboardPage</div>
+      </main>
+    </>
+  );
 };
 
 export default DashboardPage;

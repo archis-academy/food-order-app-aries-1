@@ -4,7 +4,6 @@ import SignupPage from "./pages/SignupPage/SignupPage.jsx";
 import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import SettingsPage from "./pages/SettingsPage/SettingsPage.jsx";
-import { element } from "prop-types";
 import DashboardPage from "./pages/DashboardPage/DashboardPage.jsx";
 
 const routes = [

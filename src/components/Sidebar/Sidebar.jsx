@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./Sidebar.scss";
 import leftArrow from "/left-arrow.svg";
-import { Outlet, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import sidebarLinks from "./SidebarLinks";
 
 function Sidebar() {
   const [isSidebarToggled, setIsSidebarToggled] = useState(false);
@@ -12,7 +13,6 @@ function Sidebar() {
 
   return (
     <aside className={`sidebar ${!isSidebarToggled && "sidebar-collapsed"}`}>
-      {/* these examples should be deleted */}
       <nav>
         <ul>
           <li className="left-arrow" onClick={toggleSidebar}>
@@ -25,25 +25,22 @@ function Sidebar() {
               }}
             />
           </li>
-          <li className="nav-item">
-            <Link to="/">
-              <img src="../../../public/home-icon.svg"></img>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/dashboard">
-              <img src="../../../public/dashboard-icon.svg"></img>
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/settings/:tabName">
-              <img src="../../../public/settings-icon.svg"></img>
-            </Link>
-          </li>
+          {sidebarLinks.map((link, index) => {
+            return (
+              <div key={index} className="navbar-items">
+                <li className="nav-item">
+                  <NavLink
+                    to={link.path}
+                    className={({ isActive }) => isActive && "active-link"}
+                  >
+                    {link.icon}
+                  </NavLink>
+                </li>
+              </div>
+            );
+          })}
         </ul>
       </nav>
-      <Outlet />
-      {/* these examples should be deleted */}
     </aside>
   );
 }
