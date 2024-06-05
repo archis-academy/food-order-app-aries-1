@@ -2,56 +2,59 @@ import { useEffect, useState } from "react";
 import "./AddDish.scss";
 
 function AddDish({ setAddDish }) {
-  const [dishInfo, setDishInfo] = useState({});
-  const [dishImage, setDishImage] = useState("");
-  const [dishName, setDishName] = useState("");
-  const [dishPrice, setDishPrice] = useState("");
+  const [dishDetails, setDishDetails] = useState({
+    dishImage: "",
+    dishName: "",
+    dishPrice: "",
+  });
 
-  useEffect(() => {
-    setDishInfo({
-      "dish-image": dishImage,
-      "dish-name": dishName,
-      "dish-price": dishPrice,
+  const handleDishDetails = (e) => {
+    setDishDetails({
+      ...dishDetails,
+      [e.target.name]: e.target.value,
     });
-  }, [dishImage, dishName, dishPrice]);
+  };
 
   const handleDishInfo = () => {
-    console.log(dishInfo);
+    console.log(dishDetails);
+
+    setDishDetails({
+      dishImage: "",
+      dishName: "",
+      dishPrice: "",
+    });
   };
   return (
     <div className="add-dish-container">
       <div className="dish-image-box dish-info-box">
         <label htmlFor="dish-image">Dish Image :</label>
         <input
-          onChange={(e) => {
-            setDishImage(e.target.value);
-          }}
+          onChange={handleDishDetails}
           type="file"
-          id="dish-image"
-          name="dish-image"
+          id="dishImage"
+          name="dishImage"
           accept="image/*"
+          value={dishDetails.dishImage}
         />
       </div>
       <div className="dish-name-box dish-info-box">
         <label htmlFor="dish-name">Dish Name :</label>
         <input
-          onChange={(e) => {
-            setDishName(e.target.value);
-          }}
+          onChange={handleDishDetails}
           type="text"
-          id="dish-name"
-          name="dish-name"
+          id="dishName"
+          name="dishName"
+          value={dishDetails.dishName}
         />
       </div>
       <div className="dish-price-box dish-info-box">
         <label htmlFor="dish-price">Dish Price :</label>
         <input
-          onChange={(e) => {
-            setDishPrice(e.target.value);
-          }}
+          onChange={handleDishDetails}
           type="number"
-          id="dish-price"
-          name="dish-price"
+          id="dishPrice"
+          name="dishPrice"
+          value={dishDetails.dishPrice}
         />
       </div>
       <div className="add-dish-buttons">
