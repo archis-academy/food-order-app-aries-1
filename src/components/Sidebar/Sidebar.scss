@@ -1,7 +1,7 @@
 @import "../../styles/abstracts/variables";
 
 .sidebar {
-  width: 250px;
+  width: 100px;
   background-color: $secondary-bg;
   color: $primary-font-color;
   padding: 0 1rem;
@@ -9,28 +9,20 @@
   align-items: center;
   flex-direction: column;
   position: fixed;
-  top: 0;
-  left: 0;
   height: 100%;
-  z-index: 999;
-  transition: width 300ms ease;
   padding: 1em 0;
-
-  .left-arrow {
-    text-align: center;
-    cursor: pointer;
-    img {
-      width: 30px;
-      transition: transform 600ms ease;
-    }
-  }
 }
 
 .navbar-items {
   width: 100px;
-  // height: 80px;
+  height: 80px;
+  padding-left: 10px;
+}
+
+.nav-items {
+  width: 100px;
   background-color: $primary-bg;
-  border-radius: 6px 0 0 6px;
+  border-radius: 15px 0 0 15px;
 }
 
 .nav-item {
@@ -38,7 +30,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin: 50px 0 20px 0;
+  height: 90px;
+  margin-top: 70px;
 }
 
 .active-link {
@@ -50,12 +43,21 @@
   }
 }
 
-.sidebar-collapsed {
-  width: 100px;
-}
-
 @media (max-width: 768px) {
-  .sidebar-collapsed {
+  .sidebar {
     width: 70px;
+  }
+  .navbar-items {
+    width: 70px;
+  }
+  .nav-items {
+    width: 70px;
+    padding-left: 2px;
+  }
+  .nav-item {
+    width: 60px;
+  }
+  .active-link {
+    width: 50px;
   }
 }
