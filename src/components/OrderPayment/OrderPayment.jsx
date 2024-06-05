@@ -23,7 +23,9 @@ const OrderPayment = ({
   }, [orders]);
 
   function handleActiveOrderType(orderType) {
-    setActiveOrderType(orderType);
+    setActiveOrderType((prevOrderType) =>
+      orderType === prevOrderType ? "" : orderType
+    );
   }
   const discount = 0;
   const subtotal = useMemo(() => {
