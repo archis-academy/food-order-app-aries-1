@@ -1,4 +1,3 @@
-
 import Sidebar from "@/components/Sidebar/Sidebar";
 import "./HomePage.scss";
 import { useAuth } from "@/components/AuthProvider";
