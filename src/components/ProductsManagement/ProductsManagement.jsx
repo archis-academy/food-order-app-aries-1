@@ -5,15 +5,32 @@ import "./ProductsManagement.scss";
 import CategoryTabs from "../CategoryTabs/CategoryTabs";
 import { useState } from "react";
 import ChangeButtons from "../ChangeButtons/ChangeButtons";
+import AddDish from "../AddDish/AddDish";
+import EditDish from "../EditDish/EditDish";
 
-function ProductsManagement({ setAddDish }) {
-  const [dishes, setDishes] = useState(foods);
+function ProductsManagement() {
+  const [dishes] = useState(foods);
   const [filteredDishes, setFilteredDishes] = useState(dishes);
   const [filterParameters, setFilterParameters] = useState({
     orderType: "All",
     category: "all",
     searchQuery: "",
   });
+  const [addDish, setAddDish] = useState(false);
+  const [editDish, setEditDish] = useState(false);
+  const [dishDetails, setDishDetails] = useState({
+    dishImage: "",
+    dishName: "",
+    dishPrice: "",
+  });
+
+  const handleDishDetails = (img, name, price) => {
+    setDishDetails({
+      dishImage: img,
+      dishName: name,
+      dishPrice: price,
+    });
+  };
 
   return (
     <>
@@ -44,11 +61,34 @@ function ProductsManagement({ setAddDish }) {
                 image={food.image}
                 description={food.description}
                 price={food.price}
+                onClick={() => {
+                  handleDishDetails(food.image, food.description, food.price);
+                  setEditDish(true);
+                  console.log(dishDetails);
+                }}
               />
             );
           })}
         </div>
         <ChangeButtons />
+        {(addDish || editDish) && (
+          <div className="overlay-container">
+            {addDish && (
+              <AddDish
+                setAddDish={setAddDish}
+                dishDetails={dishDetails}
+                setDishDetails={setDishDetails}
+              />
+            )}
+            {editDish && (
+              <EditDish
+                setEditDish={setEditDish}
+                dishDetails={dishDetails}
+                setDishDetails={setDishDetails}
+              />
+            )}
+          </div>
+        )}
       </div>
     </>
   );

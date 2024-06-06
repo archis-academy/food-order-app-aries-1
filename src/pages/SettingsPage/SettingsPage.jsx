@@ -8,41 +8,31 @@ import YourRestaurant from "../../components/YourRestaurant/YourRestaurant";
 import Notifications from "../../components/Notifications/Notifications";
 import SecurityPage from "../../components/SecurityPage/SecurityPage";
 import AboutUs from "../../components/AboutUs/AboutUs";
-import AddDish from "../../components/AddDish/AddDish";
-import { useState } from "react";
 
 function SettingsPage() {
   const { tabName } = useParams();
-  const [addDish, setAddDish] = useState(false);
 
   const settingComponents = {
     appearance: <Appearance />,
     "your-restaurant": <YourRestaurant />,
-    "products-management": <ProductsManagement setAddDish={setAddDish} />,
+    "products-management": <ProductsManagement />,
     notifications: <Notifications />,
     security: <SecurityPage />,
     "about-us": <AboutUs />,
   };
 
   return (
-    <div className="outer-container">
-      <div className="settings-page-container">
-        <Sidebar />
-        <main className="settings-page">
-          <h1>Settings</h1>
-          <div className="main-container">
-            <SettingsSidebar />
-            {settingComponents[tabName]
-              ? settingComponents[tabName]
-              : settingComponents["products-management"]}
-          </div>
-        </main>
-      </div>
-      {addDish && (
-        <div className="overlay-container">
-          <AddDish setAddDish={setAddDish} />
+    <div className="settings-page-container">
+      <Sidebar />
+      <main className="settings-page">
+        <h1>Settings</h1>
+        <div className="main-container">
+          <SettingsSidebar />
+          {settingComponents[tabName]
+            ? settingComponents[tabName]
+            : settingComponents["products-management"]}
         </div>
-      )}
+      </main>
     </div>
   );
 }

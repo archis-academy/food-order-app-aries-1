@@ -1,8 +1,5 @@
 @import "../../styles/abstracts/variables";
-.outer-container {
-  position: relative;
-  width: 100%;
-}
+
 .settings-page {
   min-height: 100vh;
   width: calc(100% - 100px);
@@ -22,17 +19,6 @@
   display: flex;
   justify-content: space-between;
   gap: 1em;
-}
-.overlay-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.81);
-  z-index: 1000;
 }
 
 @media (max-width: 768px) {

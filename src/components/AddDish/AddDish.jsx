@@ -1,13 +1,7 @@
-import { useEffect, useState } from "react";
 import "./AddDish.scss";
 
-function AddDish({ setAddDish }) {
-  const [dishDetails, setDishDetails] = useState({
-    dishImage: "",
-    dishName: "",
-    dishPrice: "",
-  });
-
+function AddDish({ setAddDish, dishDetails, setDishDetails }) {
+  const { dishImage, dishName, dishPrice } = dishDetails;
   const handleDishDetails = (e) => {
     setDishDetails({
       ...dishDetails,
@@ -15,8 +9,18 @@ function AddDish({ setAddDish }) {
     });
   };
 
-  const handleDishInfo = () => {
+  const handleAddNewDish = () => {
     console.log(dishDetails);
+
+    setDishDetails({
+      dishImage: "",
+      dishName: "",
+      dishPrice: "",
+    });
+  };
+
+  const handleCancelBtn = () => {
+    setAddDish(false);
 
     setDishDetails({
       dishImage: "",
@@ -34,7 +38,6 @@ function AddDish({ setAddDish }) {
           id="dishImage"
           name="dishImage"
           accept="image/*"
-          value={dishDetails.dishImage}
         />
       </div>
       <div className="dish-name-box dish-info-box">
@@ -44,7 +47,7 @@ function AddDish({ setAddDish }) {
           type="text"
           id="dishName"
           name="dishName"
-          value={dishDetails.dishName}
+          value={dishName}
         />
       </div>
       <div className="dish-price-box dish-info-box">
@@ -54,19 +57,14 @@ function AddDish({ setAddDish }) {
           type="number"
           id="dishPrice"
           name="dishPrice"
-          value={dishDetails.dishPrice}
+          value={dishPrice}
         />
       </div>
       <div className="add-dish-buttons">
-        <button
-          onClick={() => {
-            setAddDish(false);
-          }}
-          className="cancel-btn"
-        >
+        <button onClick={handleCancelBtn} className="cancel-btn">
           Cancel
         </button>
-        <button onClick={handleDishInfo} className="add-dish-btn">
+        <button onClick={handleAddNewDish} className="add-dish-btn">
           Add Dish
         </button>
       </div>
