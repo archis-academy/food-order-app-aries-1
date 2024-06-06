@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-$primary-bg: #393c49;
+$primary-bg: #2d303e;
 $secondary-bg: #1f1d2b;
 $tertiary-bg: #2d303e;
+$line-color: #393c49;
 $accent-color: #ea7c69;
 $primary-font-color: #fff;
 $secondary-font-color: #abbbc2;
@@ -16,5 +17,5 @@ $linear-color: linear-gradient(
   rgba(241, 169, 96, 1)
 );
 
-$primary-font: "Outfit", sans-serif;
-$secondary-font: "Barlow", sans-serif;
+$primary-font: "Barlow", sans-serif;
+$secondary-font: "Outfit", sans-serif;

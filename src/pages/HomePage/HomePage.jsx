@@ -65,7 +65,12 @@ function HomePage() {
             setFilterParameters={setFilterParameters}
             setFilteredDishes={setFilteredDishes}
           />
-          <CategoryTabs dishes={dishes} setFilteredDishes={setFilteredDishes} />
+          <CategoryTabs
+            dishes={dishes}
+            setFilteredDishes={setFilteredDishes}
+            filterParameters={filterParameters}
+            setFilterParameters={setFilterParameters}
+          />
           <DishesMenu
             dishes={dishes}
             filterParameters={filterParameters}

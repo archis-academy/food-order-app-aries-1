@@ -1,0 +1,4 @@
+@import "../../styles/abstracts/index";
+.notifications-container {
+  @extend %settings-container;
+}

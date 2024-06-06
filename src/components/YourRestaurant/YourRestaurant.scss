@@ -1,0 +1,4 @@
+@import "../../styles/abstracts/index";
+.your-restaurant-container {
+  @extend %settings-container;
+}

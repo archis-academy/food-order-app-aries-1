@@ -1,0 +1,27 @@
+@import "./variables";
+
+@mixin primary-btn {
+  padding: 14px 28px;
+  background-color: $accent-color;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  color: $primary-font-color;
+
+  &:hover {
+    box-shadow: $button-shadow;
+  }
+}
+
+@mixin secondary-btn {
+  padding: 14px 28px;
+  background-color: inherit;
+  border: 1px solid $accent-color;
+  border-radius: 8px;
+  font-size: 14px;
+  color: $accent-color;
+
+  &:hover {
+    box-shadow: $button-shadow;
+  }
+}
