@@ -5,9 +5,6 @@ const OrderItem = ({ order, deleteItem, updateQuantity }) => {
 
   const totalPrice = quantity * price;
 
-  // const handleQuantityChange = (e) => {
-  //   updateQuantity(id, Number(e.target.value));
-  // };
   const handleIncreaseQuantity = () => {
     updateQuantity(id, quantity + 1);
   };
@@ -28,13 +25,7 @@ const OrderItem = ({ order, deleteItem, updateQuantity }) => {
             <p className="order-item-price">$ {price}</p>
           </div>
         </div>
-        {/* <input
-          type="number"
-          min="1"
-          onChange={handleQuantityChange}
-          className="order-item-quantity"
-          value={quantity}
-        /> */}
+
         <div className="quantity-box">
           <p className="order-item-quantity">{quantity}</p>
           <div className="quantity-btns">
