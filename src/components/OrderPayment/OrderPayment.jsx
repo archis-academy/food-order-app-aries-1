@@ -10,6 +10,7 @@ const OrderPayment = ({
   onClose,
   onDeleteItem,
   onUpdateQuantity,
+  onContinueToPayment,
 }) => {
   const [activeOrderType, setActiveOrderType] = useState("");
 
@@ -101,7 +102,12 @@ const OrderPayment = ({
             <p className="subtotal-amount">$ {subtotal.toFixed(2)}</p>
           </div>
         </div>
-        <button className="continue-to-payment-btn">Continue to Payment</button>
+        <button
+          className="continue-to-payment-btn"
+          onClick={onContinueToPayment}
+        >
+          Continue to Payment
+        </button>
       </div>
     </div>
   );

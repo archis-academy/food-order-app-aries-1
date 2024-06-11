@@ -7,6 +7,7 @@ import { foods } from "@/db/foods";
 import { useState, useEffect } from "react";
 import CategoryTabs from "@/components/CategoryTabs/CategoryTabs";
 import OrderPayment from "@/components/OrderPayment/OrderPayment";
+import OrderConfirmation from "@/components/OrderConfirmation/OrderConfirmation";
 
 function HomePage() {
   const { fireStoreUser } = useAuth(); // auth'u const {fireStoreUser} = useAuth() şeklinde alırsanız user bilgilerine ulaşabilirsiniz
@@ -21,6 +22,7 @@ function HomePage() {
   });
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
   if (!fireStoreUser) return <p>Loading...</p>;
 
@@ -51,6 +53,13 @@ function HomePage() {
       order.id === id ? { ...order, quantity } : order
     );
     setOrders(updatedOrders);
+  };
+  const handleContinueToPayment = () => {
+    setIsConfirmationOpen(true);
+  };
+
+  const handleCloseConfirmation = () => {
+    setIsConfirmationOpen(false);
   };
 
   return (
@@ -87,7 +96,11 @@ function HomePage() {
         onClose={() => setIsOrderOpen(false)}
         onDeleteItem={handleDeleteItem}
         onUpdateQuantity={handleUpdateQuantity}
+        onContinueToPayment={handleContinueToPayment}
       />
+      {isConfirmationOpen && (
+        <OrderConfirmation orders={orders} onClose={handleCloseConfirmation} />
+      )}
     </div>
   );
 }
