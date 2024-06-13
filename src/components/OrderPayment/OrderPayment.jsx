@@ -10,6 +10,7 @@ const OrderPayment = ({
   onClose,
   onDeleteItem,
   onUpdateQuantity,
+  onUpdateNote,
   onContinueToPayment,
 }) => {
   const [activeOrderType, setActiveOrderType] = useState("");
@@ -86,6 +87,8 @@ const OrderPayment = ({
                 order={order}
                 deleteItem={onDeleteItem}
                 updateQuantity={onUpdateQuantity}
+                updateNote={onUpdateNote}
+                isArrowActive={true}
               />
             );
           })}

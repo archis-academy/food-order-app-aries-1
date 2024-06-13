@@ -8,6 +8,7 @@ const OrderConfirmation = ({
   onClose,
   onDeleteItem,
   onUpdateQuantity,
+  onUpdateNote,
 }) => {
   const discount = 0;
   const subtotal = useMemo(() => {
@@ -18,6 +19,48 @@ const OrderConfirmation = ({
     return totalPrice;
   }, [orders]);
 
+  const [expirationDate, setExpirationDate] = useState("");
+  const [dateError, setDateError] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+
+  const handleExpirationDate = (e) => {
+    const input = e.target.value.replace(/\D/g, "");
+    let formattedInput = input;
+
+    if (input.length >= 2) {
+      formattedInput = `${input.substring(0, 2)}/${input.substring(2, 6)}`;
+    }
+
+    setExpirationDate(formattedInput);
+    if (formattedInput.length === 7) {
+      const month = formattedInput.slice(0, 2);
+      const year = formattedInput.slice(3, 7);
+
+      const currentYear = new Date().getFullYear();
+
+      if (month < 1 || month > 12 || year < currentYear) {
+        setDateError("Invalid date!");
+      } else {
+        setDateError("");
+      }
+    } else {
+      setDateError("");
+    }
+  };
+
+  const handleCardNumber = (e) => {
+    const input = e.target.value.replace(/\D/g, "");
+
+    const formattedInput =
+      input.substring(0, 4) +
+      " " +
+      input.substring(4, 8) +
+      " " +
+      input.substring(8, 12) +
+      " " +
+      input.substring(12, 16);
+    setCardNumber(formattedInput);
+  };
   return (
     <div className="order-confirmation-overlay">
       <div className="order-confirmation">
@@ -38,6 +81,8 @@ const OrderConfirmation = ({
                     order={order}
                     deleteItem={onDeleteItem}
                     updateQuantity={onUpdateQuantity}
+                    updateNote={onUpdateNote}
+                    isArrowActive={false}
                   />
                 );
               })}
@@ -94,6 +139,9 @@ const OrderConfirmation = ({
                   className="card-input"
                   type="text"
                   placeholder="Card Number"
+                  maxLength="19"
+                  value={cardNumber}
+                  onChange={handleCardNumber}
                 />
               </div>
               <div className="expiration-date-cvv">
@@ -104,7 +152,10 @@ const OrderConfirmation = ({
                     type="text"
                     placeholder="MM/YYYY"
                     maxLength="7"
+                    value={expirationDate}
+                    onChange={handleExpirationDate}
                   />
+                  {dateError && <p className="error-message">{dateError}</p>}
                 </div>
                 <div className="cvv">
                   <p className="card-info-title ">CVV</p>
@@ -128,7 +179,11 @@ const OrderConfirmation = ({
               </div>
               <div className="table-no">
                 <p className="order-summary-title">Table No</p>
-                <p className="table-number">140</p>
+                <input
+                  type="text"
+                  className="table-number"
+                  placeholder="Table No"
+                />
               </div>
             </div>
             <div className="order-confirmation-btns">

@@ -1,7 +1,16 @@
 import "./OrderItem.scss";
+import { useState } from "react";
 
-const OrderItem = ({ order, deleteItem, updateQuantity }) => {
+const OrderItem = ({
+  order,
+  deleteItem,
+  updateQuantity,
+  updateNote,
+  isArrowActive,
+}) => {
   const { id, image, description, quantity, price, orderNote } = order;
+
+  const [newNote, setNewNote] = useState(orderNote);
 
   const totalPrice = quantity * price;
 
@@ -13,6 +22,12 @@ const OrderItem = ({ order, deleteItem, updateQuantity }) => {
     if (quantity > 1) {
       updateQuantity(id, quantity - 1);
     }
+  };
+  const handleChangeNote = (e) => {
+    setNewNote(e.target.value);
+  };
+  const handleUpdateNote = () => {
+    updateNote(id, newNote);
   };
 
   return (
@@ -28,21 +43,23 @@ const OrderItem = ({ order, deleteItem, updateQuantity }) => {
 
         <div className="quantity-box">
           <p className="order-item-quantity">{quantity}</p>
-          <div className="quantity-btns">
-            <img
-              className="increase-btn"
-              src="/up1.svg"
-              alt="up-btn-img"
-              onClick={handleIncreaseQuantity}
-            />
+          {isArrowActive && (
+            <div className="quantity-btns">
+              <img
+                className="increase-btn"
+                src="/up1.svg"
+                alt="up-btn-img"
+                onClick={handleIncreaseQuantity}
+              />
 
-            <img
-              className="decrease-btn"
-              src="/down1.svg"
-              alt="down-btn-img"
-              onClick={handleDecreaseQuantity}
-            />
-          </div>
+              <img
+                className="decrease-btn"
+                src="/down1.svg"
+                alt="down-btn-img"
+                onClick={handleDecreaseQuantity}
+              />
+            </div>
+          )}
         </div>
 
         <p className="order-item-total-price">$ {totalPrice.toFixed(2)}</p>
@@ -52,6 +69,9 @@ const OrderItem = ({ order, deleteItem, updateQuantity }) => {
           type="text"
           className="order-item-note"
           placeholder="Order Note ..."
+          value={newNote}
+          onChange={handleChangeNote}
+          onBlur={handleUpdateNote}
         />
         <button
           className="order-item-delete-btn"

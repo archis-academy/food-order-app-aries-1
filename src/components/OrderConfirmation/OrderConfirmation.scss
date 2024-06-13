@@ -141,6 +141,11 @@
             display: flex;
             justify-content: space-between;
           }
+          .error-message {
+            color: $accent-color;
+            font-size: 12px;
+            padding-top: 10px;
+          }
         }
       }
       .order-summary {
