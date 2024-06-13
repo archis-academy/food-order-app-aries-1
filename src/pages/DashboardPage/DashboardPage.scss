@@ -1,12 +1,5 @@
-@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/placeholders";
 
 .dashboard-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 50px;
-  background-color: $primary-bg;
-  width: 100%;
-  height: 100vh;
-  color: $primary-font-color;
+  @extend %main-container;
 }
