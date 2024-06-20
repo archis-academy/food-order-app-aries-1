@@ -1,9 +1,9 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import "./MostTypeOfOrderApexChart.scss";
+import "./ApexChart.scss";
 
 function ApexChart() {
-  const series = [44, 55, 67, ""]; // series grafik içerisindeki her bir değerin sayısını ve miktarını belirtir. Boş stringin olma sebebi ise ortada bir tane boş bırakmak istediğimiz içindir.
+  const series = [44, 55, 67, ""];
   const options = {
     chart: {
       type: "radialBar",
@@ -12,7 +12,7 @@ function ApexChart() {
       radialBar: {
         hollow: {
           margin: 0,
-          size: "35%",
+          size: "45%",
         },
 
         track: {
