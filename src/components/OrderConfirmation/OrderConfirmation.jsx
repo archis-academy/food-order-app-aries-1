@@ -1,6 +1,7 @@
 import "./OrderConfirmation.scss";
 import OrderItem from "@/components/OrderItem/OrderItem";
 import { useState, useMemo } from "react";
+import moment from "moment";
 
 const OrderConfirmation = ({
   orders,
@@ -8,7 +9,6 @@ const OrderConfirmation = ({
   onClose,
   onDeleteItem,
   onUpdateQuantity,
-  onUpdateNote,
 }) => {
   const discount = 0;
   const subtotal = useMemo(() => {
@@ -22,6 +22,22 @@ const OrderConfirmation = ({
   const [expirationDate, setExpirationDate] = useState("");
   const [dateError, setDateError] = useState("");
   const [cardNumber, setCardNumber] = useState("");
+  const [selectedMethod, setSelectedMethod] = useState("");
+  const [orderType, setOrderType] = useState("");
+  const [tableNumber, setTableNumber] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [cardHolderName, setCardHolderName] = useState("");
+
+  const isDateValid = (inputDate) => {
+    const date = moment(inputDate, "MM/YYYY");
+    const today = moment().startOf("month");
+
+    if (!date.isValid()) {
+      return false;
+    }
+
+    return date.isSameOrAfter(today);
+  };
 
   const handleExpirationDate = (e) => {
     const input = e.target.value.replace(/\D/g, "");
@@ -32,13 +48,14 @@ const OrderConfirmation = ({
     }
 
     setExpirationDate(formattedInput);
+
     if (formattedInput.length === 7) {
       const month = formattedInput.slice(0, 2);
       const year = formattedInput.slice(3, 7);
 
-      const currentYear = new Date().getFullYear();
-
-      if (month < 1 || month > 12 || year < currentYear) {
+      if (month < 1 || month > 12) {
+        setDateError("Invalid date!");
+      } else if (!isDateValid(`${formattedInput}`)) {
         setDateError("Invalid date!");
       } else {
         setDateError("");
@@ -61,6 +78,35 @@ const OrderConfirmation = ({
       input.substring(12, 16);
     setCardNumber(formattedInput);
   };
+
+  const handlePaymentMethodClick = (method) => {
+    setSelectedMethod(method);
+  };
+
+  const handleConfirmPayment = () => {
+    const ordersSummary = {
+      id: 1,
+      customer: "userName",
+      menu: orders.map((order) => ({
+        id: order.id,
+        name: order.description,
+        price: order.price,
+        quantity: order.quantity,
+        note: order.note,
+        totalPrice: order.price * order.quantity,
+      })),
+      paymentMethod: selectedMethod,
+      cardHolderName,
+      cardNumber,
+      expirationDate,
+      cvv,
+      orderType,
+      tableNumber,
+      subtotal,
+    };
+    console.log(ordersSummary);
+  };
+
   return (
     <div className="order-confirmation-overlay">
       <div className="order-confirmation">
@@ -74,15 +120,15 @@ const OrderConfirmation = ({
 
           <div className="confirmation-content">
             <ul>
-              {orders.map((order, index) => {
+              {orders.map((order) => {
                 return (
                   <OrderItem
-                    key={index}
+                    key={order.id}
                     order={order}
                     deleteItem={onDeleteItem}
                     updateQuantity={onUpdateQuantity}
-                    updateNote={onUpdateNote}
                     isArrowActive={false}
+                    isNoteActive={false}
                   />
                 );
               })}
@@ -110,15 +156,30 @@ const OrderConfirmation = ({
             <div className="payment-methods">
               <p className="payment-method-title">Payment Method</p>
               <div className="payment-method-container">
-                <div className="payment-method-item">
+                <div
+                  className={`payment-method-item ${
+                    selectedMethod === "Credit Card" ? "selected" : ""
+                  }`}
+                  onClick={() => handlePaymentMethodClick("Credit Card")}
+                >
                   <img src="./payment-method-Card.svg" alt="" />
                   <p className="payment-method-name">Credit Card</p>
                 </div>
-                <div className="payment-method-item">
+                <div
+                  className={`payment-method-item ${
+                    selectedMethod === "Paypal" ? "selected" : ""
+                  }`}
+                  onClick={() => handlePaymentMethodClick("Paypal")}
+                >
                   <img src="./payment-method-Paypal.svg" alt="" />
                   <p className="payment-method-name">Paypal</p>
                 </div>
-                <div className="payment-method-item">
+                <div
+                  className={`payment-method-item ${
+                    selectedMethod === "Cash" ? "selected" : ""
+                  }`}
+                  onClick={() => handlePaymentMethodClick("Cash")}
+                >
                   <img src="./payment-method-Cash.svg" alt="" />
                   <p className="payment-method-name">Cash</p>
                 </div>
@@ -131,6 +192,8 @@ const OrderConfirmation = ({
                   className="card-input"
                   type="text"
                   placeholder="Cardholder Name"
+                  value={cardHolderName}
+                  onChange={(e) => setCardHolderName(e.target.value)}
                 />
               </div>
               <div className="card-number">
@@ -164,6 +227,8 @@ const OrderConfirmation = ({
                     type="password"
                     placeholder="CVV"
                     maxLength="3"
+                    value={cvv}
+                    onChange={(e) => setCvv(e.target.value)}
                   />
                 </div>
               </div>
@@ -171,7 +236,11 @@ const OrderConfirmation = ({
             <div className="order-summary">
               <div className="order-type-select">
                 <p className="order-summary-title">Order Type</p>
-                <select className="order-type-select-input">
+                <select
+                  className="order-type-select-input"
+                  value={orderType}
+                  onChange={(e) => setOrderType(e.target.value)}
+                >
                   <option value="Dine In">Dine In</option>
                   <option value="To Go">To Go</option>
                   <option value="Delivery">Delivery</option>
@@ -183,12 +252,16 @@ const OrderConfirmation = ({
                   type="text"
                   className="table-number"
                   placeholder="Table No"
+                  value={tableNumber}
+                  onChange={(e) => setTableNumber(e.target.value)}
                 />
               </div>
             </div>
             <div className="order-confirmation-btns">
               <button className="cancel-btn">Cancel</button>
-              <button className="confirm-btn">Confirm Payment</button>
+              <button className="confirm-btn" onClick={handleConfirmPayment}>
+                Confirm Payment
+              </button>
             </div>
           </div>
         </div>

@@ -104,6 +104,31 @@
               justify-content: center;
               align-items: center;
               gap: 5px;
+              position: relative;
+              cursor: pointer;
+              &.selected {
+                border: 1px solid $accent-color;
+                background-color: $primary-bg;
+                color: $primary-font-color;
+                &::after {
+                  content: "✓";
+                  position: absolute;
+                  top: 5px;
+                  right: 5px;
+                  color: $secondary-bg;
+                  font-size: 12px;
+                  border: 1px solid $accent-color;
+                  border-radius: 50%;
+                  background-color: $accent-color;
+                  width: 12px;
+                  height: 12px;
+                  font-weight: bolder;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                }
+              }
+
               .payment-method-name {
                 color: $secondary-font-color;
                 font-size: 14px;

@@ -33,7 +33,7 @@ function HomePage() {
     console.log(existingOrderIndex);
 
     if (existingOrderIndex === -1) {
-      setOrders([...orders, { ...food, quantity: 1 }]);
+      setOrders([...orders, { ...food, quantity: 1, note: "" }]);
     } else {
       const updatedOrders = [...orders];
       updatedOrders[existingOrderIndex].quantity += 1;
@@ -51,6 +51,12 @@ function HomePage() {
   const handleUpdateQuantity = (id, quantity) => {
     const updatedOrders = orders.map((order) =>
       order.id === id ? { ...order, quantity } : order
+    );
+    setOrders(updatedOrders);
+  };
+  const handleUpdateNote = (id, note) => {
+    const updatedOrders = orders.map((order) =>
+      order.id === id ? { ...order, note } : order
     );
     setOrders(updatedOrders);
   };
@@ -96,6 +102,7 @@ function HomePage() {
         onClose={() => setIsOrderOpen(false)}
         onDeleteItem={handleDeleteItem}
         onUpdateQuantity={handleUpdateQuantity}
+        onUpdateNote={handleUpdateNote}
         onContinueToPayment={handleContinueToPayment}
       />
       {isConfirmationOpen && (

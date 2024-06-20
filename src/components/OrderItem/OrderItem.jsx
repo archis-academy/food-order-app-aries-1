@@ -7,10 +7,9 @@ const OrderItem = ({
   updateQuantity,
   updateNote,
   isArrowActive,
+  isNoteActive,
 }) => {
-  const { id, image, description, quantity, price, orderNote } = order;
-
-  const [newNote, setNewNote] = useState(orderNote);
+  const { id, image, description, quantity, price, note } = order;
 
   const totalPrice = quantity * price;
 
@@ -23,11 +22,9 @@ const OrderItem = ({
       updateQuantity(id, quantity - 1);
     }
   };
-  const handleChangeNote = (e) => {
-    setNewNote(e.target.value);
-  };
-  const handleUpdateNote = () => {
-    updateNote(id, newNote);
+
+  const handleNoteChange = (e) => {
+    updateNote(id, e.target.value);
   };
 
   return (
@@ -65,14 +62,17 @@ const OrderItem = ({
         <p className="order-item-total-price">$ {totalPrice.toFixed(2)}</p>
       </div>
       <div className="order-item-bottom">
-        <input
-          type="text"
-          className="order-item-note"
-          placeholder="Order Note ..."
-          value={newNote}
-          onChange={handleChangeNote}
-          onBlur={handleUpdateNote}
-        />
+        {isNoteActive ? (
+          <input
+            type="text"
+            className="order-item-note"
+            placeholder="Order Note ..."
+            value={note}
+            onChange={handleNoteChange}
+          />
+        ) : (
+          <p className="order-item-note">{note}</p>
+        )}
         <button
           className="order-item-delete-btn"
           onClick={() => deleteItem(order.id)}

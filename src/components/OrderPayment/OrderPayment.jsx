@@ -11,6 +11,7 @@ const OrderPayment = ({
   onDeleteItem,
   onUpdateQuantity,
   onUpdateNote,
+
   onContinueToPayment,
 }) => {
   const [activeOrderType, setActiveOrderType] = useState("");
@@ -80,15 +81,16 @@ const OrderPayment = ({
 
       <div className="orders-content">
         <ul>
-          {filteredOrders.map((order, index) => {
+          {filteredOrders.map((order) => {
             return (
               <OrderItem
-                key={index}
+                key={order.id}
                 order={order}
                 deleteItem={onDeleteItem}
                 updateQuantity={onUpdateQuantity}
-                updateNote={onUpdateNote}
                 isArrowActive={true}
+                isNoteActive={true}
+                updateNote={onUpdateNote}
               />
             );
           })}
