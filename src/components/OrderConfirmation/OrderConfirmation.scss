@@ -61,6 +61,8 @@
     .order-confirmation-right {
       flex: 1;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
       justify-content: space-between;
 
       .confirmation-right-top {
@@ -81,6 +83,8 @@
         }
       }
       .payment-content {
+        display: flex;
+        flex-direction: column;
         flex: 1;
         .payment-methods {
           .payment-method-title {

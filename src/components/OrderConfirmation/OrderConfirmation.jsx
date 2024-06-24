@@ -2,10 +2,10 @@ import "./OrderConfirmation.scss";
 import OrderItem from "@/components/OrderItem/OrderItem";
 import { useState, useMemo } from "react";
 import moment from "moment";
+import { useAuth } from "@/components/AuthProvider";
 
 const OrderConfirmation = ({
   orders,
-  isOpen,
   onClose,
   onDeleteItem,
   onUpdateQuantity,
@@ -19,14 +19,16 @@ const OrderConfirmation = ({
     return totalPrice;
   }, [orders]);
 
-  const [expirationDate, setExpirationDate] = useState("");
-  const [dateError, setDateError] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [selectedMethod, setSelectedMethod] = useState("");
-  const [orderType, setOrderType] = useState("");
-  const [tableNumber, setTableNumber] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [cardHolderName, setCardHolderName] = useState("");
+  const [cardDetails, setCardDetails] = useState({
+    expirationDate: "",
+    dateError: "",
+    cardNumber: "",
+    selectedMethod: "",
+    orderType: "Dine In",
+    tableNumber: "",
+    cvv: "",
+    cardHolderName: "",
+  });
 
   const isDateValid = (inputDate) => {
     const date = moment(inputDate, "MM/YYYY");
@@ -47,21 +49,37 @@ const OrderConfirmation = ({
       formattedInput = `${input.substring(0, 2)}/${input.substring(2, 6)}`;
     }
 
-    setExpirationDate(formattedInput);
+    setCardDetails((prevInfo) => ({
+      ...prevInfo,
+      expirationDate: formattedInput,
+      dateError: "",
+    }));
 
     if (formattedInput.length === 7) {
       const month = formattedInput.slice(0, 2);
       const year = formattedInput.slice(3, 7);
 
       if (month < 1 || month > 12) {
-        setDateError("Invalid date!");
+        setCardDetails((prevInfo) => ({
+          ...prevInfo,
+          dateError: "Invalid date!",
+        }));
       } else if (!isDateValid(`${formattedInput}`)) {
-        setDateError("Invalid date!");
+        setCardDetails((prevInfo) => ({
+          ...prevInfo,
+          dateError: "Invalid date!",
+        }));
       } else {
-        setDateError("");
+        setCardDetails((prevInfo) => ({
+          ...prevInfo,
+          dateError: "",
+        }));
       }
     } else {
-      setDateError("");
+      setCardDetails((prevInfo) => ({
+        ...prevInfo,
+        dateError: "",
+      }));
     }
   };
 
@@ -76,17 +94,27 @@ const OrderConfirmation = ({
       input.substring(8, 12) +
       " " +
       input.substring(12, 16);
-    setCardNumber(formattedInput);
+    setCardDetails((prevInfo) => ({
+      ...prevInfo,
+      cardNumber: formattedInput,
+    }));
   };
 
   const handlePaymentMethodClick = (method) => {
-    setSelectedMethod(method);
+    setCardDetails((prevInfo) => ({
+      ...prevInfo,
+      selectedMethod: method,
+    }));
   };
+
+  const { fireStoreUser } = useAuth();
 
   const handleConfirmPayment = () => {
     const ordersSummary = {
-      id: 1,
-      customer: "userName",
+      customer: {
+        uid: fireStoreUser.uid,
+        displayName: fireStoreUser.displayName,
+      },
       menu: orders.map((order) => ({
         id: order.id,
         name: order.description,
@@ -95,13 +123,13 @@ const OrderConfirmation = ({
         note: order.note,
         totalPrice: order.price * order.quantity,
       })),
-      paymentMethod: selectedMethod,
-      cardHolderName,
-      cardNumber,
-      expirationDate,
-      cvv,
-      orderType,
-      tableNumber,
+      paymentMethod: cardDetails.selectedMethod,
+      cardHolderName: cardDetails.cardHolderName,
+      cardNumber: cardDetails.cardNumber,
+      expirationDate: cardDetails.expirationDate,
+      cvv: cardDetails.cvv,
+      orderType: cardDetails.orderType,
+      tableNumber: cardDetails.tableNumber,
       subtotal,
     };
     console.log(ordersSummary);
@@ -158,7 +186,9 @@ const OrderConfirmation = ({
               <div className="payment-method-container">
                 <div
                   className={`payment-method-item ${
-                    selectedMethod === "Credit Card" ? "selected" : ""
+                    cardDetails.selectedMethod === "Credit Card"
+                      ? "selected"
+                      : ""
                   }`}
                   onClick={() => handlePaymentMethodClick("Credit Card")}
                 >
@@ -167,7 +197,7 @@ const OrderConfirmation = ({
                 </div>
                 <div
                   className={`payment-method-item ${
-                    selectedMethod === "Paypal" ? "selected" : ""
+                    cardDetails.selectedMethod === "Paypal" ? "selected" : ""
                   }`}
                   onClick={() => handlePaymentMethodClick("Paypal")}
                 >
@@ -176,7 +206,7 @@ const OrderConfirmation = ({
                 </div>
                 <div
                   className={`payment-method-item ${
-                    selectedMethod === "Cash" ? "selected" : ""
+                    cardDetails.selectedMethod === "Cash" ? "selected" : ""
                   }`}
                   onClick={() => handlePaymentMethodClick("Cash")}
                 >
@@ -192,8 +222,13 @@ const OrderConfirmation = ({
                   className="card-input"
                   type="text"
                   placeholder="Cardholder Name"
-                  value={cardHolderName}
-                  onChange={(e) => setCardHolderName(e.target.value)}
+                  value={cardDetails.cardHolderName}
+                  onChange={(e) =>
+                    setCardDetails((prevInfo) => ({
+                      ...prevInfo,
+                      cardHolderName: e.target.value,
+                    }))
+                  }
                 />
               </div>
               <div className="card-number">
@@ -203,7 +238,7 @@ const OrderConfirmation = ({
                   type="text"
                   placeholder="Card Number"
                   maxLength="19"
-                  value={cardNumber}
+                  value={cardDetails.cardNumber}
                   onChange={handleCardNumber}
                 />
               </div>
@@ -215,10 +250,12 @@ const OrderConfirmation = ({
                     type="text"
                     placeholder="MM/YYYY"
                     maxLength="7"
-                    value={expirationDate}
+                    value={cardDetails.expirationDate}
                     onChange={handleExpirationDate}
                   />
-                  {dateError && <p className="error-message">{dateError}</p>}
+                  {cardDetails.dateError && (
+                    <p className="error-message">{cardDetails.dateError}</p>
+                  )}
                 </div>
                 <div className="cvv">
                   <p className="card-info-title ">CVV</p>
@@ -227,8 +264,13 @@ const OrderConfirmation = ({
                     type="password"
                     placeholder="CVV"
                     maxLength="3"
-                    value={cvv}
-                    onChange={(e) => setCvv(e.target.value)}
+                    value={cardDetails.cvv}
+                    onChange={(e) =>
+                      setCardDetails((prevInfo) => ({
+                        ...prevInfo,
+                        cvv: e.target.value,
+                      }))
+                    }
                   />
                 </div>
               </div>
@@ -238,8 +280,13 @@ const OrderConfirmation = ({
                 <p className="order-summary-title">Order Type</p>
                 <select
                   className="order-type-select-input"
-                  value={orderType}
-                  onChange={(e) => setOrderType(e.target.value)}
+                  value={cardDetails.orderType}
+                  onChange={(e) =>
+                    setCardDetails((prevInfo) => ({
+                      ...prevInfo,
+                      orderType: e.target.value,
+                    }))
+                  }
                 >
                   <option value="Dine In">Dine In</option>
                   <option value="To Go">To Go</option>
@@ -252,17 +299,24 @@ const OrderConfirmation = ({
                   type="text"
                   className="table-number"
                   placeholder="Table No"
-                  value={tableNumber}
-                  onChange={(e) => setTableNumber(e.target.value)}
+                  value={cardDetails.tableNumber}
+                  onChange={(e) =>
+                    setCardDetails((prevInfo) => ({
+                      ...prevInfo,
+                      tableNumber: e.target.value,
+                    }))
+                  }
                 />
               </div>
             </div>
-            <div className="order-confirmation-btns">
-              <button className="cancel-btn">Cancel</button>
-              <button className="confirm-btn" onClick={handleConfirmPayment}>
-                Confirm Payment
-              </button>
-            </div>
+          </div>
+          <div className="order-confirmation-btns">
+            <button className="cancel-btn" onClick={onClose}>
+              Cancel
+            </button>
+            <button className="confirm-btn" onClick={handleConfirmPayment}>
+              Confirm Payment
+            </button>
           </div>
         </div>
       </div>
