@@ -49,6 +49,7 @@ function LoginPage() {
       navigate("/");
     } catch (error) {
       console.error(error);
+      alert("Incorrect email or password");
     }
   }
   async function handleLogout() {
@@ -70,14 +71,18 @@ function LoginPage() {
         <h1 className="login-title">Login</h1>
         {isLoggedIn ? (
           <div>
-            <h1>Welcome {fireStoreUser?.displayName}</h1>
+            <h1 className="login-welcome">
+              Welcome {fireStoreUser?.displayName}
+            </h1>
             {/* <Link>
               
               replace={true} to="/login" onClick={signOut(auth)}
               > Logout
             </Link> */}
 
-            <button onClick={handleLogout}>Logout</button>
+            <button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
         ) : (
           <LoginForm
