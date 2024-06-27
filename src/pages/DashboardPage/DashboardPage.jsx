@@ -1,3 +1,5 @@
+import AnalyticsHeader from "../../components/AnalyticsHeader/AnalyticsHeader";
+import MostTypeOfOrder from "../../components/MostTypeOfOrder/MostTypeOfOrder";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./DashboardPage.scss";
 import { foods } from "@/db/foods";
@@ -14,7 +16,7 @@ const DashboardPage = () => {
     <>
       <Sidebar />
       <main className="dashboard-page">
-        <div>DashboardPage</div>
+        <AnalyticsHeader />
         <div className="dashboard-page-right">
           <div className="most-ordered-container">
             <div className="most-ordered-header">
@@ -37,6 +39,7 @@ const DashboardPage = () => {
               </button>
             </div>
           </div>
+          <MostTypeOfOrder />
         </div>
         {showAll && (
           <ViewAllModal onClose={() => setShowAll(false)}>

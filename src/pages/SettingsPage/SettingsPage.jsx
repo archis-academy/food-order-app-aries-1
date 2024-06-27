@@ -22,7 +22,7 @@ function SettingsPage() {
   };
 
   return (
-    <>
+    <div className="settings-page-container">
       <Sidebar />
       <main className="settings-page">
         <h1>Settings</h1>
@@ -33,7 +33,7 @@ function SettingsPage() {
             : settingComponents["products-management"]}
         </div>
       </main>
-    </>
+    </div>
   );
 }
 

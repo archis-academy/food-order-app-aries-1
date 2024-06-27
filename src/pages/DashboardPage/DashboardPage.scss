@@ -1,6 +1,9 @@
 @import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/index";
 
 .dashboard-page {
+  @extend %main-container;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,11 +14,9 @@
   color: $primary-font-color;
 
   .dashboard-page-right {
-    position: absolute;
     width: 420px;
     height: 100vh;
     padding: 20px;
-    right: 0;
 
     .most-ordered-container {
       background-color: $secondary-bg;
