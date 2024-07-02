@@ -2,6 +2,7 @@
 import "./Sidebar.scss";
 import { NavLink } from "react-router-dom";
 import sidebarLinks from "./SidebarLinks";
+import LogoutLink from "./LogoutLink";
 
 function Sidebar() {
   return (
@@ -24,6 +25,7 @@ function Sidebar() {
               </div>
             );
           })}
+          <LogoutLink />
         </ul>
       </nav>
     </aside>

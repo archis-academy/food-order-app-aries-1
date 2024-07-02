@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./LoginPage.scss";
 import { auth } from "@/config/firebase";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoginForm from "./LoginForm/LoginForm";
 import {
   onAuthStateChanged,
@@ -74,11 +74,6 @@ function LoginPage() {
             <h1 className="login-welcome">
               Welcome {fireStoreUser?.displayName}
             </h1>
-            {/* <Link>
-              
-              replace={true} to="/login" onClick={signOut(auth)}
-              > Logout
-            </Link> */}
 
             <button className="logout-btn" onClick={handleLogout}>
               Logout
