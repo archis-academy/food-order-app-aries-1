@@ -1,3 +1,4 @@
+import OrderReport from "../../components/OrderReport/OrderReport";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./DashboardPage.scss";
 
@@ -6,7 +7,7 @@ const DashboardPage = () => {
     <>
       <Sidebar />
       <main className="dashboard-page">
-        <div>DashboardPage</div>
+        <OrderReport />
       </main>
     </>
   );
