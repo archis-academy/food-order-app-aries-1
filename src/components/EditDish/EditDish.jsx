@@ -1,7 +1,9 @@
 import "./EditDish.scss";
+import { categories } from "../../db/foods";
 
 function EditDish({ setEditDish, dishDetails, setDishDetails }) {
-  const { dishImage, dishName, dishPrice } = dishDetails;
+  const { dishImage, dishName, dishCategory, dishPrice, bowlQuantity } =
+    dishDetails;
 
   const handleDishInputValues = (e) => {
     setDishDetails({
@@ -32,15 +34,42 @@ function EditDish({ setEditDish, dishDetails, setDishDetails }) {
           onChange={handleDishInputValues}
         />
       </div>
-      <div className="dish-price-box dish-info-box">
-        <label htmlFor="dish-price">Dish Price :</label>
-        <input
-          type="number"
-          id="dishPrice"
-          name="dishPrice"
-          value={dishPrice}
+      <div className="dish-category-box dish-info-box">
+        <label htmlFor="dishCategory">Dish Category :</label>
+        <select
+          name="dishCategory"
+          id="dishCategory"
+          value={dishCategory}
           onChange={handleDishInputValues}
-        />
+        >
+          {categories.map((category) => {
+            return <option>{category.name}</option>;
+          })}
+        </select>
+      </div>
+      <div className="price-bowl-box">
+        <div className="dish-price-box dish-info-box">
+          <label htmlFor="dishPrice">Dish Price :</label>
+          <input
+            onChange={handleDishInputValues}
+            type="number"
+            min="0"
+            id="dishPrice"
+            name="dishPrice"
+            value={dishPrice}
+          />
+        </div>
+        <div className="bowl-quantity-box dish-info-box">
+          <label htmlFor="bowlQuantity">Bowl Quantitiy :</label>
+          <input
+            onChange={handleDishInputValues}
+            type="number"
+            min="0"
+            id="bowlQuantity"
+            name="bowlQuantity"
+            value={bowlQuantity}
+          />
+        </div>
       </div>
       <div className="edit-dish-buttons">
         <button

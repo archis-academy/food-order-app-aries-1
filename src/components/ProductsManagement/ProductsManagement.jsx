@@ -4,7 +4,7 @@ import { foods } from "../../db/foods";
 import "./ProductsManagement.scss";
 import CategoryTabs from "../CategoryTabs/CategoryTabs";
 import { useState } from "react";
-import ChangeButtons from "../ChangeButtons/ChangeButtons";
+
 import AddDish from "../AddDish/AddDish";
 import EditDish from "../EditDish/EditDish";
 
@@ -21,14 +21,18 @@ function ProductsManagement() {
   const [dishDetails, setDishDetails] = useState({
     dishImage: "",
     dishName: "",
-    dishPrice: "",
+    dishCategory: "",
+    dishPrice: 0,
+    bowlQuantity: 0,
   });
 
-  const handleDishDetails = (img, name, price) => {
+  const handleDishDetails = (img, name, category, price, bowl) => {
     setDishDetails({
       dishImage: img,
       dishName: name,
+      dishCategory: category,
       dishPrice: price,
+      bowlQuantity: bowl,
     });
   };
 
@@ -62,7 +66,13 @@ function ProductsManagement() {
                 description={food.description}
                 price={food.price}
                 onClick={() => {
-                  handleDishDetails(food.image, food.description, food.price);
+                  handleDishDetails(
+                    food.image,
+                    food.description,
+                    food.category,
+                    food.price,
+                    food.bowl
+                  );
                   setEditDish(true);
                   console.log(dishDetails);
                 }}
@@ -70,7 +80,7 @@ function ProductsManagement() {
             );
           })}
         </div>
-        <ChangeButtons />
+
         {(addDish || editDish) && (
           <div className="overlay-container">
             {addDish && (
