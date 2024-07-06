@@ -1,7 +1,6 @@
 import "./Sidebar.scss";
 import { NavLink } from "react-router-dom";
 import sidebarLinks from "./SidebarLinks";
-// import LogoutLink from "./LogoutLink";
 import { signOut } from "firebase/auth";
 import { auth } from "@/config/firebase";
 

@@ -6,11 +6,13 @@ const LoginForm = ({
   handleChange,
   passwordVisible,
   togglePasswordVisibility,
+  handleRememberMeChange,
+  rememberMe,
 }) => {
   return (
     <form onSubmit={(e) => handleUserLogin(e)}>
       <div className="login-email-container">
-        <img className="login-icon" src="/person-icon.svg" alt="person icon" />
+        <img className="login-icon" src="/mail-icon.svg" alt="person icon" />
         <input
           className="login-email"
           onKeyUp={(e) => handleChange(e)}
@@ -34,6 +36,15 @@ const LoginForm = ({
           onClick={togglePasswordVisibility}
           style={{ cursor: "pointer" }}
         />
+      </div>
+      <div className="login-rememberme-container">
+        <input
+          type="checkbox"
+          id="rememberMe"
+          checked={rememberMe}
+          onChange={handleRememberMeChange}
+        />
+        <span>Remember Me</span>
       </div>
       <input className="login-btn" type="submit" value="Login" />
       <a className="login-signup" href="#">
