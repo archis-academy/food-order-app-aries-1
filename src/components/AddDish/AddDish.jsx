@@ -1,101 +1,115 @@
 import { useState } from "react";
 import "./AddDish.scss";
 import { categories } from "../../db/foods";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../config/firebase"; // import storage
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function AddDish({ setAddDish }) {
   const [dishDetails, setDishDetails] = useState({
-    dishImage: "",
-    dishName: "",
-    dishCategory: "",
-    dishPrice: 0,
-    bowlQuantity: 0,
+    image: "",
+    description: "",
+    category: "",
+    price: 0,
+    bowl: 0,
   });
 
   const handleDishDetails = (e) => {
+    const { name, value, files } = e.target;
     setDishDetails({
       ...dishDetails,
-      [e.target.name]: e.target.value,
+      [name]: files ? files[0] : value,
     });
   };
 
-  const handleDishInfo = () => {
-    console.log(dishDetails);
+  const handleDishInfo = async () => {
+    try {
+      let imageUrl = "";
+      if (dishDetails.image) {
+        const imageRef = ref(storage, `dishes/${dishDetails.image.name}`);
+        const snapshot = await uploadBytes(imageRef, dishDetails.image);
+        imageUrl = await getDownloadURL(snapshot.ref);
+      }
 
-    setDishDetails({
-      dishImage: "",
-      dishName: "",
-      dishCategory: "",
-      dishPrice: 0,
-      bowlQuantity: 0,
-    });
+      const dishesCollection = collection(db, "dishes");
+      await addDoc(dishesCollection, { ...dishDetails, image: imageUrl });
+
+      setDishDetails({
+        image: "",
+        description: "",
+        category: "",
+        price: 0,
+        bowl: 0,
+      });
+      setAddDish(false);
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
+
   return (
     <div className="add-dish-container">
       <div className="dish-image-box dish-info-box">
-        <label htmlFor="dishImage">Dish Image :</label>
+        <label htmlFor="image">Dish Image :</label>
         <input
           onChange={handleDishDetails}
           type="file"
-          id="dishImage"
-          name="dishImage"
+          id="image"
+          name="image"
           accept="image/*"
-          value={dishDetails.dishImage}
         />
       </div>
       <div className="dish-name-box dish-info-box">
-        <label htmlFor="dishName">Dish Name :</label>
+        <label htmlFor="description">Dish Name :</label>
         <input
           onChange={handleDishDetails}
           type="text"
-          id="dishName"
-          name="dishName"
-          value={dishDetails.dishName}
+          id="description"
+          name="description"
+          value={dishDetails.description}
         />
       </div>
       <div className="dish-category-box dish-info-box">
-        <label htmlFor="dishCategory">Dish Category :</label>
+        <label htmlFor="category">Dish Category :</label>
         <select
-          name="dishCategory"
-          id="dishCategory"
+          name="category"
+          id="category"
           value={dishDetails.category}
           onChange={handleDishDetails}
         >
-          {categories.map((category) => {
-            return <option>{category.name}</option>;
-          })}
+          {categories.map((category) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
         </select>
       </div>
       <div className="price-bowl-box">
         <div className="dish-price-box dish-info-box">
-          <label htmlFor="dishPrice">Dish Price :</label>
+          <label htmlFor="price">Dish Price :</label>
           <input
             onChange={handleDishDetails}
             type="number"
             min="0"
-            id="dishPrice"
-            name="dishPrice"
-            value={dishDetails.dishPrice}
+            id="price"
+            name="price"
+            value={dishDetails.price}
           />
         </div>
         <div className="bowl-quantity-box dish-info-box">
-          <label htmlFor="bowlQuantity">Bowl Quantitiy :</label>
+          <label htmlFor="bowl">Bowl Quantity :</label>
           <input
             onChange={handleDishDetails}
             type="number"
             min="0"
-            id="bowlQuantity"
-            name="bowlQuantity"
-            value={dishDetails.bowlQuantity}
+            id="bowl"
+            name="bowl"
+            value={dishDetails.bowl}
           />
         </div>
       </div>
       <div className="add-dish-buttons">
-        <button
-          onClick={() => {
-            setAddDish(false);
-          }}
-          className="cancel-btn"
-        >
+        <button onClick={() => setAddDish(false)} className="cancel-btn">
           Cancel
         </button>
         <button onClick={handleDishInfo} className="add-dish-btn">
@@ -105,4 +119,5 @@ function AddDish({ setAddDish }) {
     </div>
   );
 }
+
 export default AddDish;

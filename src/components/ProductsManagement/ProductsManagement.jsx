@@ -1,15 +1,15 @@
 import ProductCard from "../ProductCard/ProductCard";
 import SettingsHeader from "../SettingsHeader/SettingsHeader";
-import { foods } from "../../db/foods";
+import { getDishes } from "../../db/foods";
 import "./ProductsManagement.scss";
 import CategoryTabs from "../CategoryTabs/CategoryTabs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import AddDish from "../AddDish/AddDish";
 import EditDish from "../EditDish/EditDish";
 
 function ProductsManagement() {
-  const [dishes] = useState(foods);
+  const [dishes, setDishes] = useState([]);
   const [filteredDishes, setFilteredDishes] = useState(dishes);
   const [filterParameters, setFilterParameters] = useState({
     orderType: "All",
@@ -26,13 +26,23 @@ function ProductsManagement() {
     bowlQuantity: 0,
   });
 
-  const handleDishDetails = (img, name, category, price, bowl) => {
+  useEffect(() => {
+    const fetchDishes = async () => {
+      const dishesData = await getDishes();
+      setDishes(dishesData);
+      setFilteredDishes(dishesData);
+    };
+
+    fetchDishes();
+  }, [dishes]);
+
+  const handleDishDetails = (img, name, category, price, quantity) => {
     setDishDetails({
       dishImage: img,
       dishName: name,
       dishCategory: category,
       dishPrice: price,
-      bowlQuantity: bowl,
+      bowlQuantity: quantity,
     });
   };
 
