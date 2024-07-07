@@ -65,13 +65,35 @@
         background-color: darken($accent-color, 10%);
       }
     }
-    .login-signup {
+    .login-signup-div {
+      display: flex;
+      justify-content: space-between;
       margin-top: 20px;
       font-weight: 600;
       color: $primary-bg;
-      text-decoration: none;
-      &:hover {
+      .login-signup {
         text-decoration: underline;
+      }
+    }
+    .login-rememberme-container {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+
+      label {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: $primary-bg;
+        cursor: pointer;
+
+        input[type="checkbox"] {
+          margin-right: 8px;
+          accent-color: $primary-bg;
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
       }
     }
   }

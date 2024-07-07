@@ -8,6 +8,7 @@ const LoginForm = ({
   togglePasswordVisibility,
   handleRememberMeChange,
   rememberMe,
+  formData,
 }) => {
   return (
     <form onSubmit={(e) => handleUserLogin(e)}>
@@ -19,6 +20,7 @@ const LoginForm = ({
           name="email"
           type="email"
           placeholder="Email"
+          // value={formData.email}
         />
       </div>
       <div className="login-password-container">
@@ -29,6 +31,7 @@ const LoginForm = ({
           name="password"
           type={passwordVisible ? "text" : "password"}
           placeholder="Password"
+          // value={formData.password}
         />
         <img
           src={passwordVisible ? "/visibility-off.svg" : "/visibility.svg"}
@@ -38,18 +41,22 @@ const LoginForm = ({
         />
       </div>
       <div className="login-rememberme-container">
-        <input
-          type="checkbox"
-          id="rememberMe"
-          checked={rememberMe}
-          onChange={handleRememberMeChange}
-        />
-        <span>Remember Me</span>
+        <label>
+          <input
+            type="checkbox"
+            checked={rememberMe}
+            onChange={handleRememberMeChange}
+          />
+          Remember Me
+        </label>
       </div>
       <input className="login-btn" type="submit" value="Login" />
-      <a className="login-signup" href="#">
-        Sign Up
-      </a>
+      <div className="login-signup-div">
+        <p>Don't have an accout?</p>
+        <a className="login-signup" href="/signup">
+          Sign Up
+        </a>
+      </div>
     </form>
   );
 };

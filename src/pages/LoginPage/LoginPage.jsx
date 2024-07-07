@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  signInWithPopup,
 } from "firebase/auth";
 import { useAuth } from "@/components/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
@@ -35,10 +36,10 @@ function LoginPage() {
     const rememberedEmail = localStorage.getItem("rememberedEmail");
 
     if (rememberedEmail) {
-      setFormData({
+      setFormData((prevFormData) => ({
+        ...prevFormData,
         email: rememberedEmail,
-        password: "",
-      });
+      }));
       setRememberMe(true);
     }
   }, []);
@@ -85,15 +86,39 @@ function LoginPage() {
       console.error(error);
     }
   }
+  async function handleGoogleLogin() {
+    try {
+      const result = await signInWithPopup(auth, googleAuthProvider);
+      console.log(result);
+      setIsLoggedIn(true);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      toast.error("Google sign-in failed");
+    }
+  }
+
   function togglePasswordVisibility() {
     setPasswordVisible((prevPasswordVisible) => !prevPasswordVisible);
   }
   const authenticatedUserView = (
     <div>
-      <h1 className="login-welcome">Welcome {fireStoreUser?.displayName}</h1>
-      <button className="logout-btn" onClick={handleLogout}>
+      <h1 className="login-welcome">
+        Welcome Again <br /> {fireStoreUser?.displayName}
+      </h1>
+      <LoginForm
+        handleUserLogin={handleUserLogin}
+        handleChange={handleChange}
+        passwordVisible={passwordVisible}
+        togglePasswordVisibility={togglePasswordVisibility}
+        handleRememberMeChange={handleRememberMeChange}
+        rememberMe={rememberMe}
+        formData={formData}
+      />
+
+      {/* <button className="logout-btn" onClick={handleLogout}>
         Logout
-      </button>
+      </button> */}
     </div>
   );
 
@@ -104,14 +129,23 @@ function LoginPage() {
         {isLoggedIn ? (
           authenticatedUserView
         ) : (
-          <LoginForm
-            handleUserLogin={handleUserLogin}
-            handleChange={handleChange}
-            passwordVisible={passwordVisible}
-            togglePasswordVisibility={togglePasswordVisibility}
-            handleRememberMeChange={handleRememberMeChange}
-            rememberMe={rememberMe}
-          />
+          <>
+            <LoginForm
+              handleUserLogin={handleUserLogin}
+              handleChange={handleChange}
+              passwordVisible={passwordVisible}
+              togglePasswordVisibility={togglePasswordVisibility}
+              handleRememberMeChange={handleRememberMeChange}
+              rememberMe={rememberMe}
+              formData={formData}
+            />
+            <div className="google-login">
+              <img className="google-icon" src="google-icon.svg" alt="" />
+              <button className="google-login-btn" onClick={handleGoogleLogin}>
+                Sign in with Google
+              </button>
+            </div>
+          </>
         )}
       </div>
       <ToastContainer />
