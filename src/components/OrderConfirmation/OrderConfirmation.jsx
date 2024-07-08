@@ -3,6 +3,8 @@ import OrderItem from "@/components/OrderItem/OrderItem";
 import { useState, useMemo } from "react";
 import moment from "moment";
 import { useAuth } from "@/components/AuthProvider";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const OrderConfirmation = ({
   orders,
@@ -28,6 +30,7 @@ const OrderConfirmation = ({
     tableNumber: "",
     cvv: "",
     cardHolderName: "",
+    address: "",
   });
 
   const isDateValid = (inputDate) => {
@@ -110,29 +113,53 @@ const OrderConfirmation = ({
   const { fireStoreUser } = useAuth();
 
   const handleConfirmPayment = () => {
-    const ordersSummary = {
-      customer: {
-        uid: fireStoreUser.uid,
-        displayName: fireStoreUser.displayName,
-      },
-      menu: orders.map((order) => ({
-        id: order.id,
-        name: order.description,
-        price: order.price,
-        quantity: order.quantity,
-        note: order.note,
-        totalPrice: order.price * order.quantity,
-      })),
-      paymentMethod: cardDetails.selectedMethod,
-      cardHolderName: cardDetails.cardHolderName,
-      cardNumber: cardDetails.cardNumber,
-      expirationDate: cardDetails.expirationDate,
-      cvv: cardDetails.cvv,
-      orderType: cardDetails.orderType,
-      tableNumber: cardDetails.tableNumber,
-      subtotal,
-    };
-    console.log(ordersSummary);
+    const requiredFields =
+      cardDetails.selectedMethod &&
+      cardDetails.cardHolderName &&
+      cardDetails.cardNumber &&
+      cardDetails.expirationDate &&
+      cardDetails.cvv &&
+      cardDetails.orderType;
+
+    const validForDineIn =
+      cardDetails.orderType === "Dine In" && cardDetails.tableNumber;
+    const validForDelivery =
+      cardDetails.orderType === "Delivery" && cardDetails.address;
+    const validForToGo = cardDetails.orderType === "To Go";
+
+    if (
+      requiredFields &&
+      (validForDineIn || validForDelivery || validForToGo)
+    ) {
+      const ordersSummary = {
+        customer: {
+          uid: fireStoreUser.uid,
+          displayName: fireStoreUser.displayName,
+        },
+        menu: orders.map((order) => ({
+          id: order.id,
+          name: order.description,
+          price: order.price,
+          quantity: order.quantity,
+          note: order.note,
+          totalPrice: order.price * order.quantity,
+          category: order.category,
+        })),
+        paymentMethod: cardDetails.selectedMethod,
+        cardHolderName: cardDetails.cardHolderName,
+        cardNumber: cardDetails.cardNumber,
+        expirationDate: cardDetails.expirationDate,
+        cvv: cardDetails.cvv,
+        orderType: cardDetails.orderType,
+        tableNumber: cardDetails.tableNumber,
+        address: cardDetails.address,
+        subtotal,
+      };
+      console.log(ordersSummary);
+      toast.success("Payment confirmed successfully!");
+    } else {
+      toast.warn("Please fill in all fields");
+    }
   };
 
   return (
@@ -293,21 +320,40 @@ const OrderConfirmation = ({
                   <option value="Delivery">Delivery</option>
                 </select>
               </div>
-              <div className="table-no">
-                <p className="order-summary-title">Table No</p>
-                <input
-                  type="text"
-                  className="table-number"
-                  placeholder="Table No"
-                  value={cardDetails.tableNumber}
-                  onChange={(e) =>
-                    setCardDetails((prevInfo) => ({
-                      ...prevInfo,
-                      tableNumber: e.target.value,
-                    }))
-                  }
-                />
-              </div>
+              {cardDetails.orderType === "Dine In" && (
+                <div className="table-no">
+                  <p className="order-summary-title">Table No</p>
+                  <input
+                    type="number"
+                    className="table-number"
+                    placeholder="Table No"
+                    value={cardDetails.tableNumber}
+                    onChange={(e) =>
+                      setCardDetails((prevInfo) => ({
+                        ...prevInfo,
+                        tableNumber: e.target.value,
+                      }))
+                    }
+                  />
+                </div>
+              )}
+              {cardDetails.orderType === "Delivery" && (
+                <div className="address">
+                  <p className="order-summary-title">Address</p>
+                  <input
+                    type="text"
+                    className="address-input"
+                    placeholder="Please Enter Delivery Address"
+                    value={cardDetails.address}
+                    onChange={(e) =>
+                      setCardDetails((prevInfo) => ({
+                        ...prevInfo,
+                        address: e.target.value,
+                      }))
+                    }
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div className="order-confirmation-btns">
@@ -320,6 +366,7 @@ const OrderConfirmation = ({
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
