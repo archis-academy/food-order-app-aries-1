@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "apexcharts": "^3.49.1",
+    "apexcharts": "^3.50.0",
     "axios": "^1.6.7",
     "firebase": "^10.9.0",
     "moment": "^2.30.1",

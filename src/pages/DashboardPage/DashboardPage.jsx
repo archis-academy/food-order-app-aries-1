@@ -2,15 +2,25 @@ import AnalyticsHeader from "../../components/AnalyticsHeader/AnalyticsHeader";
 import MostTypeOfOrder from "../../components/MostTypeOfOrder/MostTypeOfOrder";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./DashboardPage.scss";
-import { foods } from "@/db/foods";
+import { getDishes } from "../../db/foods";
 import MostOrderedFood from "./MostOrderedFood/MostOrderedFood";
 import ViewAllModal from "./ViewAllModal/ViewAllModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const DashboardPage = () => {
   const [showAll, setShowAll] = useState(false);
+  const [dishes, setDishes] = useState([]);
 
-  const topFoods = foods.slice(0, 3);
+  useEffect(() => {
+    const fetchDishes = async () => {
+      const dishesData = await getDishes();
+      setDishes(dishesData);
+    };
+
+    fetchDishes();
+  }, []);
+
+  const topFoods = dishes.slice(0, 3);
 
   return (
     <>
