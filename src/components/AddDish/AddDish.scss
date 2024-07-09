@@ -14,7 +14,8 @@
   align-items: center;
   padding: 30px 0;
   border-bottom: 1px solid $line-color;
-  input {
+  input,
+  select {
     background-color: #393c49;
     color: $primary-font-color;
     outline: none;
@@ -25,6 +26,21 @@
     padding: 12px 20px;
     &::-webkit-file-upload-button {
       display: none;
+    }
+  }
+}
+.price-bowl-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 50px;
+  border-bottom: 1px solid $line-color;
+  .dish-info-box {
+    width: 50%;
+    border: none;
+    input {
+      width: 33%;
     }
   }
 }
