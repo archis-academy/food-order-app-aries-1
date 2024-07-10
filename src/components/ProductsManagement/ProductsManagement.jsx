@@ -34,7 +34,7 @@ function ProductsManagement() {
     };
 
     fetchDishes();
-  }, [dishes]);
+  }, []);
 
   const handleDishDetails = (img, name, category, price, quantity) => {
     setDishDetails({

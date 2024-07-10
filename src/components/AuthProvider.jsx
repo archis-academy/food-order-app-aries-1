@@ -27,12 +27,18 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      if (user) {
+      if (user && !localStorage.getItem("currentUser")) {
         const userDoc = doc(db, "users", user.uid);
         const userSnap = await getDoc(userDoc);
         if (userSnap.exists()) {
           setFireStoreUser({ ...user, ...userSnap.data() });
+          localStorage.setItem(
+            "currentUser",
+            JSON.stringify({ ...user, ...userSnap.data() })
+          );
         }
+      } else {
+        setFireStoreUser(JSON.parse(localStorage.getItem("currentUser")));
       }
     };
     fetchUserDetails();
@@ -56,7 +62,7 @@ function AuthProvider({ children }) {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context.user===undefined) {
+  if (context.user === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;

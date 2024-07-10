@@ -139,11 +139,19 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 export const getDishes = async () => {
-  const dishesCollection = collection(db, "dishes");
-  const dishesSnapshot = await getDocs(dishesCollection);
-  const dishesList = dishesSnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  let dishesList = [];
+  if (!localStorage.getItem("dishes")) {
+    const dishesCollection = collection(db, "dishes");
+    const dishesSnapshot = await getDocs(dishesCollection);
+    dishesList = dishesSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    localStorage.setItem("dishes", JSON.stringify(dishesList));
+  } else {
+    dishesList = JSON.parse(localStorage.getItem("dishes"));
+  }
+
   return dishesList;
 };
