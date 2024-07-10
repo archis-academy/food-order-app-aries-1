@@ -17,14 +17,6 @@ function LoginPage() {
   const { fireStoreUser } = useAuth();
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(!!fireStoreUser);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setIsLoggedIn(!!currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -33,16 +25,25 @@ function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
-    const rememberedEmail = localStorage.getItem("rememberedEmail");
-
-    if (rememberedEmail) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        email: rememberedEmail,
-      }));
-      setRememberMe(true);
-    }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setIsLoggedIn(!!currentUser);
+    });
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      const rememberedEmail = localStorage.getItem("rememberedEmail");
+
+      if (rememberedEmail) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          email: rememberedEmail,
+        }));
+        setRememberMe(true);
+      }
+    }
+  }, [isLoggedIn]);
 
   function handleChange(event) {
     setFormData({
@@ -116,9 +117,9 @@ function LoginPage() {
         formData={formData}
       />
 
-      {/* <button className="logout-btn" onClick={handleLogout}>
+      <button className="logout-btn" onClick={handleLogout}>
         Logout
-      </button> */}
+      </button>
     </div>
   );
 

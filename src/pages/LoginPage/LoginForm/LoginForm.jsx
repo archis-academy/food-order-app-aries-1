@@ -16,22 +16,22 @@ const LoginForm = ({
         <img className="login-icon" src="/mail-icon.svg" alt="person icon" />
         <input
           className="login-email"
-          onKeyUp={(e) => handleChange(e)}
+          onChange={(e) => handleChange(e)}
           name="email"
           type="email"
           placeholder="Email"
-          // value={formData.email}
+          value={formData.email}
         />
       </div>
       <div className="login-password-container">
         <img className="login-icon" src="/lock-icon.svg" alt="lock icon" />
         <input
           className="login-password"
-          onKeyUp={(e) => handleChange(e)}
+          onChange={(e) => handleChange(e)}
           name="password"
           type={passwordVisible ? "text" : "password"}
           placeholder="Password"
-          // value={formData.password}
+          value={formData.password}
         />
         <img
           src={passwordVisible ? "/visibility-off.svg" : "/visibility.svg"}
