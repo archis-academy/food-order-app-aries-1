@@ -25,14 +25,24 @@ const OrderConfirmation = ({
     expirationDate: "",
     dateError: "",
     cardNumber: "",
-    selectedMethod: "",
+    selectedMethod: "Credit Card",
     orderType: "Dine In",
     tableNumber: "",
     cvv: "",
     cardHolderName: "",
     address: "",
   });
-
+  const initialCardDetails = {
+    expirationDate: "",
+    dateError: "",
+    cardNumber: "",
+    selectedMethod: "Credit Card",
+    orderType: "Dine In",
+    tableNumber: "",
+    cvv: "",
+    cardHolderName: "",
+    address: "",
+  };
   const isDateValid = (inputDate) => {
     const date = moment(inputDate, "MM/YYYY");
     const today = moment().startOf("month");
@@ -154,9 +164,11 @@ const OrderConfirmation = ({
         tableNumber: cardDetails.tableNumber,
         address: cardDetails.address,
         subtotal,
+        status: "Pending",
       };
       console.log(ordersSummary);
       toast.success("Payment confirmed successfully!");
+      setCardDetails(initialCardDetails);
     } else {
       toast.warn("Please fill in all fields");
     }
