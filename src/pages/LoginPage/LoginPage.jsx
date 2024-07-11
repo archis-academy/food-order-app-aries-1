@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./LoginPage.scss";
-import { auth, googleProvider } from "@/config/firebase";
+import { auth, googleProvider, db } from "@/config/firebase";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "./LoginForm/LoginForm";
 import {
@@ -10,6 +10,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useAuth } from "@/components/AuthProvider";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -93,6 +94,19 @@ function LoginPage() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       console.log(result);
+
+      const user = result.user;
+      const userDoc = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userDoc);
+      if (!userSnap.exists()) {
+        await setDoc(userDoc, {
+          cart: null,
+          displayName: user.displayName,
+          email: user.email,
+          phoneNumber: null,
+          role: user.role || "user",
+        });
+      }
       setIsLoggedIn(true);
       navigate("/");
     } catch (error) {
@@ -117,16 +131,6 @@ function LoginPage() {
       <h1 className="login-welcome">
         Welcome Again <br /> {fireStoreUser?.displayName}
       </h1>
-      <LoginForm
-        handleUserLogin={handleUserLogin}
-        handleChange={handleChange}
-        passwordVisible={passwordVisible}
-        togglePasswordVisibility={togglePasswordVisibility}
-        handleRememberMeChange={handleRememberMeChange}
-        rememberMe={rememberMe}
-        formData={formData}
-      />
-
       <button className="logout-btn" onClick={handleLogout}>
         Logout
       </button>

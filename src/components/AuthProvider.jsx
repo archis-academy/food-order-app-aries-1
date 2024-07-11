@@ -1,7 +1,8 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "@/config/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { categories } from "../db/foods";
 
 const AuthContext = createContext(null);
 
@@ -13,10 +14,20 @@ function AuthProvider({ children }) {
   useEffect(() => {
     let unsubscribe;
 
-    unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setLoading(false);
       if (currentUser) {
         setUser(currentUser);
+        const userDoc = doc(db, "users", currentUser.uid);
+        const userSnap = await getDoc(userDoc);
+
+        if (!userSnap.exists()) {
+          await setDoc(userDoc, {
+            displayName: currentUser.displayName,
+            email: currentUser.email,
+            role: currentUser.role,
+          });
+        }
       } else {
         setUser(null);
       }
