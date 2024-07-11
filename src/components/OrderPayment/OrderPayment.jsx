@@ -10,6 +10,9 @@ const OrderPayment = ({
   onClose,
   onDeleteItem,
   onUpdateQuantity,
+  onUpdateNote,
+
+  onContinueToPayment,
 }) => {
   const [activeOrderType, setActiveOrderType] = useState("");
 
@@ -78,13 +81,16 @@ const OrderPayment = ({
 
       <div className="orders-content">
         <ul>
-          {filteredOrders.map((order, index) => {
+          {filteredOrders.map((order) => {
             return (
               <OrderItem
-                key={index}
+                key={order.id}
                 order={order}
                 deleteItem={onDeleteItem}
                 updateQuantity={onUpdateQuantity}
+                isArrowActive={true}
+                isNoteActive={true}
+                updateNote={onUpdateNote}
               />
             );
           })}
@@ -101,7 +107,12 @@ const OrderPayment = ({
             <p className="subtotal-amount">$ {subtotal.toFixed(2)}</p>
           </div>
         </div>
-        <button className="continue-to-payment-btn">Continue to Payment</button>
+        <button
+          className="continue-to-payment-btn"
+          onClick={onContinueToPayment}
+        >
+          Continue to Payment
+        </button>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ const DishesMenu = ({
     };
     setFilterParameters(newFilterParameters);
   }
-
+  console.log(dishes);
   useEffect(() => {
     const filteredDishes = dishes.filter((dish) => {
       const isOrderTypeMatch =

@@ -1,15 +1,15 @@
 import ProductCard from "../ProductCard/ProductCard";
 import SettingsHeader from "../SettingsHeader/SettingsHeader";
-import { foods } from "../../db/foods";
+import { getDishes } from "../../db/foods";
 import "./ProductsManagement.scss";
 import CategoryTabs from "../CategoryTabs/CategoryTabs";
-import { useState } from "react";
-import ChangeButtons from "../ChangeButtons/ChangeButtons";
+import { useState, useEffect } from "react";
+
 import AddDish from "../AddDish/AddDish";
 import EditDish from "../EditDish/EditDish";
 
 function ProductsManagement() {
-  const [dishes] = useState(foods);
+  const [dishes, setDishes] = useState([]);
   const [filteredDishes, setFilteredDishes] = useState(dishes);
   const [filterParameters, setFilterParameters] = useState({
     orderType: "All",
@@ -21,14 +21,28 @@ function ProductsManagement() {
   const [dishDetails, setDishDetails] = useState({
     dishImage: "",
     dishName: "",
-    dishPrice: "",
+    dishCategory: "",
+    dishPrice: 0,
+    bowlQuantity: 0,
   });
 
-  const handleDishDetails = (img, name, price) => {
+  useEffect(() => {
+    const fetchDishes = async () => {
+      const dishesData = await getDishes();
+      setDishes(dishesData);
+      setFilteredDishes(dishesData);
+    };
+
+    fetchDishes();
+  }, []);
+
+  const handleDishDetails = (img, name, category, price, quantity) => {
     setDishDetails({
       dishImage: img,
       dishName: name,
+      dishCategory: category,
       dishPrice: price,
+      bowlQuantity: quantity,
     });
   };
 
@@ -62,7 +76,13 @@ function ProductsManagement() {
                 description={food.description}
                 price={food.price}
                 onClick={() => {
-                  handleDishDetails(food.image, food.description, food.price);
+                  handleDishDetails(
+                    food.image,
+                    food.description,
+                    food.category,
+                    food.price,
+                    food.bowl
+                  );
                   setEditDish(true);
                   console.log(dishDetails);
                 }}
@@ -70,7 +90,7 @@ function ProductsManagement() {
             );
           })}
         </div>
-        <ChangeButtons />
+
         {(addDish || editDish) && (
           <div className="overlay-container">
             {addDish && (
