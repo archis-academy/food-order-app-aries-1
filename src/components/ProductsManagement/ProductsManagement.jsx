@@ -12,18 +12,18 @@ function ProductsManagement() {
   const [dishes, setDishes] = useState([]);
   const [filteredDishes, setFilteredDishes] = useState(dishes);
   const [filterParameters, setFilterParameters] = useState({
-    orderType: "All",
     category: "all",
     searchQuery: "",
   });
   const [addDish, setAddDish] = useState(false);
   const [editDish, setEditDish] = useState(false);
+  const [updateDishes, setUpdateDishes] = useState(false);
   const [dishDetails, setDishDetails] = useState({
-    dishImage: "",
-    dishName: "",
-    dishCategory: "",
-    dishPrice: 0,
-    bowlQuantity: 0,
+    image: "",
+    description: "",
+    category: "",
+    price: 0,
+    bowl: 0,
   });
 
   useEffect(() => {
@@ -34,15 +34,16 @@ function ProductsManagement() {
     };
 
     fetchDishes();
-  }, []);
+  }, []); //updateDishes
 
   const handleDishDetails = (img, name, category, price, quantity) => {
     setDishDetails({
-      dishImage: img,
-      dishName: name,
-      dishCategory: category,
-      dishPrice: price,
-      bowlQuantity: quantity,
+      image: img,
+      description: name,
+      category: category,
+      price: price,
+      bowl: quantity,
+      id: "",
     });
   };
 
@@ -96,8 +97,7 @@ function ProductsManagement() {
             {addDish && (
               <AddDish
                 setAddDish={setAddDish}
-                dishDetails={dishDetails}
-                setDishDetails={setDishDetails}
+                setUpdateDishes={setUpdateDishes}
               />
             )}
             {editDish && (

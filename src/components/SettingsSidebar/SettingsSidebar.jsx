@@ -1,11 +1,16 @@
 import "./SettingsSidebar.scss";
 import { NavLink } from "react-router-dom";
 import tabs from "./Tabs";
+import { useAuth } from "@/components/AuthProvider";
 
 function SettingsSidebar() {
-  return (
-    <div className="sidebar-container">
-      {tabs.map((tab) => (
+  const { fireStoreUser } = useAuth();
+
+  if (!fireStoreUser) return <p>Loading...</p>;
+
+  const filteredTabs = tabs.map((tab) => {
+    if (tab.role.includes(fireStoreUser.role)) {
+      return (
         <NavLink
           key={tab.id}
           to={tab.path}
@@ -21,9 +26,11 @@ function SettingsSidebar() {
             </div>
           </div>
         </NavLink>
-      ))}
-    </div>
-  );
+      );
+    }
+  });
+
+  return <div className="sidebar-container">{filteredTabs}</div>;
 }
 
 export default SettingsSidebar;

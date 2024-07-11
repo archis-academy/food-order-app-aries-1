@@ -14,6 +14,7 @@ const tabs = [
     title: "Appearance",
     detail: "Dark and light mode, font size",
     path: "/settings/appearance",
+    role: ["user", "admin"],
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ const tabs = [
     title: "Your Restaurant",
     detail: "Dark and light mode, font size",
     path: "/settings/your-restaurant",
+    role: ["admin"],
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ const tabs = [
     title: "Products Management",
     detail: "Manage your product, pricing, etc",
     path: "/settings/product-management",
+    role: ["admin"],
   },
   {
     id: 4,
@@ -35,6 +38,7 @@ const tabs = [
     title: "Notifications",
     detail: "Customize your notifications",
     path: "/settings/notifications",
+    role: ["user", "admin"],
   },
   {
     id: 5,
@@ -42,6 +46,7 @@ const tabs = [
     title: "Security",
     detail: "Configure your password, PIN, etc",
     path: "/settings/security",
+    role: ["user", "admin"],
   },
   {
     id: 6,
@@ -49,6 +54,7 @@ const tabs = [
     title: "About Us",
     detail: "Find out more about posly",
     path: "/settings/about-us",
+    role: ["user", "admin"],
   },
 ];
 

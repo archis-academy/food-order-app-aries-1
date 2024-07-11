@@ -1,11 +1,10 @@
 import { useState } from "react";
 import "./AddDish.scss";
-import { categories } from "../../db/foods";
+import { getCategories } from "../../db/foods";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../config/firebase"; // import storage
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db } from "../../config/firebase";
 
-function AddDish({ setAddDish }) {
+function AddDish({ setAddDish, setUpdateDishes }) {
   const [dishDetails, setDishDetails] = useState({
     image: "",
     description: "",
@@ -13,6 +12,17 @@ function AddDish({ setAddDish }) {
     price: 0,
     bowl: 0,
   });
+
+  let categories;
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesData = await getCategories();
+      categories = categoriesData;
+      console.log(categories);
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleDishDetails = (e) => {
     const { name, value, files } = e.target;
@@ -24,15 +34,8 @@ function AddDish({ setAddDish }) {
 
   const handleDishInfo = async () => {
     try {
-      let imageUrl = "";
-      if (dishDetails.image) {
-        const imageRef = ref(storage, `dishes/${dishDetails.image.name}`);
-        const snapshot = await uploadBytes(imageRef, dishDetails.image);
-        imageUrl = await getDownloadURL(snapshot.ref);
-      }
-
       const dishesCollection = collection(db, "dishes");
-      await addDoc(dishesCollection, { ...dishDetails, image: imageUrl });
+      await addDoc(dishesCollection, dishDetails);
 
       setDishDetails({
         image: "",
@@ -41,6 +44,8 @@ function AddDish({ setAddDish }) {
         price: 0,
         bowl: 0,
       });
+      localStorage.removeItem("dishes");
+      setUpdateDishes((prev) => !prev);
       setAddDish(false);
     } catch (error) {
       console.log("Error:", error);
@@ -53,10 +58,10 @@ function AddDish({ setAddDish }) {
         <label htmlFor="image">Dish Image :</label>
         <input
           onChange={handleDishDetails}
-          type="file"
+          type="text"
           id="image"
           name="image"
-          accept="image/*"
+          value={image}
         />
       </div>
       <div className="dish-name-box dish-info-box">

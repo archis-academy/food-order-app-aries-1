@@ -1,6 +1,6 @@
-import { categories } from "@/db/foods";
 import { useEffect, useState } from "react";
 import "./CategoryTabs.scss";
+import { getCategories } from "../../db/foods";
 
 function CategoryTabs({
   setFilteredDishes,
@@ -8,6 +8,20 @@ function CategoryTabs({
   filterParameters,
   setFilterParameters,
 }) {
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesData = await getCategories();
+      setCategories(categoriesData);
+      console.log(categories);
+      setActiveCategory(categories[0]);
+    };
+
+    fetchCategories();
+  }, []);
+
   function filterDishesByCategory(categoryKey) {
     const newFilterParameters = {
       ...filterParameters,
@@ -22,20 +36,16 @@ function CategoryTabs({
       filteredDishes = dishes;
     } else {
       filteredDishes = dishes.filter((dish) => {
-        const isOrderTypeMatch =
-          filterParameters.orderType === "All" ||
-          dish.orderType === filterParameters.orderType;
         const isCategoryMatch = dish.category.key === filterParameters.category;
         const isSearchQueryMatch = dish.description
           .toLowerCase()
           .includes(filterParameters.searchQuery.toLowerCase());
-        return isOrderTypeMatch && isCategoryMatch && isSearchQueryMatch;
+        return isCategoryMatch && isSearchQueryMatch;
       });
     }
     setFilteredDishes(filteredDishes);
   }, [filterParameters]);
 
-  const [activeCategory, setActiveCategory] = useState(categories[0]);
   function handleActiveCategory(category) {
     setActiveCategory(category);
   }

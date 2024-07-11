@@ -1,9 +1,19 @@
 import "./EditDish.scss";
-import { categories } from "../../db/foods";
+import { getCategories } from "../../db/foods";
 
 function EditDish({ setEditDish, dishDetails, setDishDetails }) {
-  const { dishImage, dishName, dishCategory, dishPrice, bowlQuantity } =
-    dishDetails;
+  const { image, description, category, price, bowl } = dishDetails;
+
+  let categories;
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesData = await getCategories();
+      categories = categoriesData;
+      console.log(categories);
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleDishInputValues = (e) => {
     setDishDetails({
@@ -14,32 +24,44 @@ function EditDish({ setEditDish, dishDetails, setDishDetails }) {
 
   const handleEditDish = () => {
     console.log(dishDetails);
-    setDishDetails({ dishImage: "", dishName: "", dishPrice: "" });
+    setDishDetails({
+      image: "",
+      description: "",
+      category: "",
+      price: 0,
+      bowl: 0,
+    });
     setEditDish(false);
   };
 
   return (
     <div className="edit-dish-container">
       <div className="dish-image-box dish-info-box">
-        <label htmlFor="dish-image">Dish Image :</label>
-        <input type="file" id="dishImage" name="dishImage" accept="image/*" />
-      </div>
-      <div className="dish-name-box dish-info-box">
-        <label htmlFor="dish-name">Dish Name :</label>
+        <label htmlFor="image">Dish Image :</label>
         <input
           type="text"
-          id="editDishName"
-          name="dishName"
-          value={dishName}
+          id="image"
+          name="image"
+          value={image}
+          onChange={handleDishInputValues}
+        />
+      </div>
+      <div className="dish-name-box dish-info-box">
+        <label htmlFor="description">Dish Name :</label>
+        <input
+          type="text"
+          id="description"
+          name="description"
+          value={description}
           onChange={handleDishInputValues}
         />
       </div>
       <div className="dish-category-box dish-info-box">
-        <label htmlFor="dishCategory">Dish Category :</label>
+        <label htmlFor="category">Dish Category :</label>
         <select
-          name="dishCategory"
-          id="dishCategory"
-          value={dishCategory}
+          name="category"
+          id="category"
+          value={category}
           onChange={handleDishInputValues}
         >
           {categories.map((category) => {
@@ -49,25 +71,25 @@ function EditDish({ setEditDish, dishDetails, setDishDetails }) {
       </div>
       <div className="price-bowl-box">
         <div className="dish-price-box dish-info-box">
-          <label htmlFor="dishPrice">Dish Price :</label>
+          <label htmlFor="price">Dish Price :</label>
           <input
             onChange={handleDishInputValues}
             type="number"
             min="0"
-            id="dishPrice"
-            name="dishPrice"
-            value={dishPrice}
+            id="price"
+            name="price"
+            value={price}
           />
         </div>
         <div className="bowl-quantity-box dish-info-box">
-          <label htmlFor="bowlQuantity">Bowl Quantitiy :</label>
+          <label htmlFor="bowl">Bowl Quantitiy :</label>
           <input
             onChange={handleDishInputValues}
             type="number"
             min="0"
-            id="bowlQuantity"
-            name="bowlQuantity"
-            value={bowlQuantity}
+            id="bowl"
+            name="bowl"
+            value={bowl}
           />
         </div>
       </div>
