@@ -7,7 +7,7 @@ const orders = [
     name: "Eren Jaegar",
     menu: [foods[0]],
     price: 125,
-    status: "Completed",
+    status: "completed",
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ const orders = [
     name: "Reiner Braunn",
     menu: [foods[1]],
     price: 145,
-    status: "Preparing",
+    status: "preparing",
   },
   {
     id: 3,
@@ -23,7 +23,7 @@ const orders = [
     name: "Levi Ackermann",
     menu: [foods[2]],
     price: 105,
-    status: "Pending",
+    status: "pending",
   },
   {
     id: 4,
@@ -31,7 +31,7 @@ const orders = [
     name: "Historia Reiss",
     menu: [foods[3]],
     price: 45,
-    status: "Completed",
+    status: "completed",
   },
   {
     id: 5,
@@ -39,7 +39,7 @@ const orders = [
     name: "Hanji Zoe",
     menu: [foods[4]],
     price: 245,
-    status: "Completed",
+    status: "completed",
   },
 ];
 

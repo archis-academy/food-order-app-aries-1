@@ -30,45 +30,52 @@
   }
 }
 
-.order-cell {
-  // margin-left: 20px;
-}
-
 .order-name-cell {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.Completed {
+.completed {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100px;
-  height: 10px;
+  height: 50px;
   border-radius: 30px;
   background-color: #6be2be3d;
   color: #50d1aa;
 }
 
-.Preparing {
+.preparing {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100px;
-  height: 20px;
+  height: 50px;
   border-radius: 30px;
   background-color: #9290fe33;
   color: #9290fe;
 }
 
-.Pending {
+.pending {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100px;
-  height: 20px;
+  height: 50px;
   border-radius: 30px;
   background-color: #ffb57233;
   color: #ffb572;
+}
+
+.status-button {
+  text-align: center;
+  outline: none;
+  width: 100px;
+  height: 50px;
+}
+
+.status-button option {
+  background-color: $secondary-bg;
 }

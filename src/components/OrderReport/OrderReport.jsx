@@ -1,22 +1,51 @@
 import "./OrderReport.scss";
-import { orders } from "@/db/orders";
+import { orders as initialOrders } from "@/db/orders";
+import { useState } from "react";
 
 const OrderCard = () => {
   const orderClassNames = {
-    Completed: "Completed",
-    Preparing: "Preparing",
-    Pending: "Pending",
+    completed: "completed",
+    preparing: "preparing",
+    pending: "pending",
+  };
+
+  const [orders, setOrders] = useState(initialOrders);
+
+  const handleStatusChange = (e, id) => {
+    const newStatus = e.target.value;
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.id === id ? { ...order, status: newStatus } : order
+      )
+    );
   };
 
   const orderRows = orders.map((order) => (
-    <tr key={order}>
+    <tr key={order.id}>
       <td className="order-name-cell">
         <img src={order.image} />
         {order.name}
       </td>
       <td>{order.menu[0].description}</td>
       <td>${order.price}</td>
-      <td className={orderClassNames[order.status]}>{order.status}</td>
+      <td>
+        <select
+          onChange={(e) => handleStatusChange(e, order.id)}
+          value={order.status}
+          className={`status-button ${orderClassNames[order.status]}`}
+        >
+          <option value={"completed"} className="completed">
+            Completed
+          </option>
+          <option value={"preparing"} className="preparing">
+            Preparing
+          </option>
+          <option value={"pending"} className="pending">
+            Pending
+          </option>
+          {/* {order.status} */}
+        </select>
+      </td>
     </tr>
   ));
 
