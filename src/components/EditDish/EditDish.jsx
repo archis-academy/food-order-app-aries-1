@@ -1,14 +1,15 @@
 import "./EditDish.scss";
 import { getCategories } from "../../db/foods";
+import { useEffect, useState } from "react";
 
 function EditDish({ setEditDish, dishDetails, setDishDetails }) {
-  const { image, description, category, price, bowl } = dishDetails;
+  const { image, description, category, price, bowl, id } = dishDetails;
+  const [categories, setCategories] = useState([]);
 
-  let categories;
   useEffect(() => {
     const fetchCategories = async () => {
       const categoriesData = await getCategories();
-      categories = categoriesData;
+      setCategories(categoriesData);
       console.log(categories);
     };
 
@@ -65,7 +66,7 @@ function EditDish({ setEditDish, dishDetails, setDishDetails }) {
           onChange={handleDishInputValues}
         >
           {categories.map((category) => {
-            return <option>{category.name}</option>;
+            return <option key={category.id}>{category.name}</option>;
           })}
         </select>
       </div>

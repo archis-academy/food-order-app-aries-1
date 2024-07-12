@@ -25,7 +25,7 @@ const DishesMenu = ({
         dish.orderType === filterParameters.orderType;
 
       const isCategoryMatch =
-        filterParameters.category === "all" ||
+        filterParameters.category === "All" ||
         dish.category.key === filterParameters.category;
 
       const isSearchQueryMatch = dish.description

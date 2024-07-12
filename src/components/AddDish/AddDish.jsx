@@ -1,54 +1,74 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./AddDish.scss";
 import { getCategories } from "../../db/foods";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function AddDish({ setAddDish, setUpdateDishes }) {
+function AddDish({ setAddDish, fetchDishes }) {
   const [dishDetails, setDishDetails] = useState({
     image: "",
     description: "",
-    category: "",
+    category: {},
     price: 0,
     bowl: 0,
   });
+  const [categories, setCategories] = useState([]);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  let categories;
   useEffect(() => {
     const fetchCategories = async () => {
       const categoriesData = await getCategories();
-      categories = categoriesData;
+      setCategories(categoriesData);
       console.log(categories);
     };
 
     fetchCategories();
   }, []);
 
-  const handleDishDetails = (e) => {
-    const { name, value, files } = e.target;
+  useEffect(() => {
+    const { image, description, category, price, bowl } = dishDetails;
+    if (image && description && category.name && price > 0 && bowl > 0) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [dishDetails]);
+
+  const handleDishDetails = (e, categoryInfo) => {
+    const { name, value } = e.target;
     setDishDetails({
       ...dishDetails,
-      [name]: files ? files[0] : value,
+      [name]: value,
+      category: name === "category" ? categoryInfo : dishDetails.category,
     });
   };
 
   const handleDishInfo = async () => {
-    try {
-      const dishesCollection = collection(db, "dishes");
-      await addDoc(dishesCollection, dishDetails);
+    if (isFormValid) {
+      try {
+        const dishesCollection = collection(db, "dishes");
+        await addDoc(dishesCollection, dishDetails);
+        toast.success("Dish added successfully!");
 
-      setDishDetails({
-        image: "",
-        description: "",
-        category: "",
-        price: 0,
-        bowl: 0,
-      });
-      localStorage.removeItem("dishes");
-      setUpdateDishes((prev) => !prev);
-      setAddDish(false);
-    } catch (error) {
-      console.log("Error:", error);
+        setDishDetails({
+          image: "",
+          description: "",
+          category: {},
+          price: 0,
+          bowl: 0,
+        });
+
+        localStorage.removeItem("dishes");
+        await fetchDishes();
+
+        setAddDish(false);
+      } catch (error) {
+        toast.error("There was an issue adding the dish.");
+      }
+    } else {
+      toast.warn("Please fill in all the fields!");
     }
   };
 
@@ -61,7 +81,7 @@ function AddDish({ setAddDish, setUpdateDishes }) {
           type="text"
           id="image"
           name="image"
-          value={image}
+          value={dishDetails.image}
         />
       </div>
       <div className="dish-name-box dish-info-box">
@@ -79,9 +99,14 @@ function AddDish({ setAddDish, setUpdateDishes }) {
         <select
           name="category"
           id="category"
-          value={dishDetails.category}
-          onChange={handleDishDetails}
+          onChange={(e) => {
+            const selectedCategory = categories.find(
+              (category) => category.name === e.target.value
+            );
+            handleDishDetails(e, selectedCategory);
+          }}
         >
+          <option value="">Select a category</option>
           {categories.map((category) => (
             <option key={category.id} value={category.name}>
               {category.name}
@@ -121,6 +146,7 @@ function AddDish({ setAddDish, setUpdateDishes }) {
           Add Dish
         </button>
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -16,7 +16,7 @@ function CategoryTabs({
       const categoriesData = await getCategories();
       setCategories(categoriesData);
       console.log(categories);
-      setActiveCategory(categories[0]);
+      setActiveCategory("All");
     };
 
     fetchCategories();
@@ -32,7 +32,7 @@ function CategoryTabs({
 
   useEffect(() => {
     let filteredDishes = [];
-    if (filterParameters.category === "all") {
+    if (filterParameters.category === "All") {
       filteredDishes = dishes;
     } else {
       filteredDishes = dishes.filter((dish) => {
@@ -52,6 +52,15 @@ function CategoryTabs({
 
   return (
     <ul className="category-tabs">
+      <li
+        onClick={() => {
+          filterDishesByCategory("All");
+          handleActiveCategory("All");
+        }}
+        className={activeCategory === "All" && "active"}
+      >
+        All
+      </li>
       {categories.map((category) => (
         <li
           onClick={() => {

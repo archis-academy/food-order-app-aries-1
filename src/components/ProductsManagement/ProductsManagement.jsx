@@ -12,38 +12,41 @@ function ProductsManagement() {
   const [dishes, setDishes] = useState([]);
   const [filteredDishes, setFilteredDishes] = useState(dishes);
   const [filterParameters, setFilterParameters] = useState({
-    category: "all",
+    category: "All",
     searchQuery: "",
   });
   const [addDish, setAddDish] = useState(false);
   const [editDish, setEditDish] = useState(false);
-  const [updateDishes, setUpdateDishes] = useState(false);
+
   const [dishDetails, setDishDetails] = useState({
     image: "",
     description: "",
     category: "",
     price: 0,
     bowl: 0,
+    id: "",
   });
-
+  const fetchDishes = async () => {
+    const dishesData = await getDishes();
+    setDishes(dishesData);
+    setFilteredDishes(dishesData);
+  };
   useEffect(() => {
-    const fetchDishes = async () => {
-      const dishesData = await getDishes();
-      setDishes(dishesData);
-      setFilteredDishes(dishesData);
+    const deneme = async () => {
+      await fetchDishes();
     };
+    deneme();
+    console.log(dishes);
+  }, []);
 
-    fetchDishes();
-  }, []); //updateDishes
-
-  const handleDishDetails = (img, name, category, price, quantity) => {
+  const handleDishDetails = (img, name, category, price, quantity, id) => {
     setDishDetails({
       image: img,
       description: name,
       category: category,
       price: price,
       bowl: quantity,
-      id: "",
+      id: id,
     });
   };
 
@@ -73,6 +76,7 @@ function ProductsManagement() {
             return (
               <ProductCard
                 key={food.id}
+                id={food.id}
                 image={food.image}
                 description={food.description}
                 price={food.price}
@@ -82,7 +86,8 @@ function ProductsManagement() {
                     food.description,
                     food.category,
                     food.price,
-                    food.bowl
+                    food.bowl,
+                    food.id
                   );
                   setEditDish(true);
                   console.log(dishDetails);
@@ -95,10 +100,7 @@ function ProductsManagement() {
         {(addDish || editDish) && (
           <div className="overlay-container">
             {addDish && (
-              <AddDish
-                setAddDish={setAddDish}
-                setUpdateDishes={setUpdateDishes}
-              />
+              <AddDish setAddDish={setAddDish} fetchDishes={fetchDishes} />
             )}
             {editDish && (
               <EditDish

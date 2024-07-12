@@ -17,7 +17,7 @@ function HomePage() {
   const [dishes, setDishes] = useState([]);
   const [filteredDishes, setFilteredDishes] = useState([]);
   const [filterParameters, setFilterParameters] = useState({
-    category: "all",
+    category: "All",
     searchQuery: "",
   });
   const [isOrderOpen, setIsOrderOpen] = useState(false);

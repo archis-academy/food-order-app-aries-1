@@ -36,12 +36,12 @@
   button {
     width: 150px;
   }
-}
-.cancel-btn {
-  @include secondary-btn;
-}
-.edit-dish-btn {
-  @include primary-btn;
+  .cancel-btn {
+    @include secondary-btn;
+  }
+  .edit-dish-btn {
+    @include primary-btn;
+  }
 }
 
 @media (max-width: 768px) {
