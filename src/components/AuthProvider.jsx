@@ -23,7 +23,7 @@ function AuthProvider({ children }) {
 
         if (!userSnap.exists()) {
           await setDoc(userDoc, {
-            image: currentUser.photoURL,
+            image: currentUser.photoURL || "/photo.svg",
             displayName: currentUser.displayName,
             email: currentUser.email,
             role: currentUser.role,

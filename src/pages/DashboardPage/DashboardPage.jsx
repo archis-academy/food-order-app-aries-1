@@ -28,6 +28,8 @@ const DashboardPage = () => {
       <Sidebar />
       <main className="dashboard-page">
         <AnalyticsHeader />
+        <OrderReport />
+
         <div className="dashboard-page-right">
           <div className="most-ordered-container">
             <div className="most-ordered-header">
@@ -50,7 +52,6 @@ const DashboardPage = () => {
               </button>
             </div>
           </div>
-          <OrderReport />
           <MostTypeOfOrder />
         </div>
         {showAll && (

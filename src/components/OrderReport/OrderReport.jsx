@@ -1,6 +1,6 @@
 import "./OrderReport.scss";
-import { orders as initialOrders } from "@/db/orders";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getOrders } from "@/db/orders";
 
 const OrderCard = () => {
   const orderClassNames = {
@@ -9,7 +9,7 @@ const OrderCard = () => {
     pending: "pending",
   };
 
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders, setOrders] = useState([]);
 
   const handleStatusChange = (e, id) => {
     const newStatus = e.target.value;
@@ -20,14 +20,22 @@ const OrderCard = () => {
     );
   };
 
+  useEffect(() => {
+    const getOrderList = async () => {
+      const orderList = await getOrders();
+      setOrders(orderList);
+    };
+    getOrderList();
+  }, []);
+
   const orderRows = orders.map((order) => (
     <tr key={order.id}>
       <td className="order-name-cell">
-        <img src={order.image} />
-        {order.name}
+        <img className="order-image" src={order.customer.image} />
+        {order.customer.displayName}
       </td>
-      <td>{order.menu[0].description}</td>
-      <td>${order.price}</td>
+      <td>{order.menu[0].name}</td>
+      <td>${order.subtotal}</td>
       <td>
         <select
           onChange={(e) => handleStatusChange(e, order.id)}
