@@ -118,7 +118,12 @@ function HomePage() {
         onContinueToPayment={handleContinueToPayment}
       />
       {isConfirmationOpen && (
-        <OrderConfirmation orders={orders} onClose={handleCloseConfirmation} />
+        <OrderConfirmation
+          orders={orders}
+          onClose={handleCloseConfirmation}
+          onDeleteItem={handleDeleteItem}
+          onUpdateQuantity={handleUpdateQuantity}
+        />
       )}
     </div>
   );
