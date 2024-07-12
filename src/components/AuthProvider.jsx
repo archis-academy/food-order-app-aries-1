@@ -28,8 +28,6 @@ function AuthProvider({ children }) {
             role: currentUser.role,
           });
         }
-      } else {
-        setUser(null);
       }
     });
 
