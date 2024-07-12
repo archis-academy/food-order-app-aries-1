@@ -5,6 +5,8 @@ import moment from "moment";
 import { useAuth } from "@/components/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { db } from "../../config/firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 const OrderConfirmation = ({
   orders,
@@ -122,7 +124,7 @@ const OrderConfirmation = ({
 
   const { fireStoreUser } = useAuth();
 
-  const handleConfirmPayment = () => {
+  const handleConfirmPayment = async () => {
     const requiredFields =
       cardDetails.selectedMethod &&
       cardDetails.cardHolderName &&
@@ -145,6 +147,7 @@ const OrderConfirmation = ({
         customer: {
           uid: fireStoreUser.uid,
           displayName: fireStoreUser.displayName,
+          image: "/photo.svg",
         },
         menu: orders.map((order) => ({
           id: order.id,
@@ -167,6 +170,10 @@ const OrderConfirmation = ({
         status: "Pending",
       };
       console.log(ordersSummary);
+
+      const ordersCollection = collection(db, "orders");
+      await addDoc(ordersCollection, ordersSummary);
+
       toast.success("Payment confirmed successfully!");
       setCardDetails(initialCardDetails);
     } else {
