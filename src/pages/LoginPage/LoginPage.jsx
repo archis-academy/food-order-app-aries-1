@@ -100,10 +100,11 @@ function LoginPage() {
       const userSnap = await getDoc(userDoc);
       if (!userSnap.exists()) {
         await setDoc(userDoc, {
-          cart: null,
+          // cart: null,
           displayName: user.displayName,
           email: user.email,
           phoneNumber: null,
+          image: user.photoURL,
           role: user.role || "user",
         });
       }
