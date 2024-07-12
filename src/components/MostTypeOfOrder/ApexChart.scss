@@ -1,0 +1,50 @@
+@import "../../styles/abstracts/index";
+.chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 20px;
+}
+#chart {
+  margin: -20px -25px -20px -30px;
+}
+.chart-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.info-box {
+  display: flex;
+  gap: 8px;
+}
+.rounded-color {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+.dine-in-color {
+  background-color: #ff7ca3;
+}
+.to-go-color {
+  background-color: #ffb572;
+}
+.delivery-color {
+  background-color: #65b0f6;
+}
+.info-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.customer-info {
+  font-size: 12px;
+  font-weight: 400;
+  color: $secondary-font-color;
+}
+@media (max-width: 460px) {
+  .rounded-color {
+    width: 12px;
+    height: 12px;
+  }
+}
