@@ -1,7 +1,7 @@
 import "./EditDish.scss";
 import { getCategories } from "../../db/foods";
 import { useEffect, useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -36,7 +36,17 @@ function EditDish({ setEditDish, dishDetails, setDishDetails, fetchDishes }) {
       category: name === "category" ? categoryInfo : dishDetails.category,
     });
   };
+  const handleDeleteDish = async () => {
+    try {
+      await deleteDoc(doc(db, "dishes", id));
+      localStorage.removeItem("dishes");
+      await fetchDishes();
 
+      setEditDish(false);
+    } catch (error) {
+      toast.error("There was an issue deleting the dish.");
+    }
+  };
   const handleEditDish = async () => {
     if (!image || !description || !category.name || price <= 0 || bowl <= 0) {
       toast.warn("Please fill in all the fields!");
@@ -69,7 +79,7 @@ function EditDish({ setEditDish, dishDetails, setDishDetails, fetchDishes }) {
   return (
     <div className="edit-dish-container">
       <div className="dish-image-box dish-info-box">
-        <label htmlFor="image">Dish Image :</label>
+        <label htmlFor="image">Dish Image URL:</label>
         <input
           type="text"
           id="image"
@@ -140,7 +150,9 @@ function EditDish({ setEditDish, dishDetails, setDishDetails, fetchDishes }) {
         >
           Cancel
         </button>
-        <button className="edit-modal-delete-btn">Delete Dish</button>
+        <button onClick={handleDeleteDish} className="edit-modal-delete-btn">
+          Delete Dish
+        </button>
         <button
           onClick={() => {
             console.log(dishDetails);
@@ -156,4 +168,5 @@ function EditDish({ setEditDish, dishDetails, setDishDetails, fetchDishes }) {
     </div>
   );
 }
+
 export default EditDish;

@@ -76,7 +76,7 @@ function AddDish({ addDish, setAddDish, fetchDishes }) {
   return (
     <div className="add-dish-container">
       <div className="dish-image-box dish-info-box">
-        <label htmlFor="image">Dish Image :</label>
+        <label htmlFor="image">Dish Image URL:</label>
         <input
           onChange={handleDishDetails}
           type="text"

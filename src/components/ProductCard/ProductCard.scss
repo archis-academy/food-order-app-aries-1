@@ -15,6 +15,9 @@
   p {
     margin-bottom: 10px;
     font-weight: 500;
+    height: 50px;
+    display: flex;
+    align-items: center;
   }
   span {
     color: $secondary-font-color;

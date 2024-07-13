@@ -62,7 +62,7 @@ const sidebarLinks = [
     id: 3,
     name: "Settings",
     icon: SettingsIcon,
-    path: "/settings/product-management",
+    path: "/settings/about-us",
   },
 ];
 
