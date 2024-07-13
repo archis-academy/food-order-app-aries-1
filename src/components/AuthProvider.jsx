@@ -37,18 +37,10 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      if (user && !localStorage.getItem("currentUser")) {
-        const userDoc = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userDoc);
-        if (userSnap.exists()) {
-          setFireStoreUser({ ...user, ...userSnap.data() });
-          localStorage.setItem(
-            "currentUser",
-            JSON.stringify({ ...user, ...userSnap.data() })
-          );
-        }
-      } else {
-        setFireStoreUser(JSON.parse(localStorage.getItem("currentUser")));
+      const userDoc = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userDoc);
+      if (userSnap.exists()) {
+        setFireStoreUser({ ...user, ...userSnap.data() });
       }
     };
     fetchUserDetails();
