@@ -1,6 +1,8 @@
 import "./OrderReport.scss";
 import { useState, useEffect } from "react";
 import { getOrders } from "@/db/orders";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
 
 const OrderCard = () => {
   const orderClassNames = {
@@ -11,13 +13,16 @@ const OrderCard = () => {
 
   const [orders, setOrders] = useState([]);
 
-  const handleStatusChange = (e, id) => {
+  const handleStatusChange = async (e, id) => {
     const newStatus = e.target.value;
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
         order.id === id ? { ...order, status: newStatus } : order
       )
     );
+    const docRef = doc(db, "orders", id);
+
+    await updateDoc(docRef, { status: newStatus });
   };
 
   useEffect(() => {
