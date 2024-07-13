@@ -147,7 +147,7 @@ const OrderConfirmation = ({
         customer: {
           uid: fireStoreUser.uid,
           displayName: fireStoreUser.displayName,
-          image: "/photo.svg",
+          image: fireStoreUser.photoURL || "/photo.svg",
         },
         menu: orders.map((order) => ({
           id: order.id,
@@ -167,7 +167,7 @@ const OrderConfirmation = ({
         tableNumber: cardDetails.tableNumber,
         address: cardDetails.address,
         subtotal,
-        status: "Pending",
+        status: "pending",
       };
       console.log(ordersSummary);
 

@@ -101,10 +101,10 @@ function LoginPage() {
       if (!userSnap.exists()) {
         await setDoc(userDoc, {
           // cart: null,
-          displayName: user.displayName,
+          displayName: user.userName,
           email: user.email,
           phoneNumber: null,
-          image: user.photoURL,
+          image: user.photoURL || "/photo.svg",
           role: user.role || "user",
         });
       }
