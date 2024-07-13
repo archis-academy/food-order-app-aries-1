@@ -1,10 +1,14 @@
 import "./EditDish.scss";
 import { getCategories } from "../../db/foods";
 import { useEffect, useState } from "react";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
+import { ToastContainer, toast } from "react-toastify";
 
-function EditDish({ setEditDish, dishDetails, setDishDetails }) {
+function EditDish({ setEditDish, dishDetails, setDishDetails, fetchDishes }) {
   const { image, description, category, price, bowl, id } = dishDetails;
   const [categories, setCategories] = useState([]);
+  const [isFormValid, setIsFormValid] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -16,25 +20,52 @@ function EditDish({ setEditDish, dishDetails, setDishDetails }) {
     fetchCategories();
   }, []);
 
-  const handleDishInputValues = (e) => {
+  useEffect(() => {
+    if (!image || !description || !category.name || price === 0 || bowl === 0) {
+      setIsFormValid(false);
+    } else {
+      setIsFormValid(true);
+    }
+  }, [dishDetails]);
+
+  const handleDishInputValues = (e, categoryInfo) => {
+    const { name, value } = e.target;
     setDishDetails({
       ...dishDetails,
-      [e.target.name]: e.target.value,
+      [name]: value,
+      category: name === "category" ? categoryInfo : dishDetails.category,
     });
   };
 
-  const handleEditDish = () => {
-    console.log(dishDetails);
-    setDishDetails({
-      image: "",
-      description: "",
-      category: "",
-      price: 0,
-      bowl: 0,
-    });
-    setEditDish(false);
-  };
+  const handleEditDish = async () => {
+    if (!image || !description || !category.name || price <= 0 || bowl <= 0) {
+      toast.warn("Please fill in all the fields!");
+      return;
+    }
 
+    try {
+      const docRef = doc(db, "dishes", id);
+      await updateDoc(docRef, dishDetails);
+
+      setDishDetails({
+        image: "",
+        description: "",
+        category: {},
+        price: 0,
+        bowl: 0,
+      });
+
+      localStorage.removeItem("dishes");
+      await fetchDishes();
+
+      setEditDish(false);
+      setTimeout(() => {
+        toast.success("Dish edited successfully!");
+      }, 500);
+    } catch (error) {
+      toast.error("There was an issue editing the dish.");
+    }
+  };
   return (
     <div className="edit-dish-container">
       <div className="dish-image-box dish-info-box">
@@ -62,8 +93,13 @@ function EditDish({ setEditDish, dishDetails, setDishDetails }) {
         <select
           name="category"
           id="category"
-          value={category}
-          onChange={handleDishInputValues}
+          value={category.name}
+          onChange={(e) => {
+            const selectedCategory = categories.find(
+              (category) => category.name === e.target.value
+            );
+            handleDishInputValues(e, selectedCategory);
+          }}
         >
           {categories.map((category) => {
             return <option key={category.id}>{category.name}</option>;
@@ -94,6 +130,7 @@ function EditDish({ setEditDish, dishDetails, setDishDetails }) {
           />
         </div>
       </div>
+
       <div className="edit-dish-buttons">
         <button
           onClick={() => {
@@ -103,10 +140,19 @@ function EditDish({ setEditDish, dishDetails, setDishDetails }) {
         >
           Cancel
         </button>
-        <button onClick={handleEditDish} className="edit-dish-btn">
+        <button className="edit-modal-delete-btn">Delete Dish</button>
+        <button
+          onClick={() => {
+            console.log(dishDetails);
+            handleEditDish();
+          }}
+          className="edit-dish-btn"
+        >
           Edit Dish
         </button>
       </div>
+
+      <ToastContainer />
     </div>
   );
 }

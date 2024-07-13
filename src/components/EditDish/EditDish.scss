@@ -32,7 +32,7 @@
 .edit-dish-buttons {
   padding-top: 30px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   button {
     width: 150px;
   }
@@ -44,6 +44,9 @@
   }
 }
 
+.edit-modal-delete-btn {
+  @include secondary-btn;
+}
 @media (max-width: 768px) {
   .edit-dish-container {
     width: 100%;

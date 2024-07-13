@@ -6,7 +6,7 @@ import { db } from "../../config/firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function AddDish({ setAddDish, fetchDishes }) {
+function AddDish({ addDish, setAddDish, fetchDishes }) {
   const [dishDetails, setDishDetails] = useState({
     image: "",
     description: "",
@@ -61,6 +61,7 @@ function AddDish({ setAddDish, fetchDishes }) {
         });
 
         localStorage.removeItem("dishes");
+
         await fetchDishes();
 
         setAddDish(false);

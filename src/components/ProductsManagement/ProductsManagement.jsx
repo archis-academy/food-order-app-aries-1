@@ -21,7 +21,7 @@ function ProductsManagement() {
   const [dishDetails, setDishDetails] = useState({
     image: "",
     description: "",
-    category: "",
+    category: {},
     price: 0,
     bowl: 0,
     id: "",
@@ -100,13 +100,18 @@ function ProductsManagement() {
         {(addDish || editDish) && (
           <div className="overlay-container">
             {addDish && (
-              <AddDish setAddDish={setAddDish} fetchDishes={fetchDishes} />
+              <AddDish
+                addDish={addDish}
+                setAddDish={setAddDish}
+                fetchDishes={fetchDishes}
+              />
             )}
             {editDish && (
               <EditDish
                 setEditDish={setEditDish}
                 dishDetails={dishDetails}
                 setDishDetails={setDishDetails}
+                fetchDishes={fetchDishes}
               />
             )}
           </div>
