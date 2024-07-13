@@ -170,12 +170,14 @@ const OrderConfirmation = ({
         status: "pending",
       };
       console.log(ordersSummary);
+      console.log(orders);
 
       const ordersCollection = collection(db, "orders");
       await addDoc(ordersCollection, ordersSummary);
 
       toast.success("Payment confirmed successfully!");
       setCardDetails(initialCardDetails);
+      //update ile alınan yemeklerin dishes tablosundan bowlu güncellenecek
     } else {
       toast.warn("Please fill in all fields");
     }

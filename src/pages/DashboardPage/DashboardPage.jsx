@@ -4,9 +4,10 @@ import OrderReport from "../../components/OrderReport/OrderReport";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./DashboardPage.scss";
 import { getDishes } from "../../db/foods";
-import MostOrderedFood from "./MostOrderedFood/MostOrderedFood";
-import ViewAllModal from "./ViewAllModal/ViewAllModal";
+import MostOrderedFood from "../../components/MostOrderedFood/MostOrderedFood";
+import ViewAllModal from "../../components/ViewAllModal/ViewAllModal";
 import { useState, useEffect } from "react";
+import moment from "moment";
 
 const DashboardPage = () => {
   const [showAll, setShowAll] = useState(false);
@@ -22,13 +23,22 @@ const DashboardPage = () => {
   }, []);
 
   const topFoods = dishes.slice(0, 3);
+  const currentDate = moment().format("dddd, Do MMM YYYY");
 
   return (
     <>
       <Sidebar />
       <main className="dashboard-page">
-        <AnalyticsHeader />
-        <OrderReport />
+        <div className="dashboard-page-left">
+          <div className="dashboard-header">
+            <div className="dashboard-user-date-field">
+              <h1 className="dashboard-title">Dashboard Page</h1>
+              <p className="dashboard-date-field">{currentDate}</p>
+            </div>
+          </div>
+          <AnalyticsHeader />
+          <OrderReport />
+        </div>
 
         <div className="dashboard-page-right">
           <div className="most-ordered-container">
