@@ -37,7 +37,8 @@ function HomePage() {
     fetchDishes();
   }, []);
 
-  if (!fireStoreUser) if (isLoading) return <Loading />;
+  if (!fireStoreUser) return <Loading />;
+  if (isLoading) return <Loading />;
 
   const handleFoodCardClick = (food) => {
     const existingOrderIndex = orders.findIndex(

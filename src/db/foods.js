@@ -20,24 +20,24 @@ export const getCategories = async () => {
     console.error("Error fetching categories:", error);
     throw error;
   }
-  export const getDishes = async () => {
-    try {
-      let dishesList = [];
-      if (!localStorage.getItem("dishes")) {
-        const dishesCollection = collection(db, "dishes");
-        const dishesSnapshot = await getDocs(dishesCollection);
-        dishesList = dishesSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        localStorage.setItem("dishes", JSON.stringify(dishesList));
-      } else {
-        dishesList = JSON.parse(localStorage.getItem("dishes"));
-      }
-      return dishesList;
-    } catch (error) {
-      console.error("Error fetching dishes:", error);
-      throw error;
+};
+export const getDishes = async () => {
+  try {
+    let dishesList = [];
+    if (!localStorage.getItem("dishes")) {
+      const dishesCollection = collection(db, "dishes");
+      const dishesSnapshot = await getDocs(dishesCollection);
+      dishesList = dishesSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      localStorage.setItem("dishes", JSON.stringify(dishesList));
+    } else {
+      dishesList = JSON.parse(localStorage.getItem("dishes"));
     }
-  };
+    return dishesList;
+  } catch (error) {
+    console.error("Error fetching dishes:", error);
+    throw error;
+  }
 };
