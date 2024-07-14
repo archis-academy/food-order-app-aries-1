@@ -3,10 +3,9 @@ import "./AddDish.scss";
 import { getCategories } from "../../db/foods";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
-function AddDish({ addDish, setAddDish, fetchDishes }) {
+function AddDish({ addDish, setAddDish, fetchDishes, addSuccess }) {
   const [dishDetails, setDishDetails] = useState({
     image: "",
     description: "",
@@ -50,7 +49,6 @@ function AddDish({ addDish, setAddDish, fetchDishes }) {
       try {
         const dishesCollection = collection(db, "dishes");
         await addDoc(dishesCollection, dishDetails);
-        toast.success("Dish added successfully!");
 
         setDishDetails({
           image: "",
@@ -65,6 +63,7 @@ function AddDish({ addDish, setAddDish, fetchDishes }) {
         await fetchDishes();
 
         setAddDish(false);
+        addSuccess();
       } catch (error) {
         toast.error("There was an issue adding the dish.");
       }
@@ -147,7 +146,6 @@ function AddDish({ addDish, setAddDish, fetchDishes }) {
           Add Dish
         </button>
       </div>
-      <ToastContainer />
     </div>
   );
 }

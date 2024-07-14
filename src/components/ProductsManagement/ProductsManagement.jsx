@@ -4,7 +4,8 @@ import { getDishes } from "../../db/foods";
 import "./ProductsManagement.scss";
 import CategoryTabs from "../CategoryTabs/CategoryTabs";
 import { useState, useEffect } from "react";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AddDish from "../AddDish/AddDish";
 import EditDish from "../EditDish/EditDish";
 
@@ -32,11 +33,7 @@ function ProductsManagement() {
     setFilteredDishes(dishesData);
   };
   useEffect(() => {
-    const deneme = async () => {
-      await fetchDishes();
-    };
-    deneme();
-    console.log(dishes);
+    fetchDishes();
   }, []);
 
   const handleDishDetails = (img, name, category, price, quantity, id) => {
@@ -50,9 +47,20 @@ function ProductsManagement() {
     });
   };
 
+  const addSuccess = () => {
+    toast.success("Dish added successfully!");
+  };
+  const editSuccess = () => {
+    toast.success("Dish edited successfully!");
+  };
+  const deleteSuccess = () => {
+    toast.success("Dish deleted successfully!");
+  };
+
   return (
     <>
       <div className="management-container">
+        <ToastContainer />
         <div className="header-sticky">
           <SettingsHeader />
           <CategoryTabs
@@ -104,6 +112,7 @@ function ProductsManagement() {
                 addDish={addDish}
                 setAddDish={setAddDish}
                 fetchDishes={fetchDishes}
+                addSuccess={addSuccess}
               />
             )}
             {editDish && (
@@ -112,6 +121,8 @@ function ProductsManagement() {
                 dishDetails={dishDetails}
                 setDishDetails={setDishDetails}
                 fetchDishes={fetchDishes}
+                editSuccess={editSuccess}
+                deleteSuccess={deleteSuccess}
               />
             )}
           </div>

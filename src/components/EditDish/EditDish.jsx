@@ -3,9 +3,16 @@ import { getCategories } from "../../db/foods";
 import { useEffect, useState } from "react";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
-function EditDish({ setEditDish, dishDetails, setDishDetails, fetchDishes }) {
+function EditDish({
+  setEditDish,
+  dishDetails,
+  setDishDetails,
+  fetchDishes,
+  editSuccess,
+  deleteSuccess,
+}) {
   const { image, description, category, price, bowl, id } = dishDetails;
   const [categories, setCategories] = useState([]);
   const [isFormValid, setIsFormValid] = useState(true);
@@ -43,6 +50,7 @@ function EditDish({ setEditDish, dishDetails, setDishDetails, fetchDishes }) {
       await fetchDishes();
 
       setEditDish(false);
+      deleteSuccess();
     } catch (error) {
       toast.error("There was an issue deleting the dish.");
     }
@@ -69,9 +77,7 @@ function EditDish({ setEditDish, dishDetails, setDishDetails, fetchDishes }) {
       await fetchDishes();
 
       setEditDish(false);
-      setTimeout(() => {
-        toast.success("Dish edited successfully!");
-      }, 500);
+      editSuccess();
     } catch (error) {
       toast.error("There was an issue editing the dish.");
     }
@@ -163,8 +169,6 @@ function EditDish({ setEditDish, dishDetails, setDishDetails, fetchDishes }) {
           Edit Dish
         </button>
       </div>
-
-      <ToastContainer />
     </div>
   );
 }
