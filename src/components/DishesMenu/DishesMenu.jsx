@@ -10,40 +10,40 @@ const DishesMenu = ({
   filteredDishes,
   onFoodCardClick,
 }) => {
-  function filterDishesByOrderType(orderType) {
-    const newFilterParameters = {
-      ...filterParameters,
-      orderType: orderType,
-    };
-    setFilterParameters(newFilterParameters);
-  }
-  console.log(dishes);
-  useEffect(() => {
-    const filteredDishes = dishes.filter((dish) => {
-      const isOrderTypeMatch =
-        filterParameters.orderType === "All" ||
-        dish.orderType === filterParameters.orderType;
+  // function filterDishesByOrderType(orderType) {
+  //   const newFilterParameters = {
+  //     ...filterParameters,
+  //     orderType: orderType,
+  //   };
+  //   setFilterParameters(newFilterParameters);
+  // }
 
-      const isCategoryMatch =
-        filterParameters.category === "All" ||
-        dish.category.key === filterParameters.category;
+  // useEffect(() => {
+  //   const filteredDishes = dishes.filter((dish) => {
+  //     const isOrderTypeMatch =
+  //       filterParameters.orderType === "All" ||
+  //       dish.orderType === filterParameters.orderType;
 
-      const isSearchQueryMatch = dish.description
-        .toLowerCase()
-        .includes(filterParameters.searchQuery.toLowerCase());
+  //     const isCategoryMatch =
+  //       filterParameters.category === "all" ||
+  //       dish.category.key === filterParameters.category;
 
-      return isOrderTypeMatch && isCategoryMatch && isSearchQueryMatch;
-    });
+  //     const isSearchQueryMatch = dish.description
+  //       .toLowerCase()
+  //       .includes(filterParameters.searchQuery.toLowerCase());
 
-    setFilteredDishes(filteredDishes);
-  }, [dishes, filterParameters]);
+  //     return isOrderTypeMatch && isCategoryMatch && isSearchQueryMatch;
+  //   });
+
+  //   setFilteredDishes(filteredDishes);
+  // }, [dishes, filterParameters]);
 
   return (
     <div>
       <div className="dishes-menu-top">
         <h2 className="dishes-menu-title">Choose Dishes </h2>
 
-        <select
+        {/* <select
           className="order-type"
           value={filterParameters.orderType}
           onChange={(e) => {
@@ -56,7 +56,7 @@ const DishesMenu = ({
           <option value="Dine In">Dine In</option>
           <option value="To Go">To Go</option>
           <option value="Delivery">Delivery</option>
-        </select>
+        </select> */}
       </div>
 
       <div className="dishes-menu">

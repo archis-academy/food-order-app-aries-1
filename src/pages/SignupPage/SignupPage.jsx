@@ -3,12 +3,13 @@ import { useState } from "react";
 import { auth, db } from "@/config/firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-// import visibility from "../../assets/visibility.svg";
-// import visibilityOff from "../../assets/visibility-off.svg";
-// import personIcon from "../../assets/person-icon.svg";
-// import mailIcon from "../../assets/mail-icon.svg";
-// import lockIcon from "../../assets/lock-icon.svg";
-// import phoneIcon from "../../assets/phone-icon.svg";
+import visibility from "../../assets/visibility.svg";
+import visibilityOff from "../../assets/visibility-off.svg";
+import personIcon from "../../assets/person-icon.svg";
+import mailIcon from "../../assets/mail-icon.svg";
+import lockIcon from "../../assets/lock-icon.svg";
+import phoneIcon from "../../assets/phone-icon.svg";
+import { NavLink } from "react-router-dom";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -102,7 +103,7 @@ function SignupPage() {
         <h1>Signup </h1>
         <form onSubmit={(e) => signupUser(e)} className="signup-form">
           <div className="signup-full-name signup-input">
-            {/* <img src={personIcon} alt="person-icon" /> */}
+            <img src={personIcon} alt="person-icon" />
             <input
               type="text"
               placeholder="Full Name"
@@ -111,18 +112,18 @@ function SignupPage() {
             />
           </div>
           <div className="signup-phone-number signup-input">
-            {/* <img src={phoneIcon} alt="phone-icon" /> */}
+            <img src={phoneIcon} alt="phone-icon" />
             <input
               type="tel"
               placeholder="+90 (XXX) XXX-XXXX"
               maxLength="18"
               value={formData.phoneNumber}
               name="phoneNumber"
-              onChange={handleChange} // onKeyUp yerine onChange kullanın
+              onChange={handleChange}
             />
           </div>
           <div className="signup-e-mail signup-input">
-            {/* <img src={mailIcon} alt="mail-icon" /> */}
+            <img src={mailIcon} alt="mail-icon" />
             <input
               type="email"
               placeholder="Email"
@@ -131,22 +132,22 @@ function SignupPage() {
             />
           </div>
           <div className="signup-password signup-input">
-            {/* <img src={lockIcon} alt="lock-icon" /> */}
+            <img src={lockIcon} alt="lock-icon" />
             <input
               type={passwordVisibility ? "text" : "password"}
               placeholder="Password"
               name="password"
               onKeyUp={handleChange}
             />
-            {/* <img
+            <img
               src={passwordVisibility ? visibility : visibilityOff}
               alt="toggle password visibility"
               onClick={togglePasswordVisibility}
               style={{ cursor: "pointer" }}
-            /> */}
+            />
           </div>
           <div className="signup-confirm-password signup-input">
-            {/* <img src={lockIcon} alt="lock-icon" /> */}
+            {<img src={lockIcon} alt="lock-icon" />}
             <input
               type={passwordVisibility ? "text" : "password"}
               placeholder="Confirm Password"

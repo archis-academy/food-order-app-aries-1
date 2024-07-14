@@ -15,15 +15,14 @@
 }
 
 .navbar-items {
-  width: 100px;
+  width: 150px;
   height: 80px;
-  padding-left: 10px;
 }
 
 .nav-items {
-  width: 100px;
-  background-color: $primary-bg;
+  width: 150px;
   border-radius: 15px 0 0 15px;
+  margin-top: 50px;
 }
 
 .nav-item {
@@ -32,9 +31,14 @@
   justify-content: center;
   cursor: pointer;
   height: 90px;
-  margin-top: 70px;
 }
-
+.logout-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 90px;
+}
 .active-link {
   background-color: $accent-color;
   border-radius: 8px;

@@ -1,22 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./LoginPage.scss";
-import { auth } from "@/config/firebase";
+import { auth, googleProvider, db } from "@/config/firebase";
+import { useNavigate } from "react-router-dom";
+import LoginForm from "./LoginForm/LoginForm";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  signInWithPopup,
 } from "firebase/auth";
+import { useAuth } from "@/components/AuthProvider";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function LoginPage() {
-  onAuthStateChanged(auth, (currentUser) => {
-    // setUser(currentUser);
-    console.log(currentUser);
-  });
-
+  const { fireStoreUser } = useAuth();
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(!!fireStoreUser);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setIsLoggedIn(!!currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      const rememberedEmail = localStorage.getItem("rememberedEmail");
+
+      if (rememberedEmail) {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          email: rememberedEmail,
+        }));
+        setRememberMe(true);
+      }
+    }
+  }, [isLoggedIn]);
 
   function handleChange(event) {
     setFormData({
@@ -24,39 +53,122 @@ function LoginPage() {
       [event.target.name]: event.target.value,
     });
   }
+  function handleRememberMeChange(event) {
+    setRememberMe(event.target.checked);
+  }
 
   async function handleUserLogin(e) {
     e.preventDefault();
     const { email, password } = formData;
+    if (email && password) {
+      try {
+        const res = await signInWithEmailAndPassword(auth, email, password);
+        console.log(res);
+        setIsLoggedIn(true);
+        navigate("/");
+        if (rememberMe) {
+          localStorage.setItem("rememberedEmail", email);
+        } else {
+          localStorage.removeItem("rememberedEmail", email);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Incorrect email or password");
+      }
+    } else {
+      toast.warn("Please fill in all fields");
+    }
+  }
+
+  async function handleLogout() {
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
-      console.log(res);
+      await signOut(auth);
+      setIsLoggedIn(false);
+      navigate("/login");
     } catch (error) {
       console.error(error);
     }
   }
+  async function handleGoogleLogin() {
+    setLoading(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log(result);
 
-  return (
+      const user = result.user;
+      const userDoc = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userDoc);
+      if (!userSnap.exists()) {
+        await setDoc(userDoc, {
+          // cart: null,
+          displayName: user.userName,
+          email: user.email,
+          phoneNumber: null,
+          image: user.photoURL || "/photo.svg",
+          role: user.role || "user",
+        });
+      }
+      setIsLoggedIn(true);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      if (error.code === "auth/cancelled-popup-request") {
+        toast.error("Cancelled popup request");
+      } else if (error.code === "auth/popup-blocked") {
+        toast.error("Popup blocked, please allow pop-ups in your browser");
+      } else {
+        toast.error("Google sign-in failed");
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function togglePasswordVisibility() {
+    setPasswordVisible((prevPasswordVisible) => !prevPasswordVisible);
+  }
+  const authenticatedUserView = (
     <div>
-      <h1>Login page</h1>
-      <form onSubmit={(e) => handleUserLogin(e)}>
-        <input
-          onKeyUp={(e) => handleChange(e)}
-          name="password"
-          type="password"
-        />
-        <input onKeyUp={(e) => handleChange(e)} name="email" type="email" />
-        <input type="submit" value="Login" />
-      </form>
-
-      <button
-        onClick={() => {
-          signOut(auth);
-          console.log("clicked");
-        }}
-      >
+      <h1 className="login-welcome">
+        Welcome Again <br /> {fireStoreUser?.displayName}
+      </h1>
+      <button className="logout-btn" onClick={handleLogout}>
         Logout
       </button>
+    </div>
+  );
+
+  return (
+    <div className="login-page">
+      <div className="login-container">
+        <h1 className="login-title">Login</h1>
+        {isLoggedIn ? (
+          authenticatedUserView
+        ) : (
+          <>
+            <LoginForm
+              handleUserLogin={handleUserLogin}
+              handleChange={handleChange}
+              passwordVisible={passwordVisible}
+              togglePasswordVisibility={togglePasswordVisibility}
+              handleRememberMeChange={handleRememberMeChange}
+              rememberMe={rememberMe}
+              formData={formData}
+            />
+            <div className="google-login">
+              <img className="google-icon" src="google-icon.svg" alt="" />
+              <button
+                className="google-login-btn"
+                onClick={handleGoogleLogin}
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Sign in with Google"}
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+      <ToastContainer />
     </div>
   );
 }

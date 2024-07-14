@@ -1,0 +1,100 @@
+@import "../../../styles/abstracts/placeholders";
+
+.login-container {
+  background-color: lighten($primary-bg, 50%);
+  // background-color: $primary-bg;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: $button-shadow;
+  width: 400px;
+  text-align: center;
+
+  .login-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: $secondary-bg;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    .login-email-container,
+    .login-password-container {
+      margin-bottom: 16px;
+      padding: 10px;
+      border: 1px solid $line-color;
+      border-radius: 4px;
+      background: none;
+      color: $primary-bg;
+      font-family: $primary-font;
+      font-size: 1rem;
+      // transition: background-color 0.3s ease, color 0.3s ease;
+      display: flex;
+
+      .login-email,
+      .login-password {
+        border: none;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        background: transparent;
+        outline: none;
+        color: $line-color;
+        &:focus-within {
+          background: none;
+        }
+      }
+    }
+    .login-icon {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 5px;
+    }
+
+    .login-btn {
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      color: $primary-font-color;
+      cursor: pointer;
+      background-color: $accent-color;
+      &:hover {
+        background-color: darken($accent-color, 10%);
+      }
+    }
+    .login-signup-div {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      font-weight: 600;
+      color: $primary-bg;
+      .login-signup {
+        text-decoration: underline;
+      }
+    }
+    .login-rememberme-container {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+
+      label {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: $primary-bg;
+        cursor: pointer;
+
+        input[type="checkbox"] {
+          margin-right: 8px;
+          accent-color: $primary-bg;
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

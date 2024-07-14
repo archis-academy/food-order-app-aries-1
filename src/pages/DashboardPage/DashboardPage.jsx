@@ -1,5 +1,6 @@
 import AnalyticsHeader from "../../components/AnalyticsHeader/AnalyticsHeader";
 import MostTypeOfOrder from "../../components/MostTypeOfOrder/MostTypeOfOrder";
+import OrderReport from "../../components/OrderReport/OrderReport";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./DashboardPage.scss";
 import { getDishes } from "../../db/foods";
@@ -27,6 +28,8 @@ const DashboardPage = () => {
       <Sidebar />
       <main className="dashboard-page">
         <AnalyticsHeader />
+        <OrderReport />
+
         <div className="dashboard-page-right">
           <div className="most-ordered-container">
             <div className="most-ordered-header">
