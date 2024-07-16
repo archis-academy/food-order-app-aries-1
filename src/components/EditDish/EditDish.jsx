@@ -1,76 +1,152 @@
 import "./EditDish.scss";
-import { categories } from "../../db/foods";
+import { getCategories } from "../../db/foods";
+import { useEffect, useState } from "react";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
+import { toast } from "react-toastify";
 
-function EditDish({ setEditDish, dishDetails, setDishDetails }) {
-  const { dishImage, dishName, dishCategory, dishPrice, bowlQuantity } =
-    dishDetails;
+function EditDish({
+  setEditDish,
+  dishDetails,
+  setDishDetails,
+  fetchDishes,
+  editSuccess,
+  deleteSuccess,
+}) {
+  const { image, description, category, price, bowl, id } = dishDetails;
+  const [categories, setCategories] = useState([]);
+  const [isFormValid, setIsFormValid] = useState(true);
 
-  const handleDishInputValues = (e) => {
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesData = await getCategories();
+      setCategories(categoriesData);
+      console.log(categories);
+    };
+
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    if (!image || !description || !category.name || price === 0 || bowl === 0) {
+      setIsFormValid(false);
+    } else {
+      setIsFormValid(true);
+    }
+  }, [dishDetails]);
+
+  const handleDishInputValues = (e, categoryInfo) => {
+    const { name, value } = e.target;
     setDishDetails({
       ...dishDetails,
-      [e.target.name]: e.target.value,
+      [name]: value,
+      category: name === "category" ? categoryInfo : dishDetails.category,
     });
   };
+  const handleDeleteDish = async () => {
+    try {
+      await deleteDoc(doc(db, "dishes", id));
+      localStorage.removeItem("dishes");
+      await fetchDishes();
 
-  const handleEditDish = () => {
-    console.log(dishDetails);
-    setDishDetails({ dishImage: "", dishName: "", dishPrice: "" });
-    setEditDish(false);
+      setEditDish(false);
+      deleteSuccess();
+    } catch (error) {
+      toast.error("There was an issue deleting the dish.");
+    }
   };
+  const handleEditDish = async () => {
+    if (!image || !description || !category.name || price <= 0 || bowl <= 0) {
+      toast.warn("Please fill in all the fields!");
+      return;
+    }
 
+    try {
+      const docRef = doc(db, "dishes", id);
+      await updateDoc(docRef, dishDetails);
+
+      setDishDetails({
+        image: "",
+        description: "",
+        category: {},
+        price: 0,
+        bowl: 0,
+      });
+
+      localStorage.removeItem("dishes");
+      await fetchDishes();
+
+      setEditDish(false);
+      editSuccess();
+    } catch (error) {
+      toast.error("There was an issue editing the dish.");
+    }
+  };
   return (
     <div className="edit-dish-container">
       <div className="dish-image-box dish-info-box">
-        <label htmlFor="dish-image">Dish Image :</label>
-        <input type="file" id="dishImage" name="dishImage" accept="image/*" />
-      </div>
-      <div className="dish-name-box dish-info-box">
-        <label htmlFor="dish-name">Dish Name :</label>
+        <label htmlFor="image">Dish Image URL:</label>
         <input
           type="text"
-          id="editDishName"
-          name="dishName"
-          value={dishName}
+          id="image"
+          name="image"
+          value={image}
+          onChange={handleDishInputValues}
+        />
+      </div>
+      <div className="dish-name-box dish-info-box">
+        <label htmlFor="description">Dish Name :</label>
+        <input
+          type="text"
+          id="description"
+          name="description"
+          value={description}
           onChange={handleDishInputValues}
         />
       </div>
       <div className="dish-category-box dish-info-box">
-        <label htmlFor="dishCategory">Dish Category :</label>
+        <label htmlFor="category">Dish Category :</label>
         <select
-          name="dishCategory"
-          id="dishCategory"
-          value={dishCategory}
-          onChange={handleDishInputValues}
+          name="category"
+          id="category"
+          value={category.name}
+          onChange={(e) => {
+            const selectedCategory = categories.find(
+              (category) => category.name === e.target.value
+            );
+            handleDishInputValues(e, selectedCategory);
+          }}
         >
           {categories.map((category) => {
-            return <option>{category.name}</option>;
+            return <option key={category.id}>{category.name}</option>;
           })}
         </select>
       </div>
       <div className="price-bowl-box">
         <div className="dish-price-box dish-info-box">
-          <label htmlFor="dishPrice">Dish Price :</label>
+          <label htmlFor="price">Dish Price :</label>
           <input
             onChange={handleDishInputValues}
             type="number"
             min="0"
-            id="dishPrice"
-            name="dishPrice"
-            value={dishPrice}
+            id="price"
+            name="price"
+            value={price}
           />
         </div>
         <div className="bowl-quantity-box dish-info-box">
-          <label htmlFor="bowlQuantity">Bowl Quantitiy :</label>
+          <label htmlFor="bowl">Bowl Quantitiy :</label>
           <input
             onChange={handleDishInputValues}
             type="number"
             min="0"
-            id="bowlQuantity"
-            name="bowlQuantity"
-            value={bowlQuantity}
+            id="bowl"
+            name="bowl"
+            value={bowl}
           />
         </div>
       </div>
+
       <div className="edit-dish-buttons">
         <button
           onClick={() => {
@@ -80,11 +156,21 @@ function EditDish({ setEditDish, dishDetails, setDishDetails }) {
         >
           Cancel
         </button>
-        <button onClick={handleEditDish} className="edit-dish-btn">
+        <button onClick={handleDeleteDish} className="edit-modal-delete-btn">
+          Delete Dish
+        </button>
+        <button
+          onClick={() => {
+            console.log(dishDetails);
+            handleEditDish();
+          }}
+          className="edit-dish-btn"
+        >
           Edit Dish
         </button>
       </div>
     </div>
   );
 }
+
 export default EditDish;

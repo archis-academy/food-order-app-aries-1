@@ -1,62 +1,87 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./AddDish.scss";
-import { categories } from "../../db/foods";
+import { getCategories } from "../../db/foods";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../config/firebase"; // import storage
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db } from "../../config/firebase";
+import { toast } from "react-toastify";
 
-function AddDish({ setAddDish }) {
+function AddDish({ addDish, setAddDish, fetchDishes, addSuccess }) {
   const [dishDetails, setDishDetails] = useState({
     image: "",
     description: "",
-    category: "",
+    category: {},
     price: 0,
     bowl: 0,
   });
+  const [categories, setCategories] = useState([]);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleDishDetails = (e) => {
-    const { name, value, files } = e.target;
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesData = await getCategories();
+      setCategories(categoriesData);
+      console.log(categories);
+    };
+
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const { image, description, category, price, bowl } = dishDetails;
+    if (image && description && category.name && price > 0 && bowl > 0) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [dishDetails]);
+
+  const handleDishDetails = (e, categoryInfo) => {
+    const { name, value } = e.target;
     setDishDetails({
       ...dishDetails,
-      [name]: files ? files[0] : value,
+      [name]: value,
+      category: name === "category" ? categoryInfo : dishDetails.category,
     });
   };
 
   const handleDishInfo = async () => {
-    try {
-      let imageUrl = "";
-      if (dishDetails.image) {
-        const imageRef = ref(storage, `dishes/${dishDetails.image.name}`);
-        const snapshot = await uploadBytes(imageRef, dishDetails.image);
-        imageUrl = await getDownloadURL(snapshot.ref);
+    if (isFormValid) {
+      try {
+        const dishesCollection = collection(db, "dishes");
+        await addDoc(dishesCollection, dishDetails);
+
+        setDishDetails({
+          image: "",
+          description: "",
+          category: {},
+          price: 0,
+          bowl: 0,
+        });
+
+        localStorage.removeItem("dishes");
+
+        await fetchDishes();
+
+        setAddDish(false);
+        addSuccess();
+      } catch (error) {
+        toast.error("There was an issue adding the dish.");
       }
-
-      const dishesCollection = collection(db, "dishes");
-      await addDoc(dishesCollection, { ...dishDetails, image: imageUrl });
-
-      setDishDetails({
-        image: "",
-        description: "",
-        category: "",
-        price: 0,
-        bowl: 0,
-      });
-      setAddDish(false);
-    } catch (error) {
-      console.log("Error:", error);
+    } else {
+      toast.warn("Please fill in all the fields!");
     }
   };
 
   return (
     <div className="add-dish-container">
       <div className="dish-image-box dish-info-box">
-        <label htmlFor="image">Dish Image :</label>
+        <label htmlFor="image">Dish Image URL:</label>
         <input
           onChange={handleDishDetails}
-          type="file"
+          type="text"
           id="image"
           name="image"
-          accept="image/*"
+          value={dishDetails.image}
         />
       </div>
       <div className="dish-name-box dish-info-box">
@@ -74,9 +99,14 @@ function AddDish({ setAddDish }) {
         <select
           name="category"
           id="category"
-          value={dishDetails.category}
-          onChange={handleDishDetails}
+          onChange={(e) => {
+            const selectedCategory = categories.find(
+              (category) => category.name === e.target.value
+            );
+            handleDishDetails(e, selectedCategory);
+          }}
         >
+          <option value="">Select a category</option>
           {categories.map((category) => (
             <option key={category.id} value={category.name}>
               {category.name}

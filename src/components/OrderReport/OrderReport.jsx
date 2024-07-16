@@ -39,7 +39,11 @@ const OrderCard = () => {
         <img className="order-image" src={order.customer.image} />
         {order.customer.displayName}
       </td>
-      <td>{order.menu[0].name}</td>
+      <td>
+        {order.menu.map((item, index) => (
+          <div key={index}>- {item.name}</div>
+        ))}
+      </td>
       <td>${order.subtotal}</td>
       <td>
         <select
@@ -63,20 +67,22 @@ const OrderCard = () => {
   ));
 
   return (
-    <table className="order-report-container">
-      <thead className="order-headers">
-        <tr>
-          <th className="order-report-heading">Order Report</th>
-        </tr>
-        <tr>
-          <th>Customer</th>
-          <th>Menu</th>
-          <th>Total Payment</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody className="order-cell">{orderRows}</tbody>
-    </table>
+    <div className="order-report-main-div">
+      <table className="order-report-container">
+        <thead className="order-headers">
+          <tr>
+            <th className="order-report-heading">Order Report</th>
+          </tr>
+          <tr>
+            <th>Customer</th>
+            <th>Menu</th>
+            <th>Total Payment</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody className="order-cell">{orderRows}</tbody>
+      </table>
+    </div>
   );
 };
 

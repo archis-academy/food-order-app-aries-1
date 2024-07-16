@@ -8,6 +8,8 @@ import MostOrderedFood from "../../components/MostOrderedFood/MostOrderedFood";
 import ViewAllModal from "../../components/ViewAllModal/ViewAllModal";
 import { useState, useEffect } from "react";
 import moment from "moment";
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
+import { db } from "../../config/firebase";
 
 const DashboardPage = () => {
   const [showAll, setShowAll] = useState(false);
@@ -15,7 +17,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     const fetchDishes = async () => {
-      const dishesData = await getDishes();
+      const dishesData = await getMostOrderedDishes();
       setDishes(dishesData);
     };
 
@@ -24,6 +26,21 @@ const DashboardPage = () => {
 
   const topFoods = dishes.slice(0, 3);
   const currentDate = moment().format("dddd, Do MMM YYYY");
+
+  const getMostOrderedDishes = async () => {
+    const dishesCollection = collection(db, "dishes");
+    const dishesQuery = query(
+      dishesCollection,
+      orderBy("orderCount", "desc"),
+      limit(12)
+    );
+    const dishesSnapshot = await getDocs(dishesQuery);
+    const dishesList = dishesSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return dishesList;
+  };
 
   return (
     <>
@@ -67,7 +84,7 @@ const DashboardPage = () => {
         {showAll && (
           <ViewAllModal onClose={() => setShowAll(false)}>
             <div className="modal-items">
-              {foods.map((food) => (
+              {dishes.map((food) => (
                 <MostOrderedFood key={food.id} food={food} />
               ))}
             </div>

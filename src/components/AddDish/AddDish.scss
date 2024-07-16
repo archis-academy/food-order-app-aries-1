@@ -52,12 +52,13 @@
   button {
     width: 150px;
   }
-}
-.cancel-btn {
-  @include secondary-btn;
-}
-.add-dish-btn {
-  @include primary-btn;
+
+  .cancel-btn {
+    @include secondary-btn;
+  }
+  .add-dish-btn {
+    @include primary-btn;
+  }
 }
 
 @media (max-width: 768px) {

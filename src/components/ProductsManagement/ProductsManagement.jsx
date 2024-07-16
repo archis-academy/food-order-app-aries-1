@@ -4,7 +4,8 @@ import { getDishes } from "../../db/foods";
 import "./ProductsManagement.scss";
 import CategoryTabs from "../CategoryTabs/CategoryTabs";
 import { useState, useEffect } from "react";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AddDish from "../AddDish/AddDish";
 import EditDish from "../EditDish/EditDish";
 
@@ -12,43 +13,54 @@ function ProductsManagement() {
   const [dishes, setDishes] = useState([]);
   const [filteredDishes, setFilteredDishes] = useState(dishes);
   const [filterParameters, setFilterParameters] = useState({
-    orderType: "All",
-    category: "all",
+    category: "All",
     searchQuery: "",
   });
   const [addDish, setAddDish] = useState(false);
   const [editDish, setEditDish] = useState(false);
+
   const [dishDetails, setDishDetails] = useState({
-    dishImage: "",
-    dishName: "",
-    dishCategory: "",
-    dishPrice: 0,
-    bowlQuantity: 0,
+    image: "",
+    description: "",
+    category: {},
+    price: 0,
+    bowl: 0,
+    id: "",
   });
-
+  const fetchDishes = async () => {
+    const dishesData = await getDishes();
+    setDishes(dishesData);
+    setFilteredDishes(dishesData);
+  };
   useEffect(() => {
-    const fetchDishes = async () => {
-      const dishesData = await getDishes();
-      setDishes(dishesData);
-      setFilteredDishes(dishesData);
-    };
-
     fetchDishes();
   }, []);
 
-  const handleDishDetails = (img, name, category, price, quantity) => {
+  const handleDishDetails = (img, name, category, price, quantity, id) => {
     setDishDetails({
-      dishImage: img,
-      dishName: name,
-      dishCategory: category,
-      dishPrice: price,
-      bowlQuantity: quantity,
+      image: img,
+      description: name,
+      category: category,
+      price: price,
+      bowl: quantity,
+      id: id,
     });
+  };
+
+  const addSuccess = () => {
+    toast.success("Dish added successfully!");
+  };
+  const editSuccess = () => {
+    toast.success("Dish edited successfully!");
+  };
+  const deleteSuccess = () => {
+    toast.success("Dish deleted successfully!");
   };
 
   return (
     <>
       <div className="management-container">
+        <ToastContainer />
         <div className="header-sticky">
           <SettingsHeader />
           <CategoryTabs
@@ -72,6 +84,7 @@ function ProductsManagement() {
             return (
               <ProductCard
                 key={food.id}
+                id={food.id}
                 image={food.image}
                 description={food.description}
                 price={food.price}
@@ -81,7 +94,8 @@ function ProductsManagement() {
                     food.description,
                     food.category,
                     food.price,
-                    food.bowl
+                    food.bowl,
+                    food.id
                   );
                   setEditDish(true);
                   console.log(dishDetails);
@@ -95,9 +109,10 @@ function ProductsManagement() {
           <div className="overlay-container">
             {addDish && (
               <AddDish
+                addDish={addDish}
                 setAddDish={setAddDish}
-                dishDetails={dishDetails}
-                setDishDetails={setDishDetails}
+                fetchDishes={fetchDishes}
+                addSuccess={addSuccess}
               />
             )}
             {editDish && (
@@ -105,6 +120,9 @@ function ProductsManagement() {
                 setEditDish={setEditDish}
                 dishDetails={dishDetails}
                 setDishDetails={setDishDetails}
+                fetchDishes={fetchDishes}
+                editSuccess={editSuccess}
+                deleteSuccess={deleteSuccess}
               />
             )}
           </div>

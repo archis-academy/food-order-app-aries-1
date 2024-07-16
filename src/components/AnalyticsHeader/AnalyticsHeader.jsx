@@ -1,13 +1,16 @@
+import React from "react";
 import Analytics from "../Analytics/Analytics";
 import "./AnalyticsHeader.scss";
-import { revenue, dishOrdered, customer } from "./AnalyticInfo";
+import useAnalyticInfo from "./AnalyticInfo";
 
 function AnalyticsHeader() {
+  const analyticInfo = useAnalyticInfo();
+
   return (
     <div className="analytics-container">
-      <Analytics analyticInfo={revenue} />
-      <Analytics analyticInfo={dishOrdered} />
-      <Analytics analyticInfo={customer} />
+      <Analytics analyticInfo={analyticInfo.revenue} />
+      <Analytics analyticInfo={analyticInfo.dishOrdered} />
+      <Analytics analyticInfo={analyticInfo.customer} />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import "./FoodCard.scss";
 
 const FoodCard = ({ food, onClick }) => {
   const { image, description, price, bowl } = food;
+
   return (
     <div className="food-card" onClick={onClick}>
       <img className="food-image" src={image} />

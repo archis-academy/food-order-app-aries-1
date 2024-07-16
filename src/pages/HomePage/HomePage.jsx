@@ -9,6 +9,7 @@ import CategoryTabs from "@/components/CategoryTabs/CategoryTabs";
 import OrderPayment from "@/components/OrderPayment/OrderPayment";
 import { getDishes } from "../../db/foods";
 import OrderConfirmation from "@/components/OrderConfirmation/OrderConfirmation";
+import Loading from "../../components/Loading/Loading";
 
 function HomePage() {
   const { fireStoreUser } = useAuth();
@@ -16,8 +17,7 @@ function HomePage() {
   const [dishes, setDishes] = useState([]);
   const [filteredDishes, setFilteredDishes] = useState([]);
   const [filterParameters, setFilterParameters] = useState({
-    orderType: "All",
-    category: "all",
+    category: "All",
     searchQuery: "",
   });
   const [isOrderOpen, setIsOrderOpen] = useState(false);
@@ -31,13 +31,14 @@ function HomePage() {
       setDishes(dishesData);
       setFilteredDishes(dishesData);
       setIsLoading(false);
+      console.log(dishes);
     };
 
     fetchDishes();
   }, []);
 
-  if (!fireStoreUser) return <p>Loading...</p>;
-  if (isLoading) return <p>Loading dishes...</p>;
+  if (!fireStoreUser) return <Loading />;
+  if (isLoading) return <Loading />;
 
   const handleFoodCardClick = (food) => {
     const existingOrderIndex = orders.findIndex(

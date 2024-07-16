@@ -32,18 +32,27 @@
 .edit-dish-buttons {
   padding-top: 30px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   button {
     width: 150px;
   }
-}
-.cancel-btn {
-  @include secondary-btn;
-}
-.edit-dish-btn {
-  @include primary-btn;
+  .cancel-btn {
+    @include secondary-btn;
+  }
+  .edit-dish-btn {
+    @include primary-btn;
+  }
 }
 
+.edit-modal-delete-btn {
+  @include secondary-btn;
+  background-color: rgb(174, 51, 51);
+  color: $primary-font-color;
+  border-color: rgb(174, 51, 51);
+  &:hover {
+    box-shadow: 0 8px 24px #eb7d6a32, 0 0 8px rgb(174, 51, 51);
+  }
+}
 @media (max-width: 768px) {
   .edit-dish-container {
     width: 100%;

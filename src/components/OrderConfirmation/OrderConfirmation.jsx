@@ -6,7 +6,13 @@ import { useAuth } from "@/components/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../config/firebase";
-import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+  increment,
+} from "firebase/firestore";
 
 const OrderConfirmation = ({
   orders,
@@ -181,7 +187,10 @@ const OrderConfirmation = ({
       const updatedDishes = orders.map(async (order) => {
         const dishRef = doc(db, "dishes", order.id);
         const newBowl = order.bowl - order.quantity;
-        await updateDoc(dishRef, { bowl: newBowl });
+        await updateDoc(dishRef, {
+          bowl: newBowl,
+          orderCount: increment(order.quantity),
+        });
       });
 
       await Promise.all(updatedDishes);

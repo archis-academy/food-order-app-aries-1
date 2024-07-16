@@ -1,4 +1,8 @@
-@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/placeholders";
+.order-report-main-div {
+  height: 440px;
+  @extend %custom-scroll-bar;
+}
 
 .order-report-container {
   background-color: $secondary-bg;
@@ -6,6 +10,7 @@
   font-family: $primary-font;
   font-size: 14px;
   width: 100%;
+
   th,
   td {
     padding: 20px;
