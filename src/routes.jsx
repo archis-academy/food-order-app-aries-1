@@ -5,6 +5,9 @@ import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import SettingsPage from "./pages/SettingsPage/SettingsPage.jsx";
 import DashboardPage from "./pages/DashboardPage/DashboardPage.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
+import { element } from "prop-types";
+import SettingsRedirect from "./pages/SettingsPage/SettingsRedirect.jsx";
 
 const routes = [
   {
@@ -18,19 +21,32 @@ const routes = [
   {
     path: "/dashboard",
     element: (
-      <ProtectedRoute>
-        <DashboardPage />
-      </ProtectedRoute>
+      <AdminRoute>
+        <ProtectedRoute>
+          <DashboardPage />
+        </ProtectedRoute>
+      </AdminRoute>
     ),
   },
   {
     path: "/settings/:tabName",
     element: (
+      <AdminRoute>
+        <ProtectedRoute>
+          <SettingsPage />
+        </ProtectedRoute>
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/settings",
+    element: (
       <ProtectedRoute>
-        <SettingsPage />
+        <SettingsRedirect />
       </ProtectedRoute>
     ),
   },
+
   {
     path: "/signup",
     element: <SignupPage />,

@@ -1,10 +1,10 @@
 import React from "react";
 import Analytics from "../Analytics/Analytics";
 import "./AnalyticsHeader.scss";
-import useAnalyticInfo from "./AnalyticInfo";
+import AnalyticInfo from "./AnalyticInfo";
 
 function AnalyticsHeader() {
-  const analyticInfo = useAnalyticInfo();
+  const analyticInfo = AnalyticInfo();
 
   return (
     <div className="analytics-container">

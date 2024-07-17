@@ -76,7 +76,7 @@ const sidebarLinks = [
     id: 3,
     name: "Settings",
     icon: SettingsIcon,
-    path: "/settings/about-us",
+    path: "/settings",
   },
   {
     id: 4,
