@@ -2,6 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "@/config/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+
 const AuthContext = createContext(null);
 
 function AuthProvider({ children }) {
@@ -22,11 +23,14 @@ function AuthProvider({ children }) {
         if (!userSnap.exists()) {
           await setDoc(userDoc, {
             image: currentUser.photoURL || "/photo.svg",
-            displayName: currentUser.fullName,
+            displayName: currentUser.displayName || currentUser.email,
             email: currentUser.email,
-            role: currentUser.role,
+            role: currentUser.role || "user",
           });
         }
+      } else {
+        setUser(null);
+        setFireStoreUser(null);
       }
     });
 
@@ -35,16 +39,15 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const userDoc = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userDoc);
-      if (userSnap.exists()) {
-        setFireStoreUser({ ...user, ...userSnap.data() });
+      if (user) {
+        const userDoc = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userDoc);
+        if (userSnap.exists()) {
+          setFireStoreUser({ ...user, ...userSnap.data() });
+        }
       }
     };
     fetchUserDetails();
-    if (user) {
-      console.log(user.uid);
-    }
   }, [user]);
 
   const userValues = {

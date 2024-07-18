@@ -2,8 +2,11 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import "./ApexChart.scss";
 
-function ApexChart() {
-  const series = [44, 55, 67, ""];
+function ApexChart({ orderTypes }) {
+  const { dineIn, toGo, delivery } = orderTypes;
+
+  const series = [delivery, toGo, dineIn];
+  const totalOrders = dineIn + toGo + delivery;
   const options = {
     chart: {
       type: "radialBar",
@@ -32,7 +35,7 @@ function ApexChart() {
             color: "#fff",
 
             formatter: function () {
-              return 149;
+              return totalOrders;
             },
           },
         },
@@ -61,14 +64,14 @@ function ApexChart() {
           <div className="dine-in-color rounded-color "></div>
           <div className="info">
             <p className="info-title">Dine In</p>
-            <p className="customer-info">200 customers</p>
+            <p className="customer-info">{dineIn} customers</p>
           </div>
         </div>
         <div className="info-box">
           <div className="to-go-color rounded-color"></div>
           <div className="info">
             <p className="info-title">To Go</p>
-            <p className="customer-info">200 customers</p>
+            <p className="customer-info">{toGo} customers</p>
           </div>
         </div>
 
@@ -76,7 +79,7 @@ function ApexChart() {
           <div className="delivery-color rounded-color"></div>
           <div className="info">
             <p className="info-title">Delivery</p>
-            <p className="customer-info">200 customers</p>
+            <p className="customer-info">{delivery} customers</p>
           </div>
         </div>
       </div>
