@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 function MostTypeOfOrder() {
   const [orders, setOrders] = useState([]);
+
   const [orderTypes, setOrderTypes] = useState({
     dineIn: 0,
     toGo: 0,

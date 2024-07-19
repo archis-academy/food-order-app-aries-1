@@ -15,7 +15,7 @@ function CategoryTabs({
     const fetchCategories = async () => {
       const categoriesData = await getCategories();
       setCategories(categoriesData);
-      console.log(categories);
+
       setActiveCategory("All");
     };
 
@@ -33,7 +33,12 @@ function CategoryTabs({
   useEffect(() => {
     let filteredDishes = [];
     if (filterParameters.category === "All") {
-      filteredDishes = dishes;
+      filteredDishes = dishes.filter((dish) => {
+        const isSearchQueryMatch = dish.description
+          .toLowerCase()
+          .includes(filterParameters.searchQuery.toLowerCase());
+        return isSearchQueryMatch;
+      });
     } else {
       filteredDishes = dishes.filter((dish) => {
         const isCategoryMatch = dish.category.key === filterParameters.category;

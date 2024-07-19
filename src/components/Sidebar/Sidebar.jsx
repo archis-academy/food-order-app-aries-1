@@ -3,13 +3,21 @@ import { NavLink } from "react-router-dom";
 import sidebarLinks from "./SidebarLinks";
 import { signOut } from "firebase/auth";
 import { auth } from "@/config/firebase";
+import { useAuth } from "@/components/AuthProvider";
+import Loading from "../Loading/Loading";
 
 function Sidebar() {
+  const { fireStoreUser } = useAuth();
+
+  if (!fireStoreUser) return <Loading />;
+  const filteredSidebarLinks = sidebarLinks.filter((link) =>
+    link.role.includes(fireStoreUser.role)
+  );
   return (
     <aside className="sidebar">
       <nav>
         <ul>
-          {sidebarLinks.map((link, index) => {
+          {filteredSidebarLinks.map((link, index) => {
             return (
               <div key={index} className="navbar-items">
                 <div className="nav-items">

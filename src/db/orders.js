@@ -56,7 +56,6 @@ export const getOrders = async () => {
       id: doc.id,
       ...doc.data(),
     }));
-    console.log(orderList);
   }
 
   return orderList;

@@ -65,24 +65,28 @@ const sidebarLinks = [
     name: "Home",
     icon: HomeIcon,
     path: "/",
+    role: ["admin", "user"],
   },
   {
     id: 2,
     name: "Dashboard",
     icon: DashboardIcon,
     path: "/dashboard",
+    role: ["admin"],
   },
   {
     id: 3,
     name: "Settings",
     icon: SettingsIcon,
     path: "/settings",
+    role: ["admin", "user"],
   },
   {
     id: 4,
     name: "Logout",
     icon: LogoutIcon,
     path: "/login",
+    role: ["admin", "user"],
   },
 ];
 

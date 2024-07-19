@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import "./ApexChart.scss";
 
 function ApexChart({ orderTypes }) {
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [chartKey, setChartKey] = useState(0);
+
+  useEffect(() => {
+    if (orderTypes) {
+      const { dineIn, toGo, delivery } = orderTypes;
+      const total = dineIn + toGo + delivery;
+      setTotalOrders(total);
+    }
+  }, [orderTypes]);
+
+  useEffect(() => {
+    setChartKey((prevKey) => prevKey + 1);
+  }, [totalOrders]);
+
   const { dineIn, toGo, delivery } = orderTypes;
 
   const series = [delivery, toGo, dineIn];
-  const totalOrders = dineIn + toGo + delivery;
+
   const options = {
     chart: {
       type: "radialBar",
@@ -52,6 +67,7 @@ function ApexChart({ orderTypes }) {
     <div className="chart-container">
       <div id="chart">
         <ReactApexChart
+          key={chartKey}
           options={options}
           series={series}
           type="radialBar"

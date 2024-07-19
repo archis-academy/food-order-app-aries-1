@@ -2,11 +2,12 @@ import "./SettingsSidebar.scss";
 import { NavLink } from "react-router-dom";
 import tabs from "./Tabs";
 import { useAuth } from "@/components/AuthProvider";
+import Loading from "../Loading/Loading";
 
 function SettingsSidebar() {
   const { fireStoreUser } = useAuth();
 
-  if (!fireStoreUser) return <p>Loading...</p>;
+  if (!fireStoreUser) return <Loading />;
 
   const filteredTabs = tabs.map((tab) => {
     if (tab.role.includes(fireStoreUser.role)) {

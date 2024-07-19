@@ -31,7 +31,6 @@ function HomePage() {
       setDishes(dishesData);
       setFilteredDishes(dishesData);
       setIsLoading(false);
-      console.log(dishes);
     };
 
     fetchDishes();
@@ -100,11 +99,7 @@ function HomePage() {
             setFilterParameters={setFilterParameters}
           />
           <DishesMenu
-            dishes={dishes}
-            filterParameters={filterParameters}
-            setFilterParameters={setFilterParameters}
             filteredDishes={filteredDishes}
-            setFilteredDishes={setFilteredDishes}
             onFoodCardClick={handleFoodCardClick}
           />
         </div>
