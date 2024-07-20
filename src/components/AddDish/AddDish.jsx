@@ -58,8 +58,6 @@ function AddDish({ addDish, setAddDish, fetchDishes, addSuccess }) {
           bowl: 0,
         });
 
-        localStorage.removeItem("dishes");
-
         await fetchDishes();
 
         setAddDish(false);

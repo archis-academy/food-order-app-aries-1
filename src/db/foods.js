@@ -4,17 +4,15 @@ import { db } from "../config/firebase";
 export const getCategories = async () => {
   try {
     let categoryList = [];
-    if (!localStorage.getItem("categories")) {
-      const categoriesCollection = collection(db, "categories");
-      const categorySnapshot = await getDocs(categoriesCollection);
-      categoryList = categorySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      localStorage.setItem("categories", JSON.stringify(categoryList));
-    } else {
-      categoryList = JSON.parse(localStorage.getItem("categories"));
-    }
+
+    const categoriesCollection = collection(db, "categories");
+    const categorySnapshot = await getDocs(categoriesCollection);
+    categoryList = categorySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+
     return categoryList;
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -24,17 +22,15 @@ export const getCategories = async () => {
 export const getDishes = async () => {
   try {
     let dishesList = [];
-    if (!localStorage.getItem("dishes")) {
-      const dishesCollection = collection(db, "dishes");
-      const dishesSnapshot = await getDocs(dishesCollection);
-      dishesList = dishesSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      localStorage.setItem("dishes", JSON.stringify(dishesList));
-    } else {
-      dishesList = JSON.parse(localStorage.getItem("dishes"));
-    }
+
+    const dishesCollection = collection(db, "dishes");
+    const dishesSnapshot = await getDocs(dishesCollection);
+    dishesList = dishesSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+
     return dishesList;
   } catch (error) {
     console.error("Error fetching dishes:", error);

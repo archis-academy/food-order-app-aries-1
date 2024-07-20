@@ -46,7 +46,7 @@ function EditDish({
   const handleDeleteDish = async () => {
     try {
       await deleteDoc(doc(db, "dishes", id));
-      localStorage.removeItem("dishes");
+
       await fetchDishes();
 
       setEditDish(false);
@@ -73,7 +73,6 @@ function EditDish({
         bowl: 0,
       });
 
-      localStorage.removeItem("dishes");
       await fetchDishes();
 
       setEditDish(false);
