@@ -74,9 +74,14 @@ function SignupPage() {
         });
         toast.success("Signup successful!");
       } catch (error) {
-        console.error(error);
-        toast.error("Signup failed. Please try again.");
+        if (error.code === "auth/email-already-in-use") {
+          toast.error(
+            "This email is already registered. Please use a different email."
+          );
+        }
       }
+    } else {
+      toast.error("Signup failed. Please try again.");
     }
   };
 
@@ -126,7 +131,7 @@ function SignupPage() {
             <img src={phoneIcon} alt="phone-icon" />
             <input
               type="tel"
-              placeholder="+90 (XXX) XXX-XXXX"
+              placeholder="(XXX) XXX XXXX"
               maxLength="18"
               value={formData.phoneNumber}
               name="phoneNumber"

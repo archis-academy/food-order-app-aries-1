@@ -119,6 +119,8 @@ function HomePage() {
           onClose={handleCloseConfirmation}
           onDeleteItem={handleDeleteItem}
           onUpdateQuantity={handleUpdateQuantity}
+          setDishes={setDishes}
+          setFilteredDishes={setFilteredDishes}
         />
       )}
     </div>

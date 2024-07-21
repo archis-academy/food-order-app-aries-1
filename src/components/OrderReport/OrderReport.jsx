@@ -1,8 +1,9 @@
 import "./OrderReport.scss";
 import { useState, useEffect } from "react";
-import { getOrders } from "@/db/orders";
+import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import Loading from "../Loading/Loading";
 
 const OrderCard = () => {
   const orderClassNames = {
@@ -12,6 +13,7 @@ const OrderCard = () => {
   };
 
   const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleStatusChange = async (e, id) => {
     const newStatus = e.target.value;
@@ -26,12 +28,27 @@ const OrderCard = () => {
   };
 
   useEffect(() => {
-    const getOrderList = async () => {
-      const orderList = await getOrders();
-      setOrders(orderList);
+    const fetchOrders = async () => {
+      const ordersData = await getSortedOrders();
+      setOrders(ordersData);
     };
-    getOrderList();
+
+    fetchOrders();
+    setIsLoading(false);
   }, []);
+
+  const getSortedOrders = async () => {
+    const ordersCollection = collection(db, "orders");
+    const ordersQuery = query(ordersCollection, orderBy("timestamp", "desc"));
+    const ordersSnapshot = await getDocs(ordersQuery);
+    const ordersList = ordersSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return ordersList;
+  };
+
+  if (isLoading) return <Loading />;
 
   const orderRows = orders.map((order) => (
     <tr key={order.id}>

@@ -5,6 +5,7 @@ import moment from "moment";
 import { useAuth } from "@/components/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getDishes } from "@/db/foods";
 import { db } from "../../config/firebase";
 import {
   collection,
@@ -12,6 +13,7 @@ import {
   updateDoc,
   doc,
   increment,
+  serverTimestamp,
 } from "firebase/firestore";
 
 const OrderConfirmation = ({
@@ -19,6 +21,8 @@ const OrderConfirmation = ({
   onClose,
   onDeleteItem,
   onUpdateQuantity,
+  setDishes,
+  setFilteredDishes,
 }) => {
   const discount = 0;
   const subtotal = useMemo(() => {
@@ -174,6 +178,7 @@ const OrderConfirmation = ({
         address: cardDetails.address,
         subtotal,
         status: "pending",
+        timestamp: serverTimestamp(),
       };
       console.log(ordersSummary);
       console.log(orders);
@@ -195,6 +200,14 @@ const OrderConfirmation = ({
 
       await Promise.all(updatedDishes);
       //update ile alınan yemeklerin dishes tablosundan bowlu güncellenecek
+      const fetchDishes = async () => {
+        const dishesData = await getDishes();
+        setDishes(dishesData);
+        setFilteredDishes(dishesData);
+        setFilteredDishes(dishesData);
+      };
+
+      fetchDishes();
     } else {
       toast.warn("Please fill in all fields");
     }

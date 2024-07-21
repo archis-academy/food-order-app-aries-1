@@ -3,17 +3,18 @@ import MostTypeOfOrder from "../../components/MostTypeOfOrder/MostTypeOfOrder";
 import OrderReport from "../../components/OrderReport/OrderReport";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./DashboardPage.scss";
-import { getDishes } from "../../db/foods";
 import MostOrderedFood from "../../components/MostOrderedFood/MostOrderedFood";
 import ViewAllModal from "../../components/ViewAllModal/ViewAllModal";
 import { useState, useEffect } from "react";
 import moment from "moment";
 import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import Loading from "../../components/Loading/Loading";
 
 const DashboardPage = () => {
   const [showAll, setShowAll] = useState(false);
   const [dishes, setDishes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchDishes = async () => {
@@ -22,6 +23,7 @@ const DashboardPage = () => {
     };
 
     fetchDishes();
+    setIsLoading(false);
   }, []);
 
   const topFoods = dishes.slice(0, 3);
@@ -41,6 +43,8 @@ const DashboardPage = () => {
     }));
     return dishesList;
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <>

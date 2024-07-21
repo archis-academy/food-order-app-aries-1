@@ -8,11 +8,14 @@ function AdminRoute({ children }) {
   const isAdmin = fireStoreUser?.role === "admin";
 
   useEffect(() => {
-    if (!isAdmin) {
+    if (fireStoreUser && !isAdmin) {
       navigate("/settings/notifications", { replace: true });
-      return;
     }
-  }, []);
+  }, [fireStoreUser, isAdmin, navigate]);
+
+  if (!fireStoreUser) {
+    return null;
+  }
 
   return children;
 }
