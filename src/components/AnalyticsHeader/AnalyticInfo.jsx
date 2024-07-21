@@ -54,7 +54,7 @@ function AnalyticInfo() {
         setAnalyticInfo({
           revenue: {
             ...analyticInfo.revenue,
-            total: "$ " + revenue,
+            total: "$ " + revenue.toFixed(2),
           },
           dishOrdered: {
             ...analyticInfo.dishOrdered,

@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddDish from "../AddDish/AddDish";
 import EditDish from "../EditDish/EditDish";
+import Loading from "../Loading/Loading";
 
 function ProductsManagement() {
   const [dishes, setDishes] = useState([]);
@@ -18,7 +19,7 @@ function ProductsManagement() {
   });
   const [addDish, setAddDish] = useState(false);
   const [editDish, setEditDish] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [dishDetails, setDishDetails] = useState({
     image: "",
     description: "",
@@ -34,8 +35,9 @@ function ProductsManagement() {
   };
   useEffect(() => {
     fetchDishes();
+    setIsLoading(false);
   }, []);
-
+  if (isLoading) return <Loading />;
   const handleDishDetails = (img, name, category, price, quantity, id) => {
     setDishDetails({
       image: img,

@@ -61,7 +61,7 @@ const OrderCard = () => {
           <div key={index}>- {item.name}</div>
         ))}
       </td>
-      <td>${order.subtotal}</td>
+      <td>${order.subtotal.toFixed(2)}</td>
       <td>
         <select
           onChange={(e) => handleStatusChange(e, order.id)}
