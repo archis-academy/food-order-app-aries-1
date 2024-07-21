@@ -9,11 +9,12 @@ import personIcon from "../../assets/person-icon.svg";
 import mailIcon from "../../assets/mail-icon.svg";
 import lockIcon from "../../assets/lock-icon.svg";
 import phoneIcon from "../../assets/phone-icon.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function SignupPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -72,6 +73,7 @@ function SignupPage() {
           cart: null,
           role: "user",
         });
+        navigate("/");
         toast.success("Signup successful!");
       } catch (error) {
         if (error.code === "auth/email-already-in-use") {

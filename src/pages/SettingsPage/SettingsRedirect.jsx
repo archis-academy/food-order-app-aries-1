@@ -5,7 +5,7 @@ function SettingsRedirect() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/settings/about-us");
+    navigate("/settings/product-management");
   }, []);
 
   return <div>SettingsRedirect</div>;
