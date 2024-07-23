@@ -8,6 +8,7 @@ This is a comprehensive food ordering application developed using React and Vite
 - [Installation](#installation)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
+- [Example User Credentials](#example-user-credentials)
 
 
 ## Features
@@ -15,6 +16,7 @@ This is a comprehensive food ordering application developed using React and Vite
 - **Food Categories**: Browse food items by categories such as  Cold Dishes, Soups, Grills, Appetizers, Desserts.
 - **Cart Functionality**: Add, remove, and update items in the cart.
 - **Order Management**: Place orders and track their status.
+- **Role Based Authentication**: Default User and Admin specific dashboard features.
 
 
 ## Technologies Used
@@ -72,7 +74,20 @@ The project is organized as follows:
   - **pages/**: Contains the main page components for routing.
   - **services/**: Contains service files for API interactions.
   - **styles/**: Contains global and component-specific styles.
-  
+  ## Example User Credentials
+Since this project has role based authentication you can use these credentials to log in as an Admin or Default User. Or register as a default user.
+
+**Admin**
+```
+email: admin@gmail.com
+password: 2024Admin
+```
+
+**Default User**
+```
+email: user@gmail.com
+password: 2024User
+```
 
 
 ---
